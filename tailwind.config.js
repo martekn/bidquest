@@ -25,6 +25,27 @@ export default {
         300: "#AF1320",
         400: "#FFF0F1"
       }
+    },
+    fontFamily: {
+      base: ["Nunito", "Arial", "Helvetica", "sans-serif"],
+      accent: ["Montserrat", "Arial", "Helvetica", "sans-serif"]
+    },
+    fontWeight: {
+      normal: 400,
+      medium: 500,
+      semibold: 600
+    },
+    fontSize: {
+      xs: "0.839rem",
+      sm: "0.944rem",
+      base: "1.0625rem",
+      lg: "1.196rem",
+      xl: "1.345rem",
+      "2xl": "1.702rem",
+      "3xl": "1.914rem",
+      "4xl": "2.154rem",
+      "5xl": "2.726rem",
+      "6xl": "3.063rem"
     }
   },
   plugins: [require("tailwindcss-animated")]
