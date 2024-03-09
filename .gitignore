@@ -32,3 +32,6 @@ coverage
 
 # Environment variables
 .env
+
+# Cache files
+.eslintcache
