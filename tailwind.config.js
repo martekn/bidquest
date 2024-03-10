@@ -63,5 +63,5 @@ export default {
       12: "8rem"
     }
   },
-  plugins: [require("tailwindcss-animated")]
+  plugins: [require("tailwindcss-animated"), require("tailwindcss-inner-border")]
 };
