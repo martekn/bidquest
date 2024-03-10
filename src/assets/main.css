@@ -1,5 +1,93 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap");
+@layer base {
+  html {
+    @apply scroll-smooth;
+  }
+
+  body {
+    @apply min-h-screen bg-white font-base text-base font-normal text-black;
+  }
+
+  main {
+    @apply min-h-full;
+  }
+
+  h1,
+  h2,
+  h3 {
+    @apply font-accent;
+  }
+
+  h1,
+  h2 {
+    @apply font-semibold;
+  }
+
+  h1 {
+    @apply text-2xl md:text-4xl;
+  }
+
+  h2 {
+    @apply text-lg md:text-xl;
+  }
+
+  h3 {
+    @apply font-medium;
+  }
+
+  input,
+  textarea {
+    @apply rounded border border-grey-400 px-5 py-3 focus-visible:border-black focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-black;
+  }
+
+  input.success,
+  textarea.success {
+    @apply border-red-400 ring-red-400;
+  }
+
+  input.error,
+  textarea.error {
+    @apply border-green-400 ring-green-400;
+  }
+
+  label {
+    @apply font-semibold text-black;
+  }
+}
+
+@layer components {
+  .button,
+  .link {
+    @apply font-accent font-semibold outline-none transition-all duration-150;
+  }
+
+  .button {
+    @apply rounded px-6 py-4 leading-tight shadow-sm shadow-black/10 focus-visible:ring-2 focus-visible:ring-primary-300 focus-visible:ring-offset-2 active:shadow-inner motion-reduce:transition-none;
+  }
+
+  .button-primary {
+    @apply bg-primary-400 text-white hover:bg-primary-300 focus-visible:bg-primary-300
+    active:bg-primary-500 disabled:bg-grey-400 disabled:text-grey-200;
+  }
+
+  .button-secondary {
+    @apply inner-border inner-border-primary-400 hover:inner-border-2 hover:inner-border-primary-300 focus-visible:inner-border-2 focus-visible:inner-border-primary-300 bg-white text-primary-400 hover:text-primary-300 focus-visible:text-primary-300 active:bg-grey-200 active:text-primary-500 disabled:bg-grey-200 disabled:text-grey-400;
+  }
+
+  .link {
+    @apply no-underline underline-offset-4 hover:underline focus-visible:underline motion-reduce:transition-none;
+  }
+
+  .link-primary {
+    @apply text-primary-400 hover:text-primary-300 focus-visible:text-primary-300 active:text-primary-500;
+  }
+
+  .link-secondary {
+    @apply text-black hover:text-grey-500 focus-visible:text-grey-500 active:text-grey-400;
+  }
+}
