@@ -4,6 +4,7 @@ export default {
   theme: {
     extend: {},
     colors: {
+      transparent: "transparent",
       black: "#181818",
       white: "#ffffff",
       primary: {
@@ -22,8 +23,8 @@ export default {
         400: "#11A111"
       },
       red: {
-        300: "#AF1320",
-        400: "#FFF0F1"
+        300: "#FFF0F1",
+        400: "#AF1320"
       }
     },
     fontFamily: {
