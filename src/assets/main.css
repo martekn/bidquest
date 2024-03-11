@@ -42,7 +42,7 @@
 
   input,
   textarea {
-    @apply rounded border border-grey-400 px-5 py-3 focus-visible:border-black focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-black;
+    @apply w-full rounded border border-grey-400 px-3 py-3 focus-visible:border-black focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-black;
   }
 
   input.success,
@@ -76,7 +76,7 @@
   }
 
   .button-secondary {
-    @apply inner-border inner-border-primary-400 hover:inner-border-2 hover:inner-border-primary-300 focus-visible:inner-border-2 focus-visible:inner-border-primary-300 bg-white text-primary-400 hover:text-primary-300 focus-visible:text-primary-300 active:bg-grey-200 active:text-primary-500 disabled:bg-grey-200 disabled:text-grey-400;
+    @apply bg-white text-primary-400 inner-border inner-border-primary-400 hover:text-primary-300 hover:inner-border-2 hover:inner-border-primary-300 focus-visible:text-primary-300 focus-visible:inner-border-2 focus-visible:inner-border-primary-300 active:bg-grey-200 active:text-primary-500 disabled:bg-grey-200 disabled:text-grey-400;
   }
 
   .link {
@@ -89,5 +89,11 @@
 
   .link-secondary {
     @apply text-black hover:text-grey-500 focus-visible:text-grey-500 active:text-grey-400;
+  }
+}
+
+@layer utilities {
+  .input-group {
+    @apply grid gap-2;
   }
 }

@@ -2,7 +2,9 @@
 export default {
   content: ["./index.html", "./src/**/*.{vue,js,ts,jsx,tsx}"],
   theme: {
-    extend: {},
+    extend: {
+      maxWidth: { "8xl": "81.25rem" }
+    },
     colors: {
       transparent: "transparent",
       black: "#181818",
