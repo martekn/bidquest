@@ -42,17 +42,17 @@
 
   input,
   textarea {
-    @apply w-full rounded border border-grey-400 px-3 py-3 focus-visible:border-black focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-black;
+    @apply w-full rounded border border-grey-400 bg-white p-3 focus-visible:border-black focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-black;
   }
 
   input.success,
   textarea.success {
-    @apply border-red-400 ring-red-400;
+    @apply border-green-400 ring-green-400;
   }
 
   input.error,
   textarea.error {
-    @apply border-green-400 ring-green-400;
+    @apply border-red-400 ring-red-400;
   }
 
   label {
@@ -76,7 +76,7 @@
   }
 
   .button-secondary {
-    @apply bg-white text-primary-400 inner-border inner-border-primary-400 hover:text-primary-300 hover:inner-border-2 hover:inner-border-primary-300 focus-visible:text-primary-300 focus-visible:inner-border-2 focus-visible:inner-border-primary-300 active:bg-grey-200 active:text-primary-500 disabled:bg-grey-200 disabled:text-grey-400;
+    @apply bg-white text-primary-400 inner-border inner-border-primary-400 hover:text-primary-300 hover:inner-border-2 hover:inner-border-primary-300 focus-visible:bg-primary-300  focus-visible:text-white focus-visible:inner-border-primary-300 active:bg-grey-200 active:text-primary-500 disabled:bg-grey-200 disabled:text-grey-400;
   }
 
   .link {
