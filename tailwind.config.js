@@ -51,6 +51,7 @@ export default {
       "6xl": "3.063rem"
     },
     spacing: {
+      0: "0rem",
       1: "0.125rem",
       2: "0.25rem",
       3: "0.5rem",
