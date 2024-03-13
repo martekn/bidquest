@@ -27,6 +27,11 @@ const router = createRouter({
       component: RegisterView
     },
     {
+      path: "/search/:query/:page(page-\\d+)?",
+      name: "search",
+      component: ListView
+    },
+    {
       path: "/auctions",
       children: [
         {
