@@ -1,10 +1,12 @@
 <script setup>
+import { ref } from "vue";
 import { RouterLink } from "vue-router";
 import { computed, onMounted, reactive } from "vue";
-import { ChevronDownIcon, Bars3Icon } from "@heroicons/vue/20/solid";
+import { ChevronDownIcon, Bars3Icon, XMarkIcon } from "@heroicons/vue/20/solid";
 import PopoverMenu from "./popover/PopoverMenu.vue";
 import MenuGroup from "./MenuGroup.vue";
 import PopoverItem from "./popover/PopoverItem.vue";
+import { Dialog, DialogPanel } from "@headlessui/vue";
 import SearchInput from "./SearchInput.vue";
 import { debounce } from "@/helper/debounce";
 
@@ -21,6 +23,8 @@ const navItems = [
   { name: "Vehicles", path: "/auctions/vehicles", id: 10 },
   { name: "Miscellaneous", path: "/auctions/miscellaneous", id: 11 }
 ];
+
+const mobileNavOpen = ref(false);
 
 let visibleItems = reactive([...navItems]);
 let dropdownItems = computed(() => navItems.filter((value) => !visibleItems.includes(value)));
@@ -71,6 +75,7 @@ window.addEventListener("resize", () => {
 // Reason for async-await: Ensures proper rendering by delaying execution,
 // preventing inaccurate positioning of elements based on offsetTop property.
 onMounted(async () => {
+  // console.log(document.querySelector("nav"));
   await new Promise((resolve) => setTimeout(resolve));
 
   collapseMenu();
@@ -78,16 +83,22 @@ onMounted(async () => {
 </script>
 <template>
   <div class="bg-white">
-    <header class="border-b border-grey-300 pt-5 sm:px-5 sm:pb-5">
+    <header class="border-b border-grey-300 pt-5 sm:pb-5">
       <div
-        class="mx-auto flex max-w-8xl content-center items-center justify-between gap-7 max-sm:grid max-sm:grid-cols-2 max-sm:gap-4"
+        class="mx-auto flex max-w-8xl content-center items-center justify-between gap-7 max-sm:grid max-sm:grid-cols-2 max-sm:gap-4 sm:px-5"
       >
         <div class="flex gap-3 max-sm:pl-5">
-          <button class="hidden max-sm:block">
+          <button
+            class="rounded outline-none focus-visible:ring-2 focus-visible:ring-black sm:hidden"
+            @click="mobileNavOpen = true"
+          >
             <span class="sr-only">Open main menu</span>
             <Bars3Icon class="h-6 w-6" aria-hidden="true" />
           </button>
-          <RouterLink to="/" class="font-accent text-3xl font-semibold max-sm:text-xl">
+          <RouterLink
+            to="/"
+            class="rounded p-1 font-accent text-3xl font-semibold outline-none hover:opacity-95 focus-visible:ring-2 focus-visible:ring-black max-sm:text-xl"
+          >
             Bid<span class="text-primary-400">Quest</span>
           </RouterLink>
         </div>
@@ -105,13 +116,14 @@ onMounted(async () => {
         </div>
       </div>
     </header>
+
     <nav class="hidden border-b border-grey-300 sm:block">
       <ul
         class="mx-auto flex w-full max-w-8xl items-center justify-between px-5 after:order-first after:block after:h-6 after:w-[1px] after:bg-grey-300 sm:flex-wrap sm:gap-7"
       >
         <li v-for="item in visibleItems" :key="item.id" class="item first:order-first">
           <RouterLink
-            class="relative block w-full px-2 py-4 outline-none hover:text-grey-500 focus-visible:rounded focus-visible:ring-1 focus-visible:ring-black [&.router-link-active]:after:absolute [&.router-link-active]:after:inset-x-0 [&.router-link-active]:after:bottom-0 [&.router-link-active]:after:block [&.router-link-active]:after:h-2 [&.router-link-active]:after:rounded [&.router-link-active]:after:bg-primary-400"
+            class="relative block w-full px-2 py-4 outline-none hover:text-grey-500 focus-visible:rounded focus-visible:ring-1 focus-visible:ring-black [&.router-link-active]:font-semibold [&.router-link-active]:after:absolute [&.router-link-active]:after:inset-x-0 [&.router-link-active]:after:bottom-0 [&.router-link-active]:after:block [&.router-link-active]:after:h-2 [&.router-link-active]:after:rounded [&.router-link-active]:after:bg-primary-400"
             :to="item.path"
             >{{ item.name }}</RouterLink
           >
@@ -143,5 +155,40 @@ onMounted(async () => {
         </li>
       </ul>
     </nav>
+    <Dialog as="div" class="sm:hidden" @close="mobileNavOpen = false" :open="mobileNavOpen">
+      <div class="fixed inset-0 bg-black/75" aria-hidden="true" @click="mobileNavOpen = false" />
+      <DialogPanel
+        class="fixed inset-y-0 left-0 z-10 w-full max-w-sm overflow-y-auto bg-white py-5 shadow-md shadow-black/10"
+      >
+        <div class="flex items-center justify-between px-5">
+          <RouterLink
+            to="/"
+            class="rounded font-accent text-3xl font-semibold outline-none hover:opacity-95 focus-visible:ring-2 focus-visible:ring-black max-sm:text-xl sm:hidden"
+            @click="mobileNavOpen = false"
+          >
+            Bid<span class="text-primary-400">Quest</span>
+          </RouterLink>
+          <button
+            type="button"
+            class="rounded p-2 text-grey-500 outline-none focus-visible:ring-2 focus-visible:ring-black"
+            @click="mobileNavOpen = false"
+          >
+            <span class="sr-only">Close menu</span>
+            <XMarkIcon class="h-6 w-6" aria-hidden="true" />
+          </button>
+        </div>
+
+        <ul class="mt-5">
+          <li v-for="item in navItems" :key="item.id">
+            <RouterLink
+              class="relative block w-full px-5 py-4 outline-none hover:bg-grey-200 focus-visible:rounded focus-visible:inner-border focus-visible:inner-border-black [&.router-link-active]:font-semibold [&.router-link-active]:after:absolute [&.router-link-active]:after:inset-y-0 [&.router-link-active]:after:left-0 [&.router-link-active]:after:block [&.router-link-active]:after:w-2 [&.router-link-active]:after:rounded [&.router-link-active]:after:bg-primary-400"
+              :to="item.path"
+              @click="mobileNavOpen = false"
+              >{{ item.name }}</RouterLink
+            >
+          </li>
+        </ul>
+      </DialogPanel>
+    </Dialog>
   </div>
 </template>
