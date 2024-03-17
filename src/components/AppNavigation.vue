@@ -85,9 +85,9 @@ onMounted(async () => {
   <div class="bg-white">
     <header class="border-b border-grey-300 pt-5 sm:pb-5">
       <div
-        class="mx-auto flex max-w-8xl content-center items-center justify-between gap-7 max-sm:grid max-sm:grid-cols-2 max-sm:gap-4 sm:px-5"
+        class="mx-auto grid max-w-8xl grid-cols-2 content-center items-center justify-between sm:flex sm:gap-7 sm:px-5"
       >
-        <div class="flex gap-3 max-sm:pl-5">
+        <div class="flex gap-3 pl-5 sm:pl-0">
           <button
             class="rounded outline-none focus-visible:ring-2 focus-visible:ring-black sm:hidden"
             @click="mobileNavOpen = true"
@@ -97,17 +97,19 @@ onMounted(async () => {
           </button>
           <RouterLink
             to="/"
-            class="rounded p-1 font-accent text-3xl font-semibold outline-none hover:opacity-95 focus-visible:ring-2 focus-visible:ring-black max-sm:text-xl"
+            class="rounded p-1 font-accent text-xl font-semibold outline-none hover:opacity-95 focus-visible:ring-2 focus-visible:ring-black sm:text-3xl"
           >
             Bid<span class="text-primary-400">Quest</span>
           </RouterLink>
         </div>
         <div
-          class="col-span-2 w-full border-grey-300 py-3 max-sm:border-t max-sm:px-5 sm:max-w-2xl"
+          class="col-span-2 w-full border-t border-grey-300 px-5 py-3 sm:max-w-2xl sm:border-none sm:px-0"
         >
           <SearchInput />
         </div>
-        <div class="col-start-2 row-start-1 place-self-end pr-5 sm:place-self-auto sm:pr-[0px]">
+        <div
+          class="col-start-2 row-start-1 place-self-end self-center pr-5 sm:place-self-auto sm:pr-[0px]"
+        >
           <RouterLink
             to="/login"
             class="max-sm:link max-sm:link-secondary sm:button sm:button-secondary"
@@ -163,7 +165,7 @@ onMounted(async () => {
         <div class="flex items-center justify-between px-5">
           <RouterLink
             to="/"
-            class="rounded font-accent text-3xl font-semibold outline-none hover:opacity-95 focus-visible:ring-2 focus-visible:ring-black max-sm:text-xl sm:hidden"
+            class="rounded font-accent text-xl font-semibold outline-none hover:opacity-95 focus-visible:ring-2 focus-visible:ring-black sm:hidden sm:text-3xl"
             @click="mobileNavOpen = false"
           >
             Bid<span class="text-primary-400">Quest</span>
