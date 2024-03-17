@@ -1,9 +1,18 @@
 /** @type {import('tailwindcss').Config} */
+
 export default {
   content: ["./index.html", "./src/**/*.{vue,js,ts,jsx,tsx}"],
   theme: {
     extend: {
       maxWidth: { "8xl": "81.25rem" }
+    },
+    screens: {
+      xs: "23.75em",
+      sm: "40em",
+      md: "48em",
+      lg: "64em",
+      xl: "80em",
+      "2xl": "96em"
     },
     colors: {
       transparent: "transparent",
