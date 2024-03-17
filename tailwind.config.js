@@ -66,5 +66,12 @@ export default {
       12: "8rem"
     }
   },
-  plugins: [require("tailwindcss-animated"), require("tailwindcss-inner-border")]
+  corePlugins: {
+    aspectRatio: false
+  },
+  plugins: [
+    require("tailwindcss-animated"),
+    require("tailwindcss-inner-border"),
+    require("@tailwindcss/aspect-ratio")
+  ]
 };
