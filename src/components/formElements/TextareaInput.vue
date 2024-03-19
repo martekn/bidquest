@@ -6,7 +6,8 @@ defineProps({
     default: ""
   },
   name: { type: String },
-  id: { type: String }
+  id: { type: String },
+  resize: { type: Boolean, default: true }
 });
 </script>
 
@@ -15,6 +16,7 @@ defineProps({
     <label :for="id">{{ label }}</label>
 
     <textarea
+      :class="{ 'resize-none': !resize }"
       :id="id"
       :name="name"
       :value="modelValue"
