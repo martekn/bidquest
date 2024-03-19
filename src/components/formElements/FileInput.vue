@@ -16,7 +16,7 @@ defineProps({
         :id="id"
         :name="name"
         type="file"
-        @change="$emit('change', $event.target.files)"
+        @change="$emit('filesAdded', $event.target.files)"
         class="hidden"
         :multiple="multiple"
       />
