@@ -51,7 +51,7 @@ defineProps({
             </button>
           </div>
           <button
-            class="justify-self-end font-semibold text-red-400 transition-all hover:underline active:text-red-400/70"
+            class="justify-self-end rounded p-1 font-semibold text-red-400 outline-none transition-all hover:underline focus-visible:ring-2 focus-visible:ring-black active:text-red-400/70"
             @click="$emit('delete', index)"
           >
             Delete
