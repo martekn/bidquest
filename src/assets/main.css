@@ -45,6 +45,10 @@
     @apply w-full rounded border border-grey-400 bg-white p-3 focus-visible:border-black focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-black;
   }
 
+  textarea {
+    @apply min-h-10;
+  }
+
   input.success,
   textarea.success {
     @apply border-green-400 ring-green-400;
@@ -56,7 +60,7 @@
   }
 
   label {
-    @apply font-semibold text-black;
+    @apply font-semibold leading-none text-black;
   }
 }
 
@@ -102,6 +106,6 @@
 
 @layer utilities {
   .input-group {
-    @apply grid gap-2;
+    @apply grid grid-rows-[auto_1fr] gap-2;
   }
 }
