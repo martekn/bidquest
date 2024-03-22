@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from "vue";
-import { RouterLink } from "vue-router";
+import { RouterLink, useRoute } from "vue-router";
 import { computed, onMounted, reactive } from "vue";
 import { ChevronDownIcon, Bars3Icon, XMarkIcon } from "@heroicons/vue/20/solid";
 import PopoverMenu from "./popover/PopoverMenu.vue";
@@ -25,9 +25,13 @@ const navItems = [
 ];
 
 const mobileNavOpen = ref(false);
-
+const route = useRoute();
 let visibleItems = reactive([...navItems]);
 let dropdownItems = computed(() => navItems.filter((value) => !visibleItems.includes(value)));
+
+const isActive = (path) => {
+  return computed(() => new RegExp(`^${path}(/page-\\d+)?$`).test(route.path)).value;
+};
 
 const collapseMenu = () => {
   const itemElements = Array.from(document.querySelectorAll("nav ul .item"));
@@ -125,7 +129,11 @@ onMounted(async () => {
       >
         <li v-for="item in visibleItems" :key="item.id" class="item first:order-first">
           <RouterLink
-            class="relative block w-full px-2 py-4 outline-none hover:text-grey-500 focus-visible:rounded focus-visible:ring-1 focus-visible:ring-black [&.router-link-active]:font-semibold [&.router-link-active]:after:absolute [&.router-link-active]:after:inset-x-0 [&.router-link-active]:after:bottom-0 [&.router-link-active]:after:block [&.router-link-active]:after:h-2 [&.router-link-active]:after:rounded [&.router-link-active]:after:bg-primary-400"
+            :class="{
+              ' font-semibold after:absolute after:inset-x-0 after:bottom-0 after:block after:h-2 after:rounded after:bg-primary-400':
+                isActive(item.path)
+            }"
+            class="relative block w-full px-2 py-4 outline-none hover:text-grey-500 focus-visible:rounded focus-visible:ring-1 focus-visible:ring-black"
             :to="item.path"
             >{{ item.name }}</RouterLink
           >
@@ -183,7 +191,11 @@ onMounted(async () => {
         <ul class="mt-5">
           <li v-for="item in navItems" :key="item.id">
             <RouterLink
-              class="relative block w-full px-5 py-4 outline-none hover:bg-grey-200 focus-visible:rounded focus-visible:inner-border focus-visible:inner-border-black [&.router-link-active]:font-semibold [&.router-link-active]:after:absolute [&.router-link-active]:after:inset-y-0 [&.router-link-active]:after:left-0 [&.router-link-active]:after:block [&.router-link-active]:after:w-2 [&.router-link-active]:after:rounded [&.router-link-active]:after:bg-primary-400"
+              :class="{
+                'font-semibold after:absolute after:inset-y-0 after:left-0 after:block after:w-2 after:rounded after:bg-primary-400':
+                  isActive(item.path)
+              }"
+              class="relative block w-full px-5 py-4 outline-none hover:bg-grey-200 focus-visible:rounded focus-visible:inner-border focus-visible:inner-border-black"
               :to="item.path"
               @click="mobileNavOpen = false"
               >{{ item.name }}</RouterLink
