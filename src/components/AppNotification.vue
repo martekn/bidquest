@@ -59,7 +59,7 @@ const isSuccess = (type) => {
             </div>
             <button
               @click="close(notification.id)"
-              class="grid h-6 w-6 place-items-center rounded outline-none hover:text-grey-500 focus-visible:ring-2 focus-visible:ring-black"
+              class="grid h-6 w-6 place-items-center rounded outline-none transition-all duration-150 hover:text-grey-500 focus-visible:ring-2 focus-visible:ring-black"
             >
               <span class="sr-only">close</span>
               <XMarkIcon class="h-5 w-5" />

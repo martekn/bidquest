@@ -80,7 +80,6 @@ onMounted(() => {
 
 <template>
   <div class="space-y-2">
-    <!-- Big image -->
     <div class="aspect-h-2 aspect-w-3 relative">
       <div
         class="rounded bg-cover bg-center"
@@ -89,14 +88,14 @@ onMounted(() => {
         <div class="absolute inset-0 rounded bg-grey-200/80 backdrop-blur-lg"></div>
         <button
           v-if="images.length > 1"
-          class="absolute inset-y-0 left-5 z-20 my-auto grid h-9 w-7 place-items-center rounded bg-black/75 text-white shadow-sm outline-none transition-all hover:bg-black/90 focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 active:bg-black"
+          class="absolute inset-y-0 left-5 z-20 my-auto grid h-9 w-7 place-items-center rounded bg-black/75 text-white shadow-sm outline-none transition-all duration-150 hover:bg-black/90 focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 active:bg-black"
           @click="previousImage"
         >
           <ChevronLeftIcon class="h-6 w-6" />
         </button>
         <button
           v-if="images.length > 1"
-          class="absolute inset-y-0 right-5 z-20 my-auto grid h-9 w-7 place-items-center rounded bg-black/75 text-white shadow-sm outline-none transition-all hover:bg-black/90 focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 active:bg-black"
+          class="absolute inset-y-0 right-5 z-20 my-auto grid h-9 w-7 place-items-center rounded bg-black/75 text-white shadow-sm outline-none transition-all duration-150 hover:bg-black/90 focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 active:bg-black"
           @click="nextImage"
         >
           <ChevronRightIcon class="h-6 w-6" />
@@ -116,7 +115,6 @@ onMounted(() => {
       </div>
     </div>
 
-    <!-- Small image scroll-->
     <div class="relative" v-if="!noImage">
       <ul
         ref="slider"
@@ -138,7 +136,7 @@ onMounted(() => {
               '  scale-110 brightness-100': index === currentImageIndex,
               ' brightness-75': index !== currentImageIndex
             }"
-            class="aspect-h-3 aspect-w-4 h-full w-full outline-none transition-all after:rounded hover:brightness-100 focus-visible:brightness-100 focus-visible:after:absolute focus-visible:after:inset-0 focus-visible:after:z-10 focus-visible:after:border-2 focus-visible:after:border-black focus-visible:after:inner-border-2 focus-visible:after:inner-border-white/85"
+            class="aspect-h-3 aspect-w-4 h-full w-full outline-none transition-all duration-150 after:rounded hover:brightness-100 focus-visible:brightness-100 focus-visible:after:absolute focus-visible:after:inset-0 focus-visible:after:z-10 focus-visible:after:border-2 focus-visible:after:border-black focus-visible:after:inner-border-2 focus-visible:after:inner-border-white/85"
             aria-label="Image"
             @click="selectImage(index)"
             @keydown="tabSlider($event, index)"

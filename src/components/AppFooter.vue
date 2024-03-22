@@ -1,5 +1,11 @@
 <script setup>
 import { RouterLink } from "vue-router";
+
+const footerLinks = [
+  { name: "Auctions", path: "/auctions", id: 1 },
+  { name: "Create auction", path: "/auction/create", id: 2 },
+  { name: "Register", path: "/register", id: 3 }
+];
 </script>
 
 <template>
@@ -9,29 +15,15 @@ import { RouterLink } from "vue-router";
     >
       <RouterLink
         to="/"
-        class="rounded p-3 font-accent text-lg font-semibold outline-none hover:text-grey-300 focus-visible:ring-2 focus-visible:ring-white sm:text-xl"
+        class="rounded p-3 font-accent text-lg font-semibold outline-none transition-all duration-150 hover:text-grey-300 focus-visible:ring-2 focus-visible:ring-white sm:text-xl"
         >BidQuest</RouterLink
       >
       <ul class="flex gap-5">
-        <li>
+        <li v-for="link of footerLinks" :key="link.id">
           <RouterLink
-            class="rounded p-3 outline-none hover:text-grey-300 focus-visible:ring-2 focus-visible:ring-white"
-            to="/auctions"
-            >Auctions</RouterLink
-          >
-        </li>
-        <li>
-          <RouterLink
-            class="rounded p-3 outline-none hover:text-grey-300 focus-visible:ring-2 focus-visible:ring-white"
-            to="/auction/create"
-            >Create auction</RouterLink
-          >
-        </li>
-        <li>
-          <RouterLink
-            class="rounded p-3 outline-none hover:text-grey-300 focus-visible:ring-2 focus-visible:ring-white"
-            to="/register"
-            >Register</RouterLink
+            class="rounded p-3 outline-none transition-all duration-150 hover:text-grey-300 focus-visible:ring-2 focus-visible:ring-white"
+            :to="link.path"
+            >{{ link.name }}</RouterLink
           >
         </li>
       </ul>

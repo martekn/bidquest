@@ -37,21 +37,21 @@ defineProps({
           <div class="flex gap-3">
             <button
               v-show="index !== images.length - 1"
-              class="grid min-h-[30px] min-w-[30px] place-items-center rounded bg-grey-300 outline-none transition-all hover:bg-grey-300/70 hover:shadow-sm focus-visible:ring-2 focus-visible:ring-black active:bg-grey-400/60"
+              class="grid min-h-[30px] min-w-[30px] place-items-center rounded bg-grey-300 outline-none transition-all duration-150 hover:bg-grey-300/70 hover:shadow-sm focus-visible:ring-2 focus-visible:ring-black active:bg-grey-400/60"
               @click="$emit('moveDown', index)"
             >
               <ChevronDownIcon class="h-6 w-6" />
             </button>
             <button
               v-show="index !== 0"
-              class="grid min-h-[30px] min-w-[30px] place-items-center rounded bg-grey-300 outline-none transition-all hover:bg-grey-300/70 hover:shadow-sm focus-visible:ring-2 focus-visible:ring-black active:bg-grey-400/60"
+              class="grid min-h-[30px] min-w-[30px] place-items-center rounded bg-grey-300 outline-none transition-all duration-150 hover:bg-grey-300/70 hover:shadow-sm focus-visible:ring-2 focus-visible:ring-black active:bg-grey-400/60"
               @click="$emit('moveUp', index)"
             >
               <ChevronUpIcon class="h-6 w-6" />
             </button>
           </div>
           <button
-            class="justify-self-end rounded p-1 font-semibold text-red-400 outline-none transition-all hover:underline focus-visible:ring-2 focus-visible:ring-black active:text-red-400/70"
+            class="justify-self-end rounded p-1 font-semibold text-red-400 outline-none transition-all duration-150 hover:underline focus-visible:ring-2 focus-visible:ring-black active:text-red-400/70"
             @click="$emit('delete', index)"
           >
             Delete

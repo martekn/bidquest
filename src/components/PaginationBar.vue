@@ -97,7 +97,7 @@ setupPagination(route.path);
     <RouterLink
       :to="currentPath.replace(`page-${currentPage}`, `page-${previousPage}`)"
       :class="{ 'invisible sm:hidden': !previousPage }"
-      class="flex w-[3.5rem] items-center justify-center rounded text-black outline-none hover:font-semibold hover:text-black hover:underline hover:underline-offset-2 focus-visible:font-semibold focus-visible:text-black focus-visible:ring-2 focus-visible:ring-black"
+      class="flex w-[3.5rem] items-center justify-center rounded text-black outline-none transition-all duration-150 hover:font-semibold hover:text-black hover:underline hover:underline-offset-2 focus-visible:font-semibold focus-visible:text-black focus-visible:ring-2 focus-visible:ring-black"
     >
       <ChevronLeftIcon class="h-5 w-5" /><span>Prev</span>
     </RouterLink>
@@ -107,12 +107,12 @@ setupPagination(route.path);
         <RouterLink
           v-if="page.displayNumber"
           :class="{
-            'bg-primary-400 font-semibold text-white hover:bg-primary-300 active:bg-primary-500':
+            'bg-primary-400 font-semibold text-white  hover:bg-primary-300 active:bg-primary-500':
               page.pageNumber === currentPage,
             ' text-grey-500 hover:font-semibold hover:text-black hover:underline hover:underline-offset-2 focus-visible:font-semibold focus-visible:text-black ':
               page.pageNumber !== currentPage
           }"
-          class="grid h-7 w-7 place-items-center rounded outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2"
+          class="grid h-7 w-7 place-items-center rounded outline-none transition-all duration-150 focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2"
           :to="currentPath.replace(`page-${currentPage}`, `page-${page.pageNumber}`)"
           >{{ page.pageNumber }}
         </RouterLink>
@@ -122,7 +122,7 @@ setupPagination(route.path);
     <RouterLink
       :to="currentPath.replace(`page-${currentPage}`, `page-${nextPage}`)"
       :class="{ 'invisible sm:hidden': !nextPage }"
-      class="flex w-[3.5rem] items-center justify-center rounded text-black outline-none hover:font-semibold hover:text-black hover:underline hover:underline-offset-2 focus-visible:font-semibold focus-visible:text-black focus-visible:ring-2 focus-visible:ring-black"
+      class="flex w-[3.5rem] items-center justify-center rounded text-black outline-none transition-all duration-150 hover:font-semibold hover:text-black hover:underline hover:underline-offset-2 focus-visible:font-semibold focus-visible:text-black focus-visible:ring-2 focus-visible:ring-black"
     >
       <span>Next</span><ChevronRightIcon class="h-5 w-5" />
     </RouterLink>

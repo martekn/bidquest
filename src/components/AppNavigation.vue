@@ -101,7 +101,7 @@ onMounted(async () => {
           </button>
           <RouterLink
             to="/"
-            class="rounded p-1 font-accent text-xl font-semibold outline-none hover:opacity-95 focus-visible:ring-2 focus-visible:ring-black sm:text-3xl"
+            class="rounded p-1 font-accent text-xl font-semibold outline-none transition-all duration-150 hover:opacity-90 focus-visible:ring-2 focus-visible:ring-black sm:text-3xl"
           >
             Bid<span class="text-primary-400">Quest</span>
           </RouterLink>
@@ -133,7 +133,7 @@ onMounted(async () => {
               ' font-semibold after:absolute after:inset-x-0 after:bottom-0 after:block after:h-2 after:rounded after:bg-primary-400':
                 isActive(item.path)
             }"
-            class="relative block w-full px-2 py-4 outline-none hover:text-grey-500 focus-visible:rounded focus-visible:ring-1 focus-visible:ring-black"
+            class="relative block w-full px-2 py-4 outline-none transition-all duration-150 hover:text-grey-500 focus-visible:rounded focus-visible:ring-1 focus-visible:ring-black"
             :to="item.path"
             >{{ item.name }}</RouterLink
           >
@@ -142,7 +142,7 @@ onMounted(async () => {
         <li id="menudropdown" v-show="dropdownItems.length > 0">
           <PopoverMenu align="right" width="15rem">
             <button
-              class="flex items-center gap-2 border-x border-grey-300 px-4 py-4 outline-none hover:bg-grey-200 focus-visible:rounded focus-visible:ring-1 focus-visible:ring-black"
+              class="flex items-center gap-2 border-x border-grey-300 px-4 py-4 outline-none transition-all duration-150 hover:bg-grey-200 focus-visible:rounded focus-visible:ring-1 focus-visible:ring-black"
             >
               More
               <ChevronDownIcon
@@ -173,7 +173,7 @@ onMounted(async () => {
         <div class="flex items-center justify-between px-5">
           <RouterLink
             to="/"
-            class="rounded font-accent text-xl font-semibold outline-none hover:opacity-95 focus-visible:ring-2 focus-visible:ring-black sm:hidden sm:text-3xl"
+            class="rounded font-accent text-xl font-semibold outline-none transition-all duration-150 hover:opacity-95 focus-visible:ring-2 focus-visible:ring-black sm:hidden sm:text-3xl"
             @click="mobileNavOpen = false"
           >
             Bid<span class="text-primary-400">Quest</span>
@@ -195,7 +195,7 @@ onMounted(async () => {
                 'font-semibold after:absolute after:inset-y-0 after:left-0 after:block after:w-2 after:rounded after:bg-primary-400':
                   isActive(item.path)
               }"
-              class="relative block w-full px-5 py-4 outline-none hover:bg-grey-200 focus-visible:rounded focus-visible:inner-border focus-visible:inner-border-black"
+              class="relative block w-full px-5 py-4 outline-none transition-all duration-150 hover:bg-grey-200 focus-visible:rounded focus-visible:inner-border focus-visible:inner-border-black"
               :to="item.path"
               @click="mobileNavOpen = false"
               >{{ item.name }}</RouterLink
