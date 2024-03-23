@@ -79,7 +79,6 @@ window.addEventListener("resize", () => {
 // Reason for async-await: Ensures proper rendering by delaying execution,
 // preventing inaccurate positioning of elements based on offsetTop property.
 onMounted(async () => {
-  // console.log(document.querySelector("nav"));
   await new Promise((resolve) => setTimeout(resolve));
 
   collapseMenu();
