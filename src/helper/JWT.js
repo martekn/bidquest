@@ -1,4 +1,4 @@
-import { validateObjectKeys } from "./validate-object-keys";
+import { validateObjectKeys } from "./validateObjectKeys";
 import { addBase64Padding } from "./addBase64Padding";
 
 /**
