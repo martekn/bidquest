@@ -5,6 +5,9 @@
  * @returns {string} The padded Base64 string.
  */
 export const addBase64Padding = (value) => {
+  if (typeof value !== "string") {
+    throw new TypeError("Expected a string");
+  }
   while (value.length % 4 !== 0) {
     value += "=";
   }

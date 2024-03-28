@@ -33,7 +33,6 @@ export const request = async (
     const token = Storage.get("accessToken");
     options.headers["X-Noroff-API-Key"] = import.meta.env.VITE_API_KEY;
     options.headers.Authorization = `Bearer ${token}`;
-    console.log(options);
   }
 
   if (params) {
