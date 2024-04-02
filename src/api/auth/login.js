@@ -4,10 +4,16 @@ import router from "@/router";
 import { HistoryStack } from "@/helper/HistoryStack";
 
 /**
- * Clears the history stack and redirects to the last visited path.
+ * Clears the history stack and redirects to the last visited path or redirected from path.
  */
 const redirect = () => {
-  const redirectPath = HistoryStack.lastVisited();
+  let redirectPath = HistoryStack.lastVisited();
+
+  if (router.currentRoute.value && typeof router.currentRoute.value === "object") {
+    const { query } = router.currentRoute.value;
+    redirectPath = query && query.redirect ? query.redirect : redirectPath;
+  }
+
   HistoryStack.clear();
 
   router.push(redirectPath);

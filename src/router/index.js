@@ -9,6 +9,7 @@ import ProfileView from "@/views/ProfileView.vue";
 import AuctionFormView from "@/views/AuctionFormView.vue";
 
 import { HistoryStack } from "@/helper/HistoryStack";
+import { isAuthenticated } from "@/helper/isAuthenticated";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -21,12 +22,14 @@ const router = createRouter({
     {
       path: "/login",
       name: "login",
-      component: LoginView
+      component: LoginView,
+      meta: { guest: true }
     },
     {
       path: "/register",
       name: "register",
-      component: RegisterView
+      component: RegisterView,
+      meta: { guest: true }
     },
     {
       path: "/search/:query/:page(page-\\d+)?",
@@ -54,7 +57,8 @@ const router = createRouter({
         {
           path: "create",
           component: AuctionFormView,
-          props: { mode: "create" }
+          props: { mode: "create" },
+          meta: { requiresAuth: true }
         },
         {
           path: ":id",
@@ -65,12 +69,15 @@ const router = createRouter({
         {
           path: ":id/edit",
           name: "auction edit",
-          component: AuctionFormView
+          component: AuctionFormView,
+          props: { mode: "edit" },
+          meta: { requiresAuth: true }
         }
       ]
     },
     {
       path: "/profile/:username",
+      meta: { requiresAuth: true },
       children: [
         {
           path: ":view?",
@@ -96,7 +103,27 @@ router.beforeEach((to, from, next) => {
     HistoryStack.clear();
   }
 
-  next();
+  if (to.matched.some((record) => record.meta.requiresAuth)) {
+    if (!isAuthenticated()) {
+      next({
+        path: "/login",
+        query: { redirect: to.fullPath }
+      });
+    } else {
+      next();
+    }
+  } else if (to.matched.some((record) => record.meta.guest)) {
+    if (isAuthenticated()) {
+      next({
+        path: "/",
+        query: { redirect: to.fullPath }
+      });
+    } else {
+      next();
+    }
+  } else {
+    next();
+  }
 });
 
 export default router;
