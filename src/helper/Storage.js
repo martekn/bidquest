@@ -7,30 +7,30 @@
 function storageFactory(storage) {
   return {
     /**
-     * Retrieves an item from storage and tries to parse it as JSON.
+     * Retrieves an item from storage and tries to parse it as JSON if it's a stringified object.
      *
      * @param {string} key - The key of the item to retrieve from storage.
-     * @returns {any} The parsed JSON object if successful, or null if not.
+     * @returns {any} The parsed JSON object if successful, the original value if it's not a stringified object, or null if an error occurred.
      */
     get(key) {
       const value = storage.getItem(key);
       try {
         return JSON.parse(value);
       } catch (error) {
-        console.error(`Error parsing storage item "${key}"`, error);
-        return null;
+        return value;
       }
     },
 
     /**
-     * Stores a value in storage. The value is stringified before storing.
+     * Stores a value in storage. If the value is not a string, it is stringified before storing.
      *
      * @param {string} key - The key under which the value will be stored.
      * @param {string|number|object} value - The value to be stored.
      */
     set(key, value) {
       try {
-        storage.setItem(key, JSON.stringify(value));
+        const valueToStore = typeof value === "string" ? value : JSON.stringify(value);
+        storage.setItem(key, valueToStore);
       } catch (error) {
         console.error(`Error setting storage item "${key}"`, error);
       }
