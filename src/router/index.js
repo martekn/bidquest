@@ -9,7 +9,7 @@ import ProfileView from "@/views/ProfileView.vue";
 import AuctionFormView from "@/views/AuctionFormView.vue";
 
 import { HistoryStack } from "@/helper/HistoryStack";
-import { isAuthenticated } from "@/helper/isAuthenticated";
+import { AuthStateManager } from "@/helper/AuthStateManager";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -104,7 +104,7 @@ router.beforeEach((to, from, next) => {
   }
 
   if (to.matched.some((record) => record.meta.requiresAuth)) {
-    if (!isAuthenticated()) {
+    if (!AuthStateManager.isAuthenticated()) {
       next({
         path: "/login",
         query: { redirect: to.fullPath }
@@ -113,7 +113,7 @@ router.beforeEach((to, from, next) => {
       next();
     }
   } else if (to.matched.some((record) => record.meta.guest)) {
-    if (isAuthenticated()) {
+    if (AuthStateManager.isAuthenticated()) {
       next({
         path: "/",
         query: { redirect: to.fullPath }

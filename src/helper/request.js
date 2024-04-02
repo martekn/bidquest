@@ -1,5 +1,5 @@
 import { baseUrl } from "../consts/baseUrl.js";
-import { Storage } from "./Storage.js";
+import { AuthStateManager } from "./AuthStateManager.js";
 
 /**
  * Makes an asynchronous HTTP request to a specified endpoint with optional parameters, authentication token, method, and request body.
@@ -30,7 +30,7 @@ export const request = async (
   };
 
   if (token) {
-    const token = Storage.local.get("accessToken");
+    const token = AuthStateManager.token;
     options.headers["X-Noroff-API-Key"] = import.meta.env.VITE_API_KEY;
     options.headers.Authorization = `Bearer ${token}`;
   }

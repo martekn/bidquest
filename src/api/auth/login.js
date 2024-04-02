@@ -1,7 +1,7 @@
-import { Storage } from "@/helper/Storage";
 import { request } from "../../helper/request";
 import router from "@/router";
 import { HistoryStack } from "@/helper/HistoryStack";
+import { AuthStateManager } from "@/helper/AuthStateManager";
 
 /**
  * Clears the history stack and redirects to the last visited path or redirected from path.
@@ -28,7 +28,7 @@ const redirect = () => {
  */
 export const login = async (body) => {
   const res = await request("/auth/login", null, null, "POST", body);
-  Storage.local.set("accessToken", res.data.accessToken);
+  AuthStateManager.token = res.data.accessToken;
 
   redirect();
 };
