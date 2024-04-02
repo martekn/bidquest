@@ -8,6 +8,8 @@ import HistoryView from "@/views/HistoryView.vue";
 import ProfileView from "@/views/ProfileView.vue";
 import AuctionFormView from "@/views/AuctionFormView.vue";
 
+import { HistoryStack } from "@/helper/HistoryStack";
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -83,6 +85,18 @@ const router = createRouter({
       ]
     }
   ]
+});
+
+router.beforeEach((to, from, next) => {
+  if (from.name !== "login" && from.name !== "register") {
+    HistoryStack.update(from.fullPath);
+  }
+
+  if (from.name === "home" || to.name === "home") {
+    HistoryStack.clear();
+  }
+
+  next();
 });
 
 export default router;
