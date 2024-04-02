@@ -8,8 +8,9 @@ export const addBase64Padding = (value) => {
   if (typeof value !== "string") {
     throw new TypeError("Expected a string");
   }
-  while (value.length % 4 !== 0) {
-    value += "=";
+  let newValue = value.replace(/-/g, "+").replace(/_/g, "/");
+  while (newValue.length % 4 !== 0) {
+    newValue += "=";
   }
-  return value;
+  return newValue;
 };
