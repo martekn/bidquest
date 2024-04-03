@@ -10,6 +10,7 @@ import AuctionFormView from "@/views/AuctionFormView.vue";
 
 import { HistoryStack } from "@/helper/HistoryStack";
 import { AuthStateManager } from "@/helper/AuthStateManager";
+import { ProfileStateManager } from "@/helper/ProfileStateManager";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -95,6 +96,10 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
+  if (AuthStateManager.isAuthenticated()) {
+    ProfileStateManager.update();
+  }
+
   if (from.name !== "login" && from.name !== "register") {
     HistoryStack.update(from.fullPath);
   }
