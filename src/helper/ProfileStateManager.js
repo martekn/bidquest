@@ -42,7 +42,6 @@ export const ProfileStateManager = reactive({
    * @description Asynchronously updates the profile state based on the response from the `getProfile` API call.
    */
   async update() {
-    this.remove();
     try {
       const response = await profile.getProfile(AuthStateManager.getUsername());
       response.data.status = "fulfilled";
