@@ -7,7 +7,7 @@ import { AuthStateManager } from "./AuthStateManager.js";
  * @async
  * @param {String} endpoint - The endpoint for the HTTP request.
  * @param {Object} [params] - Optional query parameters as key-value pairs (e.g., { key: value }).
- * @param {String} [token] - An authentication token for the request (optional).
+ * @param {Boolean} [useToken=false] - Indicates whether to use a token in the request (optional).
  * @param {String} [method="GET"] - The HTTP method for the request (e.g., "GET", "POST"). Default is "GET".
  * @param {Object} [body] - The request body data to send (if applicable) as an object.
  * @returns {Promise} - A promise that resolves to the JSON response data from the HTTP request.
@@ -15,7 +15,7 @@ import { AuthStateManager } from "./AuthStateManager.js";
 export const request = async (
   endpoint,
   params = null,
-  token = null,
+  useToken = false,
   method = "GET",
   body = null
 ) => {
@@ -29,7 +29,7 @@ export const request = async (
     headers: {}
   };
 
-  if (token) {
+  if (useToken) {
     const token = AuthStateManager.token;
     options.headers["X-Noroff-API-Key"] = import.meta.env.VITE_API_KEY;
     options.headers.Authorization = `Bearer ${token}`;
