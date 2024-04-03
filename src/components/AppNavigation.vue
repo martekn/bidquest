@@ -9,6 +9,9 @@ import PopoverItem from "./popover/PopoverItem.vue";
 import { Dialog, DialogPanel } from "@headlessui/vue";
 import SearchInput from "./SearchInput.vue";
 import { debounce } from "@/helper/debounce";
+import { AuthStateManager } from "@/helper/AuthStateManager";
+import { ProfileStateManager } from "@/helper/ProfileStateManager";
+import { logout } from "@/api/auth/logout";
 
 const navItems = [
   { name: "+ Create auction", path: "/auction/create", id: 1 },
@@ -26,6 +29,7 @@ const navItems = [
 
 const mobileNavOpen = ref(false);
 const route = useRoute();
+
 let visibleItems = reactive([...navItems]);
 let dropdownItems = computed(() => navItems.filter((value) => !visibleItems.includes(value)));
 
@@ -88,7 +92,7 @@ onMounted(async () => {
   <div class="bg-white">
     <header class="border-b border-grey-300 pt-5 sm:pb-5">
       <div
-        class="mx-auto grid max-w-8xl grid-cols-2 content-center items-center justify-between sm:flex sm:gap-7 sm:px-5"
+        class="mx-auto grid max-w-8xl grid-cols-2 content-center items-center justify-between gap-y-5 sm:grid-cols-[1fr_4fr_1fr] sm:gap-7 sm:px-5"
       >
         <div class="flex gap-3 pl-5 sm:pl-0">
           <button
@@ -106,14 +110,75 @@ onMounted(async () => {
           </RouterLink>
         </div>
         <div
-          class="col-span-2 w-full border-t border-grey-300 px-5 py-3 sm:max-w-2xl sm:border-none sm:px-0"
+          class="col-span-2 w-full border-t border-grey-300 px-5 py-3 sm:col-span-1 sm:col-start-2 sm:row-start-1 sm:max-w-2xl sm:justify-self-center sm:border-none sm:px-0"
         >
           <SearchInput />
         </div>
         <div
-          class="col-start-2 row-start-1 place-self-end self-center pr-5 sm:place-self-auto sm:pr-[0px]"
+          class="col-start-2 row-start-1 place-self-end self-center pr-5 sm:col-start-3 sm:justify-self-end sm:pr-[0px]"
         >
+          <div v-if="AuthStateManager.isAuthenticated()" class="flex min-w-max">
+            <PopoverMenu
+              align="right"
+              width="15rem"
+              v-if="ProfileStateManager.profile.status === 'fulfilled'"
+            >
+              <button
+                class="group/button flex gap-3 rounded text-sm outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-1"
+              >
+                <div
+                  class="hidden flex-col place-items-end justify-center transition-all group-hover/button:opacity-90 sm:flex"
+                >
+                  <span class="font-accent font-medium">{{
+                    ProfileStateManager.profile.name
+                  }}</span>
+                  <span class="text-grey-500"
+                    >{{ ProfileStateManager.profile.credits }} credits</span
+                  >
+                </div>
+                <div class="relative flex flex-shrink-0 flex-row-reverse justify-center gap-2">
+                  <img
+                    class="relative h-8 w-8 rounded object-cover after:absolute after:inset-0 after:z-10 after:block after:bg-red-400 group-hover/button:brightness-95 sm:h-9 sm:w-9"
+                    :src="ProfileStateManager.profile.avatar.url"
+                    :alt="ProfileStateManager.profile.avatar.alt"
+                  />
+
+                  <div
+                    class="grid place-items-center rounded bg-white/75 p-1 transition-all group-hover/button:bg-white/100 sm:absolute sm:bottom-1 sm:right-1"
+                  >
+                    <ChevronDownIcon
+                      class="h-5 w-5 rounded transition-all group-data-[headlessui-state=open]:-rotate-180"
+                    />
+                  </div>
+                </div>
+              </button>
+              <template #items>
+                <MenuGroup class="sm:hidden">
+                  <PopoverItem
+                    as="div"
+                    class="pointer-events-none flex flex-row-reverse justify-end gap-3 text-sm"
+                  >
+                    <div class="flex flex-col justify-center">
+                      <span class="font-medium">Username</span>
+                      <span class="text-grey-500">1000 credits</span>
+                    </div>
+                    <div>
+                      <img
+                        class="h-9 w-9 rounded object-cover"
+                        src="/image-placeholder.jpg"
+                        alt="image placeholder"
+                      />
+                    </div>
+                  </PopoverItem>
+                </MenuGroup>
+                <MenuGroup>
+                  <PopoverItem as="button" @click="logout()"> Logout </PopoverItem>
+                </MenuGroup>
+              </template>
+            </PopoverMenu>
+          </div>
           <RouterLink
+            v-else
             to="/login"
             class="max-sm:link max-sm:link-secondary sm:button sm:button-secondary"
             >Login</RouterLink
@@ -132,7 +197,7 @@ onMounted(async () => {
               ' font-semibold after:absolute after:inset-x-0 after:bottom-0 after:block after:h-2 after:rounded after:bg-primary-400':
                 isActive(item.path)
             }"
-            class="relative block w-full px-2 py-4 outline-none transition-all duration-150 hover:text-grey-500 focus-visible:rounded focus-visible:ring-1 focus-visible:ring-black"
+            class="relative block w-full py-4 outline-none transition-all duration-150 hover:text-grey-500 focus-visible:rounded focus-visible:ring-1 focus-visible:ring-black"
             :to="item.path"
             >{{ item.name }}</RouterLink
           >
@@ -191,7 +256,7 @@ onMounted(async () => {
           <li v-for="item in navItems" :key="item.id">
             <RouterLink
               :class="{
-                'font-semibold after:absolute after:inset-y-0 after:left-0 after:block after:w-2 after:rounded after:bg-primary-400':
+                'px-1 font-semibold after:absolute after:inset-y-0 after:left-0 after:block after:w-2 after:rounded after:bg-primary-400':
                   isActive(item.path)
               }"
               class="relative block w-full px-5 py-4 outline-none transition-all duration-150 hover:bg-grey-200 focus-visible:rounded focus-visible:inner-border focus-visible:inner-border-black"
