@@ -1,0 +1,57 @@
+import { reactive } from "vue";
+import { profile } from "@/api";
+import { AuthStateManager } from "./AuthStateManager";
+
+/**
+ * @module ProfileStateManager
+ * @description This module exports a reactive object that manages profile state.
+ */
+export const ProfileStateManager = reactive({
+  /**
+   * @property {Object} _profile - The current profile state.
+   */
+  _profile: { status: "none" },
+
+  /**
+   * @method profile
+   * @description Sets the profile state.
+   * @param {Object} profile - The new profile state.
+   */
+  set profile(profile) {
+    this._profile = profile;
+  },
+
+  /**
+   * @method profile
+   * @returns {Object} The current profile state.
+   */
+  get profile() {
+    return this._profile;
+  },
+
+  /**
+   * @method remove
+   * @description Resets the profile state to its initial value.
+   */
+  remove() {
+    this._profile = { status: "none" };
+  },
+
+  /**
+   * @method update
+   * @description Asynchronously updates the profile state based on the response from the `getProfile` API call.
+   */
+  async update() {
+    this.remove();
+    try {
+      const response = await profile.getProfile(AuthStateManager.getUsername());
+      response.data.status = "fulfilled";
+      this.profile = response.data;
+      console.log(response.data);
+    } catch (error) {
+      console.log(error);
+      error.status = "rejected";
+      this.profile = error;
+    }
+  }
+});
