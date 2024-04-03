@@ -46,9 +46,7 @@ export const ProfileStateManager = reactive({
       const response = await profile.getProfile(AuthStateManager.getUsername());
       response.data.status = "fulfilled";
       this.profile = response.data;
-      console.log(response.data);
     } catch (error) {
-      console.log(error);
       error.status = "rejected";
       this.profile = error;
     }
