@@ -119,6 +119,7 @@ onMounted(async () => {
         >
           <div v-if="AuthStateManager.isAuthenticated()" class="flex min-w-max">
             <PopoverMenu
+              id="user-dropdown"
               align="right"
               width="15rem"
               v-if="ProfileStateManager.profile.status === 'fulfilled'"
@@ -172,7 +173,9 @@ onMounted(async () => {
                   </PopoverItem>
                 </MenuGroup>
                 <MenuGroup>
-                  <PopoverItem as="button" @click="logout()"> Logout </PopoverItem>
+                  <PopoverItem as="button" @click="logout()" id="logout-button">
+                    Logout
+                  </PopoverItem>
                 </MenuGroup>
               </template>
             </PopoverMenu>
