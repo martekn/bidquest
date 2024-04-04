@@ -9,7 +9,7 @@ defineProps({
 </script>
 
 <template>
-  <div class="flex w-full items-center justify-center">
+  <div class="flex w-full items-center justify-center" :id="'input-group-' + id">
     <label :for="id" :class="labelClasses">
       {{ label }}
       <input

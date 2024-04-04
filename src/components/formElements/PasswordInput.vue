@@ -27,7 +27,7 @@ const visibilityToggle = () => {
 </script>
 
 <template>
-  <div class="input-group">
+  <div class="input-group" :id="'input-group-' + id">
     <label :for="id">{{ label }}</label>
 
     <div class="relative w-full">
@@ -53,7 +53,10 @@ const visibilityToggle = () => {
       </button>
     </div>
 
-    <span v-if="isError && error" class="flex gap-2 text-sm leading-tight text-red-400"
+    <span
+      v-if="isError && error"
+      class="flex gap-2 text-sm leading-tight text-red-400"
+      :id="'input-error-' + id"
       ><XCircleIcon class="h-5 w-5 flex-shrink-0 leading-tight" /> {{ error }}</span
     >
   </div>
