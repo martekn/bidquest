@@ -51,13 +51,19 @@ const validate = () => {
 </script>
 
 <template>
-  <main class="grid flex-1 place-items-center bg-opacity-50 bg-straws-pattern bg-repeat">
+  <main
+    class="grid flex-1 place-items-start bg-opacity-50 bg-straws-pattern bg-repeat py-8 sm:place-items-center"
+  >
     <form
       @submit.prevent
-      class="mx-auto grid w-full gap-6 border border-grey-300 p-5 sm:max-w-lg sm:rounded sm:bg-white sm:p-9 sm:shadow-md sm:shadow-black/10"
+      class="mx-auto grid w-full gap-6 p-5 sm:max-w-lg sm:rounded sm:border sm:border-grey-300 sm:bg-white sm:p-9 sm:shadow-md sm:shadow-black/10"
     >
       <h1 class="text-lg md:text-xl">Login</h1>
-      <div v-if="apiError.length > 0" class="flex w-full items-start gap-3 rounded bg-red-300 p-5">
+      <div
+        id="login-error"
+        v-if="apiError.length > 0"
+        class="flex w-full items-start gap-3 rounded bg-red-300 p-5"
+      >
         <XCircleIcon class="my-1 h-5 w-5 flex-shrink-0 text-red-400" />
 
         <div class="flex flex-col gap-2">
@@ -71,6 +77,7 @@ const validate = () => {
         v-model="loginBody.email"
         :is-error="emailField.isError"
         :error="emailField.error"
+        id="email"
         label="Email"
         type="email"
       />
@@ -78,6 +85,7 @@ const validate = () => {
         v-model="loginBody.password"
         :is-error="passwordField.isError"
         :error="passwordField.error"
+        id="password"
         label="Password"
       />
 
