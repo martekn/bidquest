@@ -40,7 +40,6 @@ const validate = () => {
 
   emailField.error = Validate.email(loginBody.email);
   passwordField.error = Validate.password(loginBody.password);
-  console.log(passwordField.error);
 
   emailField.isError = emailField.error ? true : false;
   passwordField.isError = passwordField.error ? true : false;

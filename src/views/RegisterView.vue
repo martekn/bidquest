@@ -43,7 +43,6 @@ const submit = async () => {
 };
 
 const validate = () => {
-  console.log(registerBody);
   nameField.error = "";
   emailField.error = "";
   passwordField.error = "";
