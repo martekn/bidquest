@@ -3,11 +3,13 @@ import { RouterView } from "vue-router";
 import AppNotification from "./components/AppNotification.vue";
 import AppNavigation from "./components/AppNavigation.vue";
 import AppFooter from "./components/AppFooter.vue";
+import SkipToContent from "./components/SkipToContent.vue";
 </script>
 <template>
+  <SkipToContent />
   <div class="flex min-h-screen flex-col">
     <AppNavigation></AppNavigation>
-    <RouterView />
+    <RouterView id="main-content" />
   </div>
 
   <AppFooter></AppFooter>
