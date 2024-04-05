@@ -12,7 +12,7 @@ defineProps({
 </script>
 
 <template>
-  <div class="input-group">
+  <div class="input-group" :id="'input-group-' + id">
     <label :for="id">{{ label }}</label>
 
     <textarea

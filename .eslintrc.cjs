@@ -10,7 +10,13 @@ module.exports = {
   ],
   overrides: [
     {
-      files: ["cypress/e2e/**/*.{cy,spec}.{js,ts,jsx,tsx}", "cypress/support/**/*.{js,ts,jsx,tsx}"],
+      files: [
+        "cypress/e2e/**/*.{cy,spec}.{js,ts,jsx,tsx}",
+        "cypress.config.cjs",
+        "cypress/support/**/*.{js,ts,jsx,tsx}"
+      ],
+      env: { "cypress/globals": true, node: true },
+      plugins: ["cypress"],
       extends: ["plugin:cypress/recommended"]
     },
     {

@@ -4,7 +4,10 @@ export default {
   content: ["./index.html", "./src/**/*.{vue,js,ts,jsx,tsx}"],
   theme: {
     extend: {
-      maxWidth: { "8xl": "81.25rem" }
+      maxWidth: { "8xl": "81.25rem" },
+      backgroundImage: {
+        "straws-pattern": "url('/straws-pattern-light.jpg')"
+      }
     },
     screens: {
       xs: "23.75em",
