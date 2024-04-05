@@ -124,9 +124,7 @@ onMounted(async () => {
               width="15rem"
               v-if="ProfileStateManager.profile.status === 'fulfilled'"
             >
-              <button
-                class="group/button flex gap-3 rounded text-sm outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-1"
-              >
+              <button class="group/button flex gap-3 rounded text-sm outline-none">
                 <div
                   class="hidden flex-col place-items-end justify-center transition-all group-hover/button:opacity-90 sm:flex"
                 >
@@ -209,7 +207,7 @@ onMounted(async () => {
         <li id="menudropdown" v-show="dropdownItems.length > 0">
           <PopoverMenu align="right" width="15rem">
             <button
-              class="flex items-center gap-2 border-x border-grey-300 px-4 py-4 outline-none transition-all duration-150 hover:bg-grey-200 focus-visible:rounded focus-visible:ring-1 focus-visible:ring-black"
+              class="flex items-center gap-2 border-x border-grey-300 px-4 py-4 outline-none transition-all duration-150 hover:bg-grey-200"
             >
               More
               <ChevronDownIcon
