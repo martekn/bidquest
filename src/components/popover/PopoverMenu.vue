@@ -13,7 +13,11 @@ const props = defineProps({
 <template>
   <Popover as="div" class="group relative inline-block text-left">
     <div>
-      <PopoverButton as="template"><slot /></PopoverButton>
+      <PopoverButton
+        as="template"
+        class="ui-focus-visible:rounded ui-focus-visible:ring-1 ui-focus-visible:ring-black"
+        ><slot
+      /></PopoverButton>
     </div>
 
     <PopoverPanel
