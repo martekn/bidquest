@@ -84,6 +84,7 @@ export default {
   plugins: [
     require("tailwindcss-animated"),
     require("tailwindcss-inner-border"),
-    require("@tailwindcss/aspect-ratio")
+    require("@tailwindcss/aspect-ratio"),
+    require("@headlessui/tailwindcss")
   ]
 };
