@@ -1,5 +1,6 @@
 <script setup>
 import { RouterView } from "vue-router";
+import AppNotification from "./components/AppNotification.vue";
 import AppNavigation from "./components/AppNavigation.vue";
 import AppFooter from "./components/AppFooter.vue";
 </script>
@@ -10,5 +11,6 @@ import AppFooter from "./components/AppFooter.vue";
   </div>
 
   <AppFooter></AppFooter>
+  <AppNotification></AppNotification>
 </template>
 <style scoped></style>
