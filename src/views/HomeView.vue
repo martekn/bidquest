@@ -2,8 +2,8 @@
 import { reactive, ref } from "vue";
 import { RouterLink } from "vue-router";
 import { auction } from "@/api";
-import { XCircleIcon } from "@heroicons/vue/20/solid";
 import AuctionCard from "@/components/AuctionCard.vue";
+import ErrorDialog from "@/components/ErrorDialog.vue";
 
 const auctionsEndingSoon = reactive([]);
 const newestAuctions = reactive([]);
@@ -75,24 +75,15 @@ getNewestAuctions();
           />
         </li>
       </ul>
-      <div
+      <ErrorDialog
+        class="mt-5 md:mt-6"
         v-else
-        id="login-error"
-        class="mt-5 flex w-full items-start gap-3 rounded bg-red-300 p-5 md:mt-6"
+        title="Oops! Unable to Retrieve Ending Soon Auctions"
       >
-        <XCircleIcon class="my-1 h-5 w-5 flex-shrink-0 text-red-400" />
-
-        <div class="flex flex-col gap-2">
-          <span class="font-semibold leading-tight"
-            >Oops! Unable to Retrieve Ending Soon Auctions</span
-          >
-          <p>
-            We're sorry, but we couldn't fetch auctions ending soon at the moment. Please ensure you
-            have a stable internet connection and try refreshing the page. If the issue persists,
-            our team is here to assist you. Feel free to reach out for further assistance.
-          </p>
-        </div>
-      </div>
+        We're sorry, but we couldn't fetch auctions ending soon at the moment. Please ensure you
+        have a stable internet connection and try refreshing the page. If the issue persists, our
+        team is here to assist you. Feel free to reach out for further assistance.
+      </ErrorDialog>
     </section>
 
     <section class="mx-auto max-w-8xl px-5">
@@ -115,23 +106,11 @@ getNewestAuctions();
         </li>
       </ul>
 
-      <div
-        v-else
-        id="login-error"
-        class="mt-5 flex w-full items-start gap-3 rounded bg-red-300 p-5 md:mt-6"
-      >
-        <XCircleIcon class="my-1 h-5 w-5 flex-shrink-0 text-red-400" />
-
-        <div class="flex flex-col gap-2">
-          <span class="font-semibold leading-tight">Uh-oh! Can't Retrieve Newest Auctions</span>
-          <p>
-            We're sorry, but we're currently experiencing difficulties retrieving the newest
-            auctions. Please check your internet connection and try refreshing the page. If the
-            problem persists, our support team is available to help. Don't hesitate to contact us
-            for assistance.
-          </p>
-        </div>
-      </div>
+      <ErrorDialog class="mt-5 md:mt-6" v-else title="Uh-oh! Can't Retrieve Newest Auctions">
+        We're sorry, but we're currently experiencing difficulties retrieving the newest auctions.
+        Please check your internet connection and try refreshing the page. If the problem persists,
+        our support team is available to help. Don't hesitate to contact us for assistance.
+      </ErrorDialog>
     </section>
   </main>
 </template>

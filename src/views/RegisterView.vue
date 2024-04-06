@@ -3,10 +3,10 @@ import { reactive, ref } from "vue";
 import PasswordInput from "@/components/formElements/PasswordInput.vue";
 import TextInput from "@/components/formElements/TextInput.vue";
 import LoadingIndicator from "@/components/LoadingIndicator.vue";
-import { XCircleIcon } from "@heroicons/vue/20/solid";
 import { placeholderUserImageUrl } from "@/consts/placeholderUserImageUrl";
 import { register } from "@/api/auth/register";
 import { Validate } from "@/helper/Validate";
+import ErrorDialog from "@/components/ErrorDialog.vue";
 
 const isLoading = ref(false);
 const apiError = reactive([]);
@@ -71,20 +71,16 @@ const validate = () => {
       class="mx-auto grid w-full gap-6 p-5 sm:max-w-lg sm:rounded sm:border sm:border-grey-300 sm:bg-white sm:p-9 sm:shadow-md sm:shadow-black/10"
     >
       <h1 class="text-lg md:text-xl">Create account</h1>
-      <div
+      <ErrorDialog
         id="register-error"
         v-if="apiError.length > 0"
-        class="flex w-full items-start gap-3 rounded bg-red-300 p-5"
+        title="We could not create your account"
       >
-        <XCircleIcon class="my-1 h-5 w-5 flex-shrink-0 text-red-400" />
+        <ul class="list-inside list-disc">
+          <li v-for="[error, index] in apiError" :key="index">{{ error.message }}</li>
+        </ul>
+      </ErrorDialog>
 
-        <div class="flex flex-col gap-2">
-          <p class="font-semibold leading-tight">We could not create your account</p>
-          <ul class="list-inside list-disc">
-            <li v-for="[error, index] in apiError" :key="index">{{ error.message }}</li>
-          </ul>
-        </div>
-      </div>
       <TextInput
         v-model="registerBody.name"
         :error="nameField.error"
