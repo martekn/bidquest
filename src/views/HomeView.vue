@@ -13,7 +13,6 @@ const getAuctionsEndingSoon = async () => {
   try {
     const response = await auction.getAll(4, "endsAt", "asc");
     auctionsEndingSoon.push(...response.data);
-    throw Error();
   } catch (error) {
     auctionsEndingSoonError.value = true;
   }
@@ -23,7 +22,6 @@ const getNewestAuctions = async () => {
   try {
     const response = await auction.getAll(8, "created", "desc");
     newestAuctions.push(...response.data);
-    throw Error();
   } catch (error) {
     newestAuctionsError.value = true;
   }
