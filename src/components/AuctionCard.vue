@@ -22,7 +22,7 @@ const auctionEnded = !dayjs(props.endDate).isAfter(dayjs());
 const time = dayjs(props.endDate).format("MMM DD, HH:mm");
 </script>
 <template>
-  <li class="group/card relative z-10 flex flex-col space-y-5">
+  <div class="group/card relative flex flex-col space-y-5">
     <div class="relative inline-block overflow-hidden rounded">
       <div class="aspect-h-2 aspect-w-3">
         <img
@@ -55,5 +55,5 @@ const time = dayjs(props.endDate).format("MMM DD, HH:mm");
         }}</span>
       </div>
     </div>
-  </li>
+  </div>
 </template>
