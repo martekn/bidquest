@@ -29,7 +29,7 @@ const time = dayjs(props.endDate).format("MMM DD, HH:mm");
           class="h-full w-full rounded object-cover brightness-90 transition-all duration-500 group-hover/card:scale-110 group-hover/card:brightness-100"
           :src="imageSrc"
           :alt="imageAlt ?? ''"
-          onerror="this.onerror=null;this.src='image-placeholder.jpg';"
+          onerror="this.onerror=null;this.src='/image-placeholder.jpg';"
         />
       </div>
       <div
