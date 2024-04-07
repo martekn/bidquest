@@ -14,13 +14,15 @@ defineProps({
     type: Boolean,
     default: false
   },
-  error: { type: String, default: "" }
+  error: { type: String, default: "" },
+  hiddenLabel: { type: Boolean, default: false },
+  placeholder: { type: String, default: "" }
 });
 </script>
 
 <template>
   <div class="input-group" :id="'input-group-' + id">
-    <label :for="id">{{ label }}</label>
+    <label :class="{ 'sr-only': hiddenLabel }" :for="id">{{ label }}</label>
 
     <input
       :class="{
@@ -30,6 +32,7 @@ defineProps({
       :name="name"
       :type="type"
       :value="modelValue"
+      :placeholder="placeholder"
       @input="$emit('update:modelValue', $event.target.value)"
     />
     <span
