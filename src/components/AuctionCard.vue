@@ -2,6 +2,7 @@
 import { RouterLink } from "vue-router";
 
 import dayjs from "dayjs";
+import { getCurrentBid } from "@/helper/getCurrentBid";
 
 const props = defineProps({
   endDate: { type: String, default: "" },
@@ -12,12 +13,7 @@ const props = defineProps({
   bids: { type: Array, default: () => [] }
 });
 
-let highestBid = 0;
-if (props.bids.length > 0) {
-  const bidAmounts = props.bids.map((bid) => Number(bid.amount));
-  highestBid = Math.max(...bidAmounts);
-}
-
+const highestBid = getCurrentBid(props.bids);
 const auctionEnded = !dayjs(props.endDate).isAfter(dayjs());
 const time = dayjs(props.endDate).format("MMM DD, HH:mm");
 </script>
