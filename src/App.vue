@@ -9,7 +9,7 @@ import SkipToContent from "./components/SkipToContent.vue";
   <SkipToContent />
   <div class="flex min-h-screen flex-col">
     <AppNavigation></AppNavigation>
-    <RouterView id="main-content" />
+    <RouterView class="flex-1" id="main-content" />
   </div>
 
   <AppFooter></AppFooter>
