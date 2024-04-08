@@ -144,20 +144,23 @@ updateCountdown();
 
     <div
       :class="{ 'border-t border-grey-300 pt-3': bids.length > 0 }"
-      class="flex justify-between gap-2 text-xs text-grey-500"
+      class="flex flex-wrap justify-between gap-4 text-xs text-grey-500"
     >
       <span v-if="createdAt === updatedAt">Created {{ formattedCreatedDate }}</span>
       <span v-else>Updated {{ formattedUpdatedDate }}</span>
       <span>Ends {{ formattedEndDate }}</span>
     </div>
 
-    <div v-if="!AuthStateManager.isAuthenticated()">
-      <h3>Ready to bid?</h3>
-      <p>Login or Register to start bidding</p>
-      <div class="flex">
+    <section
+      v-if="!AuthStateManager.isAuthenticated()"
+      class="grid place-items-center rounded border border-grey-300 bg-grey-300/50 p-6 md:p-7"
+    >
+      <h2 class="text-lg">Ready to bid?</h2>
+      <p class="mt-2">Login or Register to start bidding</p>
+      <div class="mt-6 grid grid-cols-2 gap-5">
         <RouterLink to="/login" class="button button-primary">Login</RouterLink>
         <RouterLink to="/register" class="button button-secondary">Register</RouterLink>
       </div>
-    </div>
+    </section>
   </div>
 </template>
