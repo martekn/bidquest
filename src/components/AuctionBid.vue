@@ -99,7 +99,7 @@ updateCountdown();
       /><button class="button button-primary py-2">Bid</button>
     </div>
     <div class="border-y border-grey-300 py-3 text-sm font-medium">
-      Closes in:
+      Ends in:
       <span class="text-primary-400">{{ countdown }}</span>
     </div>
     <div>
