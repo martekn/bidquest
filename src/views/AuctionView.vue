@@ -13,7 +13,7 @@ import ErrorDialog from "@/components/ErrorDialog.vue";
 const isLoadingAuction = ref(true);
 const auctionError = ref(false);
 const isInvalidId = ref(false);
-let auctionDetail = reactive({});
+let auctionDetail = ref({});
 
 let featuredAuctions = reactive([]);
 const isLoadingFeaturedAuctions = ref(true);
@@ -52,10 +52,9 @@ const getAuctions = async () => {
 
   if (singleAuction.status === "fulfilled") {
     singleAuction.value.data.media = setMediaArray(singleAuction.value.data.media);
-    auctionDetail = singleAuction.value.data;
+    auctionDetail.value = singleAuction.value.data;
     isLoadingAuction.value = false;
   } else if (singleAuction.status === "rejected") {
-    console.log(singleAuction);
     if (singleAuction.reason.errors[0].code === "invalid_string") {
       isInvalidId.value = true;
     }
@@ -70,6 +69,19 @@ const getAuctions = async () => {
   } else if (auctions.status === "rejected" || singleAuction.status === "rejected") {
     featuredAuctionsError.value = true;
     isLoadingFeaturedAuctions.value = false;
+  }
+};
+
+const updateAuction = async () => {
+  try {
+    const singleAuction = await auction.getSingle(route.params.id);
+    auctionDetail.value = singleAuction.data;
+  } catch (error) {
+    if (error.errors[0].code === "invalid_string") {
+      isInvalidId.value = true;
+      return;
+    }
+    window.location.reload();
   }
 };
 
@@ -124,6 +136,7 @@ onMounted(() => {
           :seller="auctionDetail.seller.name"
           :bids="auctionDetail.bids"
           :id="auctionDetail.id"
+          @bid="updateAuction"
         ></AuctionBid>
       </div>
       <template v-else

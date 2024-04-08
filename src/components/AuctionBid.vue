@@ -1,13 +1,19 @@
 <script setup>
-import { ref, reactive } from "vue";
+import { ref, computed } from "vue";
 import { RouterLink } from "vue-router";
 import { AuthStateManager } from "@/helper/AuthStateManager";
 import { PencilSquareIcon } from "@heroicons/vue/20/solid";
 import { ChevronDownIcon } from "@heroicons/vue/20/solid";
 import { nanoid } from "@/helper/nanoid";
 import { getCurrentBid } from "@/helper/getCurrentBid";
+import { auction } from "@/api";
+import { notify } from "notiwind";
+import ErrorDialogVue from "./ErrorDialog.vue";
 import dayjs from "dayjs";
 import TextInput from "./formElements/TextInput.vue";
+import ConfirmationDialog from "@/components/ConfirmationDialog.vue";
+
+const emit = defineEmits(["bid"]);
 
 const props = defineProps({
   endsAt: { type: String },
@@ -18,9 +24,12 @@ const props = defineProps({
   id: { type: String }
 });
 
+const isConfirmBidOpen = ref(false);
+
 const bidInput = ref();
 const isBidError = ref();
 const bidErrorMessage = ref();
+const bidApiError = ref(false);
 const isHistoryClosed = ref(true);
 
 const formattedCreatedDate = dayjs(props.createdAt).format("DD/MM/YYYY HH:MM");
@@ -29,10 +38,10 @@ const formattedEndDate = dayjs(props.endsAt).format("DD/MM/YYYY HH:MM");
 const endDate = dayjs(props.endsAt);
 const countdown = ref();
 
-const highestBid = getCurrentBid(props.bids);
-const sortedBids = [...props.bids].sort((a, b) => a.amount < b.amount);
-const bidsPreview = reactive(sortedBids.slice(0, 3));
-const bidsDropdown = reactive(sortedBids.slice(3));
+const highestBid = computed(() => getCurrentBid(props.bids));
+const sortedBids = computed(() => [...props.bids].sort((a, b) => a.amount < b.amount));
+const bidsPreview = computed(() => sortedBids.value.slice(0, 3));
+const bidsDropdown = computed(() => sortedBids.value.slice(3));
 
 const isUsersAuction = ref(false);
 if (AuthStateManager.isAuthenticated() && AuthStateManager.getUsername() === props.seller) {
@@ -45,6 +54,45 @@ for (const bid of props.bids) {
 
 const toggleBidHistory = () => {
   isHistoryClosed.value = !isHistoryClosed.value;
+};
+
+const bid = async () => {
+  bidErrorMessage.value = "";
+  bidApiError.value = false;
+  isBidError.value = false;
+  if (isNaN(Number(bidInput.value))) {
+    isBidError.value = true;
+    bidErrorMessage.value = "Enter a number";
+  } else if (Number(bidInput.value <= highestBid.value)) {
+    isBidError.value = true;
+    bidErrorMessage.value = "Enter a number higher than the current bid";
+  } else {
+    bidErrorMessage.value = "";
+    isBidError.value = false;
+    isConfirmBidOpen.value = true;
+  }
+};
+
+const submitBid = async () => {
+  try {
+    await auction.bid(props.id, { amount: Number(bidInput.value) });
+    notify(
+      {
+        group: "general",
+        title: "Success",
+        text: "Your bid was placed!",
+        type: "success"
+      },
+      4000
+    );
+    emit("bid");
+
+    isConfirmBidOpen.value = false;
+    bidInput.value = "";
+  } catch (error) {
+    bidApiError.value = true;
+    isConfirmBidOpen.value = false;
+  }
 };
 
 function updateCountdown() {
@@ -84,7 +132,17 @@ updateCountdown();
         ><PencilSquareIcon class="h-5 w-5" />Edit</RouterLink
       >
     </div>
-    <div v-if="AuthStateManager.isAuthenticated() && !isUsersAuction" class="flex gap-2">
+    <form
+      @submit.prevent
+      v-if="AuthStateManager.isAuthenticated() && !isUsersAuction"
+      class="grid grid-cols-[1fr_auto] items-start gap-x-2 gap-y-4"
+    >
+      <ErrorDialogVue
+        v-if="bidApiError"
+        class="col-span-full"
+        title="Failed to place bid, please try again"
+      >
+      </ErrorDialogVue>
       <TextInput
         class="w-full gap-0"
         id="bid"
@@ -96,17 +154,23 @@ updateCountdown();
         :is-error="isBidError"
         :error="bidErrorMessage"
         hidden-label
-      /><button class="button button-primary py-2">Bid</button>
-    </div>
+      /><button
+        @click="bid"
+        class="start button button-primary border-[3px] border-transparent py-3"
+      >
+        Bid
+      </button>
+    </form>
     <div class="border-y border-grey-300 py-3 text-sm font-medium">
       Ends in:
       <span class="text-primary-400">{{ countdown }}</span>
     </div>
-    <div>
+    <div v-if="bidsPreview.length > 0">
+      <h3 class="mb-2 text-xs">Bid history</h3>
       <ul class="space-y-2">
         <li
-          v-for="{ bidder, amount, id } in bidsPreview"
-          :key="id"
+          v-for="{ bidder, amount } in bidsPreview"
+          :key="bidder + amount"
           class="flex w-full justify-between gap-2 rounded p-2 first-of-type:bg-grey-300/50 first-of-type:font-semibold"
         >
           <RouterLink
@@ -127,8 +191,8 @@ updateCountdown();
         </button>
         <ul class="mt-5" :class="{ hidden: isHistoryClosed }">
           <li
-            v-for="{ bidder, amount, id } in bidsDropdown"
-            :key="id"
+            v-for="{ bidder, amount } in bidsDropdown"
+            :key="bidder + amount"
             class="flex w-full justify-between gap-2 p-2"
           >
             <RouterLink
@@ -162,5 +226,15 @@ updateCountdown();
         <RouterLink to="/register" class="button button-secondary">Register</RouterLink>
       </div>
     </section>
+    <ConfirmationDialog
+      :isOpen="isConfirmBidOpen"
+      @close="isConfirmBidOpen = false"
+      @confirm="submitBid"
+      ctaText="Place bid"
+      title="Confirm your bid"
+    >
+      Please confirm that you want to submit a bid of {{ bidInput }} credits. This action is
+      irreversible. Are you sure you want to proceed??</ConfirmationDialog
+    >
   </div>
 </template>
