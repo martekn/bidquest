@@ -67,7 +67,7 @@
 @layer components {
   .button,
   .link {
-    @apply font-accent font-semibold outline-none transition-all duration-150;
+    @apply text-center font-accent font-semibold outline-none transition-all duration-150;
   }
 
   .button {
