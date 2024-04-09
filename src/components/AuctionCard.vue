@@ -37,7 +37,7 @@ const time = dayjs(props.endDate).format("MMM DD, HH:mm");
     <div class="space-y-5">
       <RouterLink
         class="font-accent font-medium outline-none before:absolute before:inset-0 before:rounded before:bg-transparent hover:underline hover:decoration-grey-400 hover:underline-offset-4 focus-visible:before:ring-2 focus-visible:before:ring-black focus-visible:before:ring-offset-4"
-        :to="'/auction/' + id"
+        :to="{ name: 'auction', params: { id: id } }"
         >{{ title }}</RouterLink
       >
 

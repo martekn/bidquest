@@ -1,5 +1,6 @@
 import { AuthStateManager } from "@/helper/AuthStateManager";
 import { ProfileStateManager } from "@/helper/ProfileStateManager";
+import { notify } from "notiwind";
 import router from "@/router";
 
 /**
@@ -9,8 +10,15 @@ import router from "@/router";
 export const logout = () => {
   AuthStateManager.remove();
   ProfileStateManager.remove();
-
+  notify(
+    {
+      group: "general",
+      title: "You have been logged out",
+      type: "success"
+    },
+    2000
+  );
   if (router.currentRoute.value.matched.some((record) => record.meta.requiresAuth)) {
-    router.push("/login");
+    router.push({ name: "login" });
   }
 };

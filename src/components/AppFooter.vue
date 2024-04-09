@@ -2,9 +2,9 @@
 import { RouterLink } from "vue-router";
 
 const footerLinks = [
-  { name: "Auctions", path: "/auctions", id: 1 },
-  { name: "Create auction", path: "/auction/create", id: 2 },
-  { name: "Register", path: "/register", id: 3 }
+  { name: "Auctions", route: { name: "auctions" }, id: 1 },
+  { name: "Create auction", route: { name: "create" }, id: 2 },
+  { name: "Register", route: { name: "register" }, id: 3 }
 ];
 </script>
 
@@ -14,7 +14,7 @@ const footerLinks = [
       class="mx-auto flex max-w-8xl flex-col justify-between gap-3 px-5 md:flex-row md:items-center"
     >
       <RouterLink
-        to="/"
+        :to="{ name: 'home' }"
         class="rounded p-3 font-accent text-lg font-semibold outline-none transition-all duration-150 hover:text-grey-300 focus-visible:ring-2 focus-visible:ring-white sm:text-xl"
         >BidQuest</RouterLink
       >
@@ -22,7 +22,7 @@ const footerLinks = [
         <li v-for="link of footerLinks" :key="link.id">
           <RouterLink
             class="rounded p-3 outline-none transition-all duration-150 hover:text-grey-300 focus-visible:ring-2 focus-visible:ring-white"
-            :to="link.path"
+            :to="link.route"
             >{{ link.name }}</RouterLink
           >
         </li>

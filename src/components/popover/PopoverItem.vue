@@ -8,7 +8,7 @@ const props = defineProps({
     default: "a"
   },
   routerLink: { type: Boolean, default: false },
-  path: { type: String, default: "" }
+  route: { type: Object }
 });
 
 const classes =
@@ -17,9 +17,9 @@ const classes =
 
 <template>
   <li>
-    <component v-if="!routerLink" :is="props.as" :class="classes" v-bind="$attrs">
+    <component v-if="!routerLink" :is="props.as" :class="classes">
       <slot />
     </component>
-    <RouterLink v-else :class="classes" :to="props.path"><slot /></RouterLink>
+    <RouterLink v-else :class="classes" :to="props.route"><slot /></RouterLink>
   </li>
 </template>

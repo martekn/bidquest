@@ -127,7 +127,7 @@ updateCountdown();
       </div>
       <RouterLink
         v-if="isUsersAuction"
-        :to="{ name: 'auction edit', params: { id: id } }"
+        :to="{ name: 'edit', params: { id: id } }"
         class="link link-secondary flex items-center gap-2 font-medium"
         ><PencilSquareIcon class="h-5 w-5" />Edit</RouterLink
       >
@@ -222,8 +222,8 @@ updateCountdown();
       <h2 class="text-lg">Ready to bid?</h2>
       <p class="mt-2">Login or Register to start bidding</p>
       <div class="mt-6 grid grid-cols-2 gap-5">
-        <RouterLink to="/login" class="button button-primary">Login</RouterLink>
-        <RouterLink to="/register" class="button button-secondary">Register</RouterLink>
+        <RouterLink :to="{ name: 'login' }" class="button button-primary">Login</RouterLink>
+        <RouterLink :to="{ name: 'register' }" class="button button-secondary">Register</RouterLink>
       </div>
     </section>
     <ConfirmationDialog

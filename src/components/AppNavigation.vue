@@ -1,7 +1,6 @@
 <script setup>
-import { ref } from "vue";
+import { computed, onMounted, reactive, ref } from "vue";
 import { RouterLink, useRoute } from "vue-router";
-import { computed, onMounted, reactive } from "vue";
 import { ChevronDownIcon, Bars3Icon, XMarkIcon } from "@heroicons/vue/20/solid";
 import PopoverMenu from "./popover/PopoverMenu.vue";
 import MenuGroup from "./MenuGroup.vue";
@@ -14,17 +13,21 @@ import { ProfileStateManager } from "@/helper/ProfileStateManager";
 import { logout } from "@/api/auth/logout";
 
 const navItems = [
-  { name: "+ Create auction", path: "/auction/create", id: 1 },
-  { name: "All auctions", path: "/auctions", id: 2 },
-  { name: "Jewelry", path: "/auctions/jewelry", id: 3 },
-  { name: "Art", path: "/auctions/art", id: 4 },
-  { name: "Fashion", path: "/auctions/fashion", id: 5 },
-  { name: "Electronics", path: "/auctions/electronics", id: 6 },
-  { name: "Home", path: "/auctions/home", id: 7 },
-  { name: "Toys", path: "/auctions/toys", id: 8 },
-  { name: "Sports", path: "/auctions/sports", id: 9 },
-  { name: "Vehicles", path: "/auctions/vehicles", id: 10 },
-  { name: "Miscellaneous", path: "/auctions/miscellaneous", id: 11 }
+  { name: "+ Create auction", route: { name: "create" }, id: 1 },
+  { name: "All auctions", route: { name: "auctions" }, id: 2 },
+  { name: "Jewelry", route: { name: "category", params: { category: "jewelry" } }, id: 3 },
+  { name: "Art", route: { name: "category", params: { category: "art" } }, id: 4 },
+  { name: "Fashion", route: { name: "category", params: { category: "fashion" } }, id: 5 },
+  { name: "Electronics", route: { name: "category", params: { category: "electronics" } }, id: 6 },
+  { name: "Home", route: { name: "category", params: { category: "home" } }, id: 7 },
+  { name: "Toys", route: { name: "category", params: { category: "toys" } }, id: 8 },
+  { name: "Sports", route: { name: "category", params: { category: "sports" } }, id: 9 },
+  { name: "Vehicles", route: { name: "category", params: { category: "vehicles" } }, id: 10 },
+  {
+    name: "Miscellaneous",
+    route: { name: "category", params: { category: "miscellaneous" } },
+    id: 11
+  }
 ];
 
 const mobileNavOpen = ref(false);
@@ -33,8 +36,13 @@ const route = useRoute();
 let visibleItems = reactive([...navItems]);
 let dropdownItems = computed(() => navItems.filter((value) => !visibleItems.includes(value)));
 
-const isActive = (path) => {
-  return computed(() => new RegExp(`^${path}(/page-\\d+)?$`).test(route.path)).value;
+const isActive = (itemRoute) => {
+  return computed(() => {
+    if (itemRoute.params && itemRoute.params.category) {
+      return itemRoute.name === route.name && itemRoute.params.category === route.params.category;
+    }
+    return itemRoute.name === route.name;
+  }).value;
 };
 
 const collapseMenu = () => {
@@ -103,7 +111,7 @@ onMounted(async () => {
             <Bars3Icon class="h-6 w-6" aria-hidden="true" />
           </button>
           <RouterLink
-            to="/"
+            :to="{ name: 'home' }"
             class="rounded p-1 font-accent text-xl font-semibold outline-none transition-all duration-150 hover:opacity-90 focus-visible:ring-2 focus-visible:ring-black sm:text-3xl"
           >
             Bid<span class="text-primary-400">Quest</span>
@@ -140,6 +148,7 @@ onMounted(async () => {
                     class="relative h-8 w-8 rounded object-cover after:absolute after:inset-0 after:z-10 after:block after:bg-red-400 group-hover/button:brightness-95 sm:h-9 sm:w-9"
                     :src="ProfileStateManager.profile.avatar.url"
                     :alt="ProfileStateManager.profile.avatar.alt"
+                    onerror="this.onerror=null;this.src='/avatar-placeholder.jpg';"
                   />
 
                   <div
@@ -180,7 +189,7 @@ onMounted(async () => {
           </div>
           <RouterLink
             v-else
-            to="/login"
+            :to="{ name: 'login' }"
             class="max-sm:link max-sm:link-secondary sm:button sm:button-secondary"
             >Login</RouterLink
           >
@@ -196,10 +205,10 @@ onMounted(async () => {
           <RouterLink
             :class="{
               ' font-semibold after:absolute after:inset-x-0 after:bottom-0 after:block after:h-2 after:rounded after:bg-primary-400':
-                isActive(item.path)
+                isActive(item.route)
             }"
             class="relative block w-full py-4 outline-none transition-all duration-150 hover:text-grey-500 focus-visible:rounded focus-visible:ring-1 focus-visible:ring-black"
-            :to="item.path"
+            :to="item.route"
             >{{ item.name }}</RouterLink
           >
         </li>
@@ -219,7 +228,7 @@ onMounted(async () => {
                 <PopoverItem
                   v-for="item in dropdownItems"
                   routerLink
-                  :path="item.path"
+                  :route="item.route"
                   :key="item.id"
                 >
                   {{ item.name }}
@@ -237,7 +246,7 @@ onMounted(async () => {
       >
         <div class="flex items-center justify-between px-5">
           <RouterLink
-            to="/"
+            :to="{ name: 'home' }"
             class="rounded font-accent text-xl font-semibold outline-none transition-all duration-150 hover:opacity-95 focus-visible:ring-2 focus-visible:ring-black sm:hidden sm:text-3xl"
             @click="mobileNavOpen = false"
           >
@@ -258,10 +267,10 @@ onMounted(async () => {
             <RouterLink
               :class="{
                 'px-1 font-semibold after:absolute after:inset-y-0 after:left-0 after:block after:w-2 after:rounded after:bg-primary-400':
-                  isActive(item.path)
+                  isActive(item.route)
               }"
               class="relative block w-full px-5 py-4 outline-none transition-all duration-150 hover:bg-grey-200 focus-visible:rounded focus-visible:inner-border focus-visible:inner-border-black"
-              :to="item.path"
+              :to="item.route"
               @click="mobileNavOpen = false"
               >{{ item.name }}</RouterLink
             >

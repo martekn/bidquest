@@ -61,7 +61,7 @@ export const JWT = Object.freeze({
       if (
         !parsedPayload ||
         !parsedPayload.name ||
-        !validateObjectKeys(parsedPayload, ["name", "id", "email", "iat"])
+        !validateObjectKeys(parsedPayload, ["name", "email", "iat"])
       ) {
         return false;
       }

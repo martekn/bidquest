@@ -109,7 +109,7 @@ const validate = () => {
       </button>
       <span class="border-t border-t-grey-300 pt-6 leading-tight text-grey-500"
         >Already have an account?
-        <RouterLink class="link link-secondary" to="/login">login</RouterLink></span
+        <RouterLink class="link link-secondary" :to="{ name: 'login' }">login</RouterLink></span
       >
     </form>
   </main>

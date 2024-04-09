@@ -7,12 +7,23 @@ import AuctionView from "@/views/AuctionView.vue";
 import HistoryView from "@/views/HistoryView.vue";
 import ProfileView from "@/views/ProfileView.vue";
 import AuctionFormView from "@/views/AuctionFormView.vue";
+import PageNotFound from "@/views/PageNotFound.vue";
 
 import { HistoryStack } from "@/helper/HistoryStack";
 import { AuthStateManager } from "@/helper/AuthStateManager";
 import { ProfileStateManager } from "@/helper/ProfileStateManager";
 
 const router = createRouter({
+  scrollBehavior(to) {
+    if (to.hash) {
+      return {
+        el: to.hash,
+        behavior: "smooth"
+      };
+    } else {
+      return { el: "body" };
+    }
+  },
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
@@ -41,10 +52,17 @@ const router = createRouter({
       path: "/auctions",
       children: [
         {
-          path: ":page(page-\\d+)?",
+          path: "",
           name: "auctions",
-          component: ListView
+          component: ListView,
+          children: [
+            {
+              path: ":page(page-\\d+)?",
+              component: ListView
+            }
+          ]
         },
+
         {
           path: ":category/:page(page-\\d+)?",
           name: "category",
@@ -57,19 +75,19 @@ const router = createRouter({
       children: [
         {
           path: "create",
+          name: "create",
           component: AuctionFormView,
           props: { mode: "create" },
           meta: { requiresAuth: true }
         },
         {
           path: ":id",
-
-          name: "auction detail",
+          name: "auction",
           component: AuctionView
         },
         {
           path: ":id/edit",
-          name: "auction edit",
+          name: "edit",
           component: AuctionFormView,
           props: { mode: "edit" },
           meta: { requiresAuth: true }
@@ -91,6 +109,11 @@ const router = createRouter({
           component: HistoryView
         }
       ]
+    },
+    {
+      name: "404",
+      path: "/:pathMatch(.*)*",
+      component: PageNotFound
     }
   ]
 });
