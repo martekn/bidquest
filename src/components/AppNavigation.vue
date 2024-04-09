@@ -1,7 +1,6 @@
 <script setup>
-import { ref } from "vue";
+import { computed, onMounted, reactive, ref } from "vue";
 import { RouterLink, useRoute } from "vue-router";
-import { computed, onMounted, reactive } from "vue";
 import { ChevronDownIcon, Bars3Icon, XMarkIcon } from "@heroicons/vue/20/solid";
 import PopoverMenu from "./popover/PopoverMenu.vue";
 import MenuGroup from "./MenuGroup.vue";
@@ -140,6 +139,7 @@ onMounted(async () => {
                     class="relative h-8 w-8 rounded object-cover after:absolute after:inset-0 after:z-10 after:block after:bg-red-400 group-hover/button:brightness-95 sm:h-9 sm:w-9"
                     :src="ProfileStateManager.profile.avatar.url"
                     :alt="ProfileStateManager.profile.avatar.alt"
+                    onerror="this.onerror=null;this.src='/avatar-placeholder.jpg';"
                   />
 
                   <div
