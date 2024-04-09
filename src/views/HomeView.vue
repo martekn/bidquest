@@ -42,7 +42,7 @@ onMounted(() => {
 
 <template>
   <main class="space-y-9 pb-11 md:space-y-10 md:pb-12">
-    <section class="hidden bg-straws-pattern">
+    <section class="bg-straws-pattern">
       <div class="mx-auto max-w-8xl px-5 pb-10 pt-12 md:pb-12">
         <h1 class="font-accent text-5xl font-semibold leading-tight md:text-6xl">
           Auctions Made Simple.

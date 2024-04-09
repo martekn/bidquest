@@ -64,7 +64,7 @@ const validate = () => {
 
 <template>
   <main
-    class="grid flex-1 place-items-start bg-opacity-50 bg-straws-pattern bg-repeat py-8 sm:place-items-center"
+    class="grid place-items-start bg-opacity-50 bg-straws-pattern bg-repeat py-8 sm:place-items-center"
   >
     <form
       @submit.prevent

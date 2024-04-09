@@ -6,7 +6,7 @@ import { debounce } from "@/helper/debounce";
 const props = defineProps({
   images: {
     type: Array,
-    default: () => [{ url: "image-placeholder.jpg", alt: "Placeholder image", id: "placeholder" }]
+    default: () => [{ url: "/image-placeholder.jpg", alt: "Placeholder image", id: "placeholder" }]
   }
 });
 
