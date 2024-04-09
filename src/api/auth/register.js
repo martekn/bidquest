@@ -1,5 +1,6 @@
-import { request } from "../../helper/request";
+import { request } from "@/helper/request";
 import { login } from "./login";
+import { baseAvatar } from "@/consts/baseAvatar";
 
 /**
  * Registers a new user by sending a registration request.
@@ -11,6 +12,7 @@ import { login } from "./login";
  * @returns {Promise<void>} A promise that resolves when registration and login are complete.
  */
 export const register = async (body) => {
+  body.avatar = baseAvatar;
   await request("/auth/register", null, null, "POST", body);
   await login({ email: body.email, password: body.password });
 };
