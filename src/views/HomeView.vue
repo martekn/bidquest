@@ -53,8 +53,11 @@ onMounted(() => {
           own items.
         </p>
         <div class="mt-7 grid w-fit grid-cols-2 gap-5 md:gap-6">
-          <RouterLink to="/auctions" class="button button-primary block">Explore</RouterLink
-          ><RouterLink to="/auction" class="button button-secondary block">Create</RouterLink>
+          <RouterLink :to="{ name: 'auctions' }" class="button button-primary block"
+            >Explore</RouterLink
+          ><RouterLink :to="{ name: 'create' }" class="button button-secondary block"
+            >Create</RouterLink
+          >
         </div>
       </div>
 

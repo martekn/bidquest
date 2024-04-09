@@ -87,7 +87,9 @@ const validate = () => {
       </button>
       <span class="border-t border-t-grey-300 pt-6 leading-tight text-grey-500"
         >Dont have an account?
-        <RouterLink class="link link-secondary" to="/register">Sign up</RouterLink></span
+        <RouterLink class="link link-secondary" :to="{ name: 'register' }"
+          >Sign up</RouterLink
+        ></span
       >
     </form>
   </main>

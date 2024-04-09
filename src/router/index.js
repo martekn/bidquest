@@ -14,8 +14,7 @@ import { AuthStateManager } from "@/helper/AuthStateManager";
 import { ProfileStateManager } from "@/helper/ProfileStateManager";
 
 const router = createRouter({
-  scrollBehavior(to, from, savedPosition) {
-    console.log(to, from, savedPosition);
+  scrollBehavior(to) {
     if (to.hash) {
       return {
         el: to.hash,

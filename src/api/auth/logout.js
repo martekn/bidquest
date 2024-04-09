@@ -19,6 +19,6 @@ export const logout = () => {
     2000
   );
   if (router.currentRoute.value.matched.some((record) => record.meta.requiresAuth)) {
-    router.push("/login");
+    router.push({ name: "login" });
   }
 };

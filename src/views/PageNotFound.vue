@@ -11,9 +11,9 @@
         browsing other exciting auctions.
       </p>
       <div class="mt-7 flex w-fit gap-5 md:gap-6">
-        <RouterLink to="/" class="link link-secondary">Home</RouterLink>
-        <RouterLink to="/auctions" class="link link-secondary">Explore</RouterLink>
-        <RouterLink to="/auction/create" class="link link-secondary">Create</RouterLink>
+        <RouterLink :to="{ name: 'home' }" class="link link-secondary">Home</RouterLink>
+        <RouterLink :to="{ name: 'auctions' }" class="link link-secondary">Explore</RouterLink>
+        <RouterLink :to="{ name: 'create' }" class="link link-secondary">Create</RouterLink>
       </div>
     </div>
   </main>

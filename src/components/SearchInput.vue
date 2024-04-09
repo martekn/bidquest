@@ -1,11 +1,12 @@
 <script setup>
 import { ref } from "vue";
 import { MagnifyingGlassIcon } from "@heroicons/vue/20/solid";
+import router from "@/router";
 let searchInput = ref("");
 </script>
 
 <template>
-  <form role="search" class="relative text-grey-500 focus-within:text-black">
+  <form @submit.prevent role="search" class="relative text-grey-500 focus-within:text-black">
     <label for="searchInput" class="sr-only">Search</label>
     <input
       class="placeholder:grey-500"
@@ -18,7 +19,7 @@ let searchInput = ref("");
     <button
       @click="
         () => {
-          $router.push({ path: '/search/' + searchInput });
+          router.push({ name: 'search', params: { query: searchInput } });
         }
       "
       :class="{ 'pointer-events-none': !!searchInput === false }"
