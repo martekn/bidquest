@@ -25,7 +25,7 @@ const props = defineProps({
         'right-0': props.align === 'right',
         'left-0': props.align === 'left'
       }"
-      class="absolute z-10 mt-2 max-w-[80vw] divide-y divide-grey-300 rounded border border-grey-300 bg-white text-grey-500 shadow-md shadow-black/5 focus:outline-none"
+      class="absolute z-30 mt-2 max-w-[80vw] divide-y divide-grey-300 rounded border border-grey-300 bg-white text-grey-500 shadow-md shadow-black/5 focus:outline-none"
       :style="{ width: props.width }"
     >
       <slot name="items" />
