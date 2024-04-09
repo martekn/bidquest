@@ -3,7 +3,6 @@ import { reactive, ref } from "vue";
 import PasswordInput from "@/components/formElements/PasswordInput.vue";
 import TextInput from "@/components/formElements/TextInput.vue";
 import LoadingIndicator from "@/components/LoadingIndicator.vue";
-import { placeholderUserImageUrl } from "@/consts/placeholderUserImageUrl";
 import { register } from "@/api/auth/register";
 import { Validate } from "@/helper/Validate";
 import ErrorDialog from "@/components/ErrorDialog.vue";
@@ -30,7 +29,6 @@ const passwordField = reactive({
 const submit = async () => {
   try {
     isLoading.value = true;
-    registerBody.avatar = { url: placeholderUserImageUrl, alt: "placeholder image" };
 
     await register(registerBody);
   } catch (error) {
