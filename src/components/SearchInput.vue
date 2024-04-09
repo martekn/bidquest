@@ -7,7 +7,13 @@ let searchInput = ref("");
 <template>
   <form role="search" class="relative text-grey-500 focus-within:text-black">
     <label for="searchInput" class="sr-only">Search</label>
-    <input type="text" id="searchInput" v-model="searchInput" />
+    <input
+      class="placeholder:grey-500"
+      placeholder="Search"
+      type="text"
+      id="searchInput"
+      v-model="searchInput"
+    />
 
     <button
       @click="
