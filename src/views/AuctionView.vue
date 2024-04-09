@@ -129,7 +129,7 @@ onMounted(() => {
           </div>
         </div>
         <AuctionBid
-          class="md:col-span-5 md:row-span-full"
+          class="md:col-span-5 md:row-span-2 md:row-start-1"
           :endsAt="auctionDetail.endsAt"
           :updatedAt="auctionDetail.updated"
           :createdAt="auctionDetail.created"
