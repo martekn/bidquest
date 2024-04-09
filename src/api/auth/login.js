@@ -1,5 +1,5 @@
-import { request } from "../../helper/request";
 import router from "@/router";
+import { request } from "@/helper/request";
 import { HistoryStack } from "@/helper/HistoryStack";
 import { AuthStateManager } from "@/helper/AuthStateManager";
 
