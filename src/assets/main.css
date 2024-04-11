@@ -106,6 +106,13 @@
 }
 
 @layer utilities {
+  .ellipse-text {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    @apply overflow-hidden text-ellipsis break-all;
+  }
+
   .input-group {
     @apply grid grid-rows-[auto_1fr];
   }
