@@ -75,6 +75,12 @@ watch(
     setupPagination();
   }
 );
+watch(
+  () => props.pageCount,
+  () => {
+    setupPagination();
+  }
+);
 
 setupPagination();
 </script>
