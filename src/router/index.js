@@ -52,15 +52,9 @@ const router = createRouter({
       path: "/auctions",
       children: [
         {
-          path: "",
+          path: ":page(page-\\d+)?",
           name: "auctions",
-          component: ListView,
-          children: [
-            {
-              path: ":page(page-\\d+)?",
-              component: ListView
-            }
-          ]
+          component: ListView
         },
 
         {
