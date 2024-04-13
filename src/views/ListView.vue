@@ -152,7 +152,11 @@ onMounted(() => {
       a stable internet connection and try refreshing the page. If the issue persists, our team is
       here to assist you. Feel free to reach out for further assistance.
     </ErrorDialog>
-    <ErrorDialog v-if="!auctionsStatus.hasAuctions" title="No Auctions Found" state="info">
+    <ErrorDialog
+      v-if="!auctionsStatus.hasAuctions && !auctionsStatus.isError"
+      title="No Auctions Found"
+      state="info"
+    >
       We're sorry, but it seems that there are currently no auctions available at the moment. Our
       inventory is constantly being updated, so please check back later for new listings. In the
       meantime, feel free to explore other sections of our platform or reach out to our customer
