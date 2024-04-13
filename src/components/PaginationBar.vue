@@ -1,7 +1,7 @@
 <script setup>
 import { RouterLink, useRoute } from "vue-router";
 import { ChevronRightIcon, ChevronLeftIcon } from "@heroicons/vue/20/solid";
-import { reactive, ref, watch } from "vue";
+import { reactive, watch } from "vue";
 
 const props = defineProps({
   currentPage: { type: [Number, String, null], default: 1 },
@@ -13,15 +13,6 @@ const props = defineProps({
 
 const pages = reactive([]);
 const route = useRoute();
-const currentPath = ref(route.path);
-
-const updateCurrentPath = (newPage) => {
-  if (!route.path.toLowerCase().includes(`page-${props.currentPage}`)) {
-    currentPath.value = `${route.path}/page-${props.currentPage}`;
-  } else {
-    currentPath.value = newPage;
-  }
-};
 
 const createPages = () => {
   pages.length = 0;
@@ -73,20 +64,25 @@ const adjustPaginationDisplay = () => {
   }
 };
 
-const setupPagination = (path) => {
-  updateCurrentPath(path);
+const setupPagination = () => {
   createPages();
   adjustPaginationDisplay();
 };
 
 watch(
   () => route.path,
-  (newPage) => {
-    setupPagination(newPage);
+  () => {
+    setupPagination();
+  }
+);
+watch(
+  () => props.pageCount,
+  () => {
+    setupPagination();
   }
 );
 
-setupPagination(route.path);
+setupPagination();
 </script>
 
 <template>
@@ -95,7 +91,10 @@ setupPagination(route.path);
     v-if="props.pageCount > 1"
   >
     <RouterLink
-      :to="currentPath.replace(`page-${currentPage}`, `page-${previousPage}`)"
+      :to="{
+        name: route.name,
+        params: { category: route.params?.category, page: `page-${previousPage}` }
+      }"
       :class="{ 'invisible sm:hidden': !previousPage }"
       class="flex w-[3.5rem] items-center justify-center rounded text-black outline-none transition-all duration-150 hover:font-semibold hover:text-black hover:underline hover:underline-offset-2 focus-visible:font-semibold focus-visible:text-black focus-visible:ring-2 focus-visible:ring-black"
     >
@@ -113,14 +112,20 @@ setupPagination(route.path);
               page.pageNumber !== currentPage
           }"
           class="grid h-7 w-7 place-items-center rounded outline-none transition-all duration-150 focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2"
-          :to="currentPath.replace(`page-${currentPage}`, `page-${page.pageNumber}`)"
+          :to="{
+            name: route.name,
+            params: { category: route.params?.category, page: `page-${page.pageNumber}` }
+          }"
           >{{ page.pageNumber }}
         </RouterLink>
         <span v-else class="grid h-7 w-7 place-items-center">...</span>
       </li>
     </ul>
     <RouterLink
-      :to="currentPath.replace(`page-${currentPage}`, `page-${nextPage}`)"
+      :to="{
+        name: route.name,
+        params: { category: route.params?.category, page: `page-${nextPage}` }
+      }"
       :class="{ 'invisible sm:hidden': !nextPage }"
       class="flex w-[3.5rem] items-center justify-center rounded text-black outline-none transition-all duration-150 hover:font-semibold hover:text-black hover:underline hover:underline-offset-2 focus-visible:font-semibold focus-visible:text-black focus-visible:ring-2 focus-visible:ring-black"
     >
