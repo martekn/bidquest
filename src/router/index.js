@@ -8,7 +8,7 @@ import HistoryView from "@/views/HistoryView.vue";
 import ProfileView from "@/views/ProfileView.vue";
 import AuctionFormView from "@/views/AuctionFormView.vue";
 import PageNotFound from "@/views/PageNotFound.vue";
-
+import { categories } from "@/consts/navItems";
 import { HistoryStack } from "@/helper/HistoryStack";
 import { AuthStateManager } from "@/helper/AuthStateManager";
 import { ProfileStateManager } from "@/helper/ProfileStateManager";
@@ -60,7 +60,16 @@ const router = createRouter({
         {
           path: ":category/:page(page-\\d+)?",
           name: "category",
-          component: ListView
+          component: ListView,
+          beforeEnter(to) {
+            const exists = to.name === "category" && categories.includes(to.params.category);
+            if (!exists) {
+              return {
+                name: "404",
+                params: { pathMatch: to.path.split("/").slice(1), query: to.query, hash: to.hash }
+              };
+            }
+          }
         }
       ]
     },
@@ -127,24 +136,24 @@ router.beforeEach((to, from, next) => {
 
   if (to.matched.some((record) => record.meta.requiresAuth)) {
     if (!AuthStateManager.isAuthenticated()) {
-      next({
-        path: "/login",
+      return next({
+        name: "login",
         query: { redirect: to.fullPath }
       });
     } else {
-      next();
+      return next();
     }
   } else if (to.matched.some((record) => record.meta.guest)) {
     if (AuthStateManager.isAuthenticated()) {
-      next({
-        path: "/",
+      return next({
+        name: "home",
         query: { redirect: to.fullPath }
       });
     } else {
-      next();
+      return next();
     }
   } else {
-    next();
+    return next();
   }
 });
 

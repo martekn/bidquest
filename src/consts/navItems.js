@@ -15,3 +15,7 @@ export const navItems = [
     id: 11
   }
 ];
+
+export const categories = navItems
+  .filter((item) => item.route.params?.category)
+  .map((item) => item.route.params.category);
