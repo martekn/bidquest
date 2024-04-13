@@ -7,7 +7,7 @@ import AuctionView from "@/views/AuctionView.vue";
 import HistoryView from "@/views/HistoryView.vue";
 import ProfileView from "@/views/ProfileView.vue";
 import AuctionFormView from "@/views/AuctionFormView.vue";
-import PageNotFound from "@/views/PageNotFound.vue";
+import NotFoundView from "@/views/NotFoundView.vue";
 import { categories } from "@/consts/navItems";
 import { HistoryStack } from "@/helper/HistoryStack";
 import { AuthStateManager } from "@/helper/AuthStateManager";
@@ -116,7 +116,7 @@ const router = createRouter({
     {
       name: "404",
       path: "/:pathMatch(.*)*",
-      component: PageNotFound
+      component: NotFoundView
     }
   ]
 });
