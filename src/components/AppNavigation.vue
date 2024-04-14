@@ -12,6 +12,7 @@ import { AuthStateManager } from "@/helper/AuthStateManager";
 import { ProfileStateManager } from "@/helper/ProfileStateManager";
 import { logout } from "@/api/auth/logout";
 import { navItems } from "@/consts/navItems";
+import UserAvatar from "./UserAvatar.vue";
 
 const mobileNavOpen = ref(false);
 const route = useRoute();
@@ -127,11 +128,10 @@ onMounted(async () => {
                   >
                 </div>
                 <div class="relative flex flex-shrink-0 flex-row-reverse justify-center gap-2">
-                  <img
-                    class="relative h-8 w-8 rounded object-cover after:absolute after:inset-0 after:z-10 after:block after:bg-red-400 group-hover/button:brightness-95 sm:h-9 sm:w-9"
-                    :src="ProfileStateManager.profile.avatar.url"
+                  <UserAvatar
+                    class="h-8 w-8 group-hover/button:brightness-95 sm:h-9 sm:w-9"
+                    :url="ProfileStateManager.profile.avatar.url"
                     :alt="ProfileStateManager.profile.avatar.alt"
-                    onerror="this.onerror=null;this.src='/avatar-placeholder.jpg';"
                   />
 
                   <div
@@ -145,19 +145,18 @@ onMounted(async () => {
               </button>
               <template #items>
                 <MenuGroup class="sm:hidden">
-                  <PopoverItem
-                    as="div"
-                    class="pointer-events-none flex flex-row-reverse justify-end gap-3 text-sm"
-                  >
-                    <div class="flex flex-col justify-center">
-                      <span class="font-medium">Username</span>
-                      <span class="text-grey-500">1000 credits</span>
-                    </div>
-                    <div>
-                      <img
-                        class="h-9 w-9 rounded object-cover"
-                        src="/image-placeholder.jpg"
-                        alt="image placeholder"
+                  <PopoverItem as="div">
+                    <div
+                      class="pointer-events-none flex flex-row-reverse justify-end gap-3 text-sm"
+                    >
+                      <div class="flex flex-col justify-center">
+                        <span class="font-medium">Username</span>
+                        <span class="text-grey-500">1000 credits</span>
+                      </div>
+                      <UserAvatar
+                        class="h-9 w-9 group-hover/button:brightness-95"
+                        :url="ProfileStateManager.profile.avatar.url"
+                        :alt="ProfileStateManager.profile.avatar.alt"
                       />
                     </div>
                   </PopoverItem>
