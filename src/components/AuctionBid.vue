@@ -8,7 +8,7 @@ import { nanoid } from "@/helper/nanoid";
 import { getCurrentBid } from "@/helper/getCurrentBid";
 import { auction } from "@/api";
 import { notify } from "notiwind";
-import ErrorDialogVue from "./ErrorDialog.vue";
+import ErrorDialog from "./ErrorDialog.vue";
 import dayjs from "dayjs";
 import TextInput from "./formElements/TextInput.vue";
 import ConfirmationDialog from "@/components/ConfirmationDialog.vue";
@@ -137,12 +137,12 @@ updateCountdown();
       v-if="AuthStateManager.isAuthenticated() && !isUsersAuction"
       class="grid grid-cols-[1fr_auto] items-start gap-x-2 gap-y-4"
     >
-      <ErrorDialogVue
+      <ErrorDialog
         v-if="bidApiError"
         class="col-span-full"
         title="Failed to place bid, please try again"
       >
-      </ErrorDialogVue>
+      </ErrorDialog>
       <TextInput
         class="w-full gap-0"
         id="bid"
