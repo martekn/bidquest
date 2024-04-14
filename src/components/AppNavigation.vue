@@ -150,11 +150,13 @@ onMounted(async () => {
                       class="pointer-events-none flex flex-row-reverse justify-end gap-3 text-sm"
                     >
                       <div class="flex flex-col justify-center">
-                        <span class="font-medium">Username</span>
-                        <span class="text-grey-500">1000 credits</span>
+                        <span class="font-medium">{{ ProfileStateManager.profile.name }}</span>
+                        <span class="text-grey-500"
+                          >{{ ProfileStateManager.profile.credits }} credits</span
+                        >
                       </div>
                       <UserAvatar
-                        class="h-9 w-9 group-hover/button:brightness-95"
+                        class="h-9 w-9"
                         :url="ProfileStateManager.profile.avatar.url"
                         :alt="ProfileStateManager.profile.avatar.alt"
                       />

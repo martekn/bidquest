@@ -4,11 +4,12 @@ import { useRoute, RouterLink } from "vue-router";
 import { auction } from "@/api";
 import { nanoid } from "@/helper/nanoid";
 import AuctionCard from "@/components/AuctionCard.vue";
-import PageNotFound from "./PageNotFound.vue";
+import NotFoundView from "./NotFoundView.vue";
 import AuctionBid from "@/components/AuctionBid.vue";
 import MediaGallery from "@/components/MediaGallery.vue";
 import LoadingIndicator from "@/components/LoadingIndicator.vue";
 import ErrorDialog from "@/components/ErrorDialog.vue";
+import UserAvatar from "@/components/UserAvatar.vue";
 
 const isLoadingAuction = ref(true);
 const auctionError = ref(false);
@@ -101,7 +102,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <PageNotFound v-if="isInvalidId"></PageNotFound>
+  <NotFoundView v-if="isInvalidId"></NotFoundView>
   <main v-else class="mx-auto w-full max-w-8xl px-5 pb-11 pt-6 md:pb-12 md:pt-7">
     <template v-if="isLoadingAuction"><LoadingIndicator color="dark" /></template>
     <section v-if="!isLoadingAuction">
@@ -119,9 +120,9 @@ onMounted(() => {
               :to="{ name: 'profile', params: { username: auctionDetail.seller.name } }"
               class="flex items-center gap-2 outline-none transition-all hover:text-grey-500 focus-visible:underline"
             >
-              <img
-                class="h-6 w-6 rounded object-cover"
-                :src="auctionDetail.seller.avatar.url"
+              <UserAvatar
+                class="h-6 w-6"
+                :url="auctionDetail.seller.avatar.url"
                 :alt="auctionDetail.seller.avatar.alt"
               />
               <span class="font-medium">{{ auctionDetail.seller.name }}</span>

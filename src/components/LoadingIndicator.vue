@@ -19,7 +19,7 @@ const props = defineProps({
       class="animate-bounce rounded-full [animation-delay:-0.3s]"
       :class="{
         'bg-primary-400': color === 'primary',
-        'bg-black': color === 'dark',
+        'bg-grey-400': color === 'dark',
         'bg-white': color === 'light'
       }"
     ></span>
@@ -28,7 +28,7 @@ const props = defineProps({
       class="animate-bounce rounded-full [animation-delay:-0.15s]"
       :class="{
         'bg-primary-400': color === 'primary',
-        'bg-black': color === 'dark',
+        'bg-grey-400': color === 'dark',
         'bg-white': color === 'light'
       }"
     ></span>
@@ -37,7 +37,7 @@ const props = defineProps({
       class="animate-bounce rounded-full"
       :class="{
         'bg-primary-400': color === 'primary',
-        'bg-black': color === 'dark',
+        'bg-grey-400': color === 'dark',
         'bg-white': color === 'light'
       }"
     ></span>

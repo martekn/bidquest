@@ -8,7 +8,7 @@ import { nanoid } from "@/helper/nanoid";
 import { getCurrentBid } from "@/helper/getCurrentBid";
 import { auction } from "@/api";
 import { notify } from "notiwind";
-import ErrorDialogVue from "./ErrorDialog.vue";
+import ErrorDialog from "./ErrorDialog.vue";
 import dayjs from "dayjs";
 import TextInput from "./formElements/TextInput.vue";
 import ConfirmationDialog from "@/components/ConfirmationDialog.vue";
@@ -32,6 +32,7 @@ const bidErrorMessage = ref();
 const bidApiError = ref(false);
 const isHistoryClosed = ref(true);
 
+const hasEnded = !dayjs(props.endsAt).isAfter(dayjs());
 const formattedCreatedDate = dayjs(props.createdAt).format("DD/MM/YYYY HH:MM");
 const formattedUpdatedDate = dayjs(props.updatedAt).format("DD/MM/YYYY HH:MM");
 const formattedEndDate = dayjs(props.endsAt).format("DD/MM/YYYY HH:MM");
@@ -122,7 +123,10 @@ updateCountdown();
   <div class="space-y-7">
     <div class="flex items-start justify-between">
       <div class="flex flex-col leading-tight">
-        <span class="text-xs text-grey-500">Current bid</span>
+        <span class="text-xs text-grey-500"
+          ><template v-if="!hasEnded">Current bid</template>
+          <template v-else>Final bid</template></span
+        >
         <span class="text-2xl font-medium md:text-4xl">{{ highestBid }} credits</span>
       </div>
       <RouterLink
@@ -134,15 +138,15 @@ updateCountdown();
     </div>
     <form
       @submit.prevent
-      v-if="AuthStateManager.isAuthenticated() && !isUsersAuction"
+      v-if="AuthStateManager.isAuthenticated() && !isUsersAuction && !hasEnded"
       class="grid grid-cols-[1fr_auto] items-start gap-x-2 gap-y-4"
     >
-      <ErrorDialogVue
+      <ErrorDialog
         v-if="bidApiError"
         class="col-span-full"
         title="Failed to place bid, please try again"
       >
-      </ErrorDialogVue>
+      </ErrorDialog>
       <TextInput
         class="w-full gap-0"
         id="bid"
@@ -161,9 +165,11 @@ updateCountdown();
         Bid
       </button>
     </form>
-    <div class="border-y border-grey-300 py-3 text-sm font-medium">
-      Ends in:
-      <span class="text-primary-400">{{ countdown }}</span>
+    <div class="flex gap-3 border-y border-grey-300 py-3 text-sm font-medium">
+      <span v-if="!hasEnded">Ends in:</span>
+      <span v-else class="text-primary-400">Auction has ended</span>
+
+      <span v-if="!hasEnded" class="text-primary-400"> {{ countdown }}</span>
     </div>
     <div v-if="bidsPreview.length > 0">
       <h3 class="mb-2 text-xs">Bid history</h3>
@@ -212,7 +218,7 @@ updateCountdown();
     >
       <span v-if="createdAt === updatedAt">Created {{ formattedCreatedDate }}</span>
       <span v-else>Updated {{ formattedUpdatedDate }}</span>
-      <span>Ends {{ formattedEndDate }}</span>
+      <span>{{ !hasEnded ? `Ends ${formattedEndDate}` : `Ended ${formattedEndDate}` }}</span>
     </div>
 
     <section

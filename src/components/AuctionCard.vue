@@ -29,9 +29,10 @@ const time = dayjs(props.endDate).format("MMM DD, HH:mm");
         />
       </div>
       <div
-        class="z-5 absolute bottom-2 left-2 grid min-h-7 min-w-9 place-items-center rounded bg-black/75 p-2 text-xs text-white md:text-sm"
+        class="z-5 absolute grid min-h-7 min-w-9 place-items-center rounded bg-black/75 p-2 text-xs text-white md:text-sm"
+        :class="{ 'inset-0': auctionEnded, 'bottom-2 left-2': !auctionEnded }"
       >
-        {{ auctionEnded ? "Ended" : time }}
+        {{ auctionEnded ? "Auction ended" : time }}
       </div>
     </div>
     <div class="space-y-5">
