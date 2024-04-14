@@ -9,6 +9,7 @@ import AuctionBid from "@/components/AuctionBid.vue";
 import MediaGallery from "@/components/MediaGallery.vue";
 import LoadingIndicator from "@/components/LoadingIndicator.vue";
 import ErrorDialog from "@/components/ErrorDialog.vue";
+import UserAvatar from "@/components/UserAvatar.vue";
 
 const isLoadingAuction = ref(true);
 const auctionError = ref(false);
@@ -119,9 +120,9 @@ onMounted(() => {
               :to="{ name: 'profile', params: { username: auctionDetail.seller.name } }"
               class="flex items-center gap-2 outline-none transition-all hover:text-grey-500 focus-visible:underline"
             >
-              <img
-                class="h-6 w-6 rounded object-cover"
-                :src="auctionDetail.seller.avatar.url"
+              <UserAvatar
+                class="h-6 w-6"
+                :url="auctionDetail.seller.avatar.url"
                 :alt="auctionDetail.seller.avatar.alt"
               />
               <span class="font-medium">{{ auctionDetail.seller.name }}</span>
