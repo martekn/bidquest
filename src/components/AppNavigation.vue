@@ -163,6 +163,17 @@ onMounted(async () => {
                     </div>
                   </PopoverItem>
                 </MenuGroup>
+                <MenuGroup class="sm:border-none">
+                  <PopoverItem
+                    router-link
+                    :route="{
+                      name: 'profile',
+                      params: { username: ProfileStateManager.profile.name }
+                    }"
+                  >
+                    My profile
+                  </PopoverItem>
+                </MenuGroup>
                 <MenuGroup>
                   <PopoverItem as="button" @click="logout()" id="logout-button">
                     Logout
