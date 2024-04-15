@@ -102,7 +102,7 @@ const router = createRouter({
       meta: { requiresAuth: true },
       children: [
         {
-          path: ":view?",
+          path: ":view(active|all)?",
           name: "profile",
           component: ProfileView
         },
