@@ -2,15 +2,26 @@
 import { reactive, ref, watch, computed } from "vue";
 import { useRoute, RouterLink } from "vue-router";
 import { profile } from "@/api";
-import { ChevronDownIcon } from "@heroicons/vue/20/solid";
+import { ChevronDownIcon, CameraIcon } from "@heroicons/vue/20/solid";
+import { ProfileStateManager } from "@/helper/ProfileStateManager";
+import { AuthStateManager } from "@/helper/AuthStateManager";
+import { baseAvatar } from "@/consts/baseAvatar";
+import { notify } from "notiwind";
 import AuctionCard from "@/components/AuctionCard.vue";
 import UserAvatar from "@/components/UserAvatar.vue";
 import NotFoundView from "./NotFoundView.vue";
 import LoadingIndicator from "@/components/LoadingIndicator.vue";
 import ErrorDialog from "@/components/ErrorDialog.vue";
+import PopoverMenu from "@/components/popover/PopoverMenu.vue";
+import MenuGroup from "@/components/MenuGroup.vue";
+import PopoverItem from "@/components/popover/PopoverItem.vue";
+import ConfirmationDialog from "@/components/ConfirmationDialog.vue";
+import EditAvatarDialog from "@/components/EditAvatarDialog.vue";
 
 const route = useRoute();
 const apiLimit = 20;
+const isEditOpen = ref(false);
+const isRemoveOpen = ref(false);
 
 const isInvalidId = ref(false);
 const user = reactive({
@@ -23,9 +34,13 @@ const user = reactive({
 
 const activeAuctions = reactive({ isLoading: true, isError: false, auctions: [] });
 const activeAuctionsMeta = ref();
+const isRegisteredUser = route.params.username === AuthStateManager.getUsername();
 
 const allAuctions = reactive({ isLoading: true, isError: false, auctions: [] });
 const allAuctionsMeta = ref();
+
+const showMoreLoading = ref(false);
+const showMoreError = ref(false);
 
 const auctions = computed(() => {
   if (route.params.view === "all") {
@@ -46,47 +61,6 @@ const showButton = computed(() => {
 
   return false;
 });
-
-const showMoreLoading = ref(false);
-const showMoreError = ref(false);
-
-const resetAuctions = (auctionsObj, resetAuctions) => {
-  auctionsObj.isLoading = true;
-  auctionsObj.isError = false;
-
-  if (resetAuctions) {
-    auctionsObj.auctions.length = 0;
-  }
-};
-
-const auctionError = (auctionsObj) => {
-  auctionsObj.isError = true;
-  auctionsObj.isLoading = false;
-};
-
-const handleAuctionsResponse = (response, auctionsObj, metaObj) => {
-  auctionsObj.auctions.push(...response.data);
-  metaObj.value = response.meta;
-  auctionsObj.isLoading = false;
-};
-
-const setUser = (response) => {
-  if (response.status === "fulfilled") {
-    const { name, _count, avatar } = response.value.data;
-    user.name = name;
-    user.wins = _count.wins;
-    user.avatar.url = avatar.url;
-    user.avatar.alt = avatar.alt;
-    user.isLoading = false;
-  } else if (response.status === "rejected") {
-    if (response.reason.statusCode === 404) {
-      isInvalidId.value = true;
-    }
-
-    user.isError = true;
-    user.isLoading = false;
-  }
-};
 
 const showMore = async () => {
   try {
@@ -121,18 +95,78 @@ const showMore = async () => {
     showMoreError.value = true;
   }
 };
+
+const resetAuctions = (auctionsObj, resetAuctions) => {
+  auctionsObj.isLoading = true;
+  auctionsObj.isError = false;
+
+  if (resetAuctions) {
+    auctionsObj.auctions.length = 0;
+  }
+};
+
+const auctionError = (auctionsObj) => {
+  auctionsObj.isError = true;
+  auctionsObj.isLoading = false;
+};
+
+const handleAuctionsResponse = (response, auctionsObj, metaObj) => {
+  auctionsObj.auctions.push(...response.data);
+  metaObj.value = response.meta;
+  auctionsObj.isLoading = false;
+};
+
+const setUserData = (response) => {
+  const { name, _count, avatar } = response;
+  user.name = name;
+  user.wins = _count.wins;
+  user.avatar.url = avatar.url;
+  user.avatar.alt = avatar.alt;
+  user.isLoading = false;
+};
+
+const setUserError = (statusCode) => {
+  if (statusCode === 404) {
+    isInvalidId.value = true;
+  }
+
+  user.isError = true;
+  user.isLoading = false;
+};
+
 const setupProfile = async () => {
   resetAuctions(user);
   resetAuctions(activeAuctions, true);
   resetAuctions(allAuctions, true);
 
-  const [profileResponse, activeAuctionsResponse, auctionsResponse] = await Promise.allSettled([
-    profile.getProfile(route.params.username),
-    profile.getUserAuctions(route.params.username, true, apiLimit, "endsAt", "asc", 1),
-    profile.getUserAuctions(route.params.username, false, apiLimit, "created", "desc", 1)
-  ]);
+  let profileResponse;
+  let activeAuctionsResponse;
+  let auctionsResponse;
 
-  setUser(profileResponse);
+  if (isRegisteredUser) {
+    [activeAuctionsResponse, auctionsResponse] = await Promise.allSettled([
+      profile.getUserAuctions(route.params.username, true, apiLimit, "endsAt", "asc", 1),
+      profile.getUserAuctions(route.params.username, false, apiLimit, "created", "desc", 1)
+    ]);
+
+    if (ProfileStateManager.profile.status === "fulfilled") {
+      setUserData(ProfileStateManager.profile);
+    } else if (ProfileStateManager.profile.status === "rejected") {
+      setUserError(ProfileStateManager.profile.statusCode);
+    }
+  } else {
+    [profileResponse, activeAuctionsResponse, auctionsResponse] = await Promise.allSettled([
+      profile.getProfile(route.params.username),
+      profile.getUserAuctions(route.params.username, true, apiLimit, "endsAt", "asc", 1),
+      profile.getUserAuctions(route.params.username, false, apiLimit, "created", "desc", 1)
+    ]);
+
+    if (profileResponse.status === "fulfilled") {
+      setUserData(profileResponse.value.data);
+    } else if (profileResponse.status === "rejected") {
+      setUserError(profileResponse.reason.statusCode);
+    }
+  }
 
   if (activeAuctionsResponse.status === "fulfilled") {
     handleAuctionsResponse(activeAuctionsResponse.value, activeAuctions, activeAuctionsMeta);
@@ -145,8 +179,34 @@ const setupProfile = async () => {
   } else if (auctionsResponse.status === "rejected") {
     auctionError(allAuctions);
   }
+};
 
-  console.log(activeAuctionsMeta, allAuctionsMeta);
+const deleteAvatar = async () => {
+  try {
+    await profile.updateAvatar({ avatar: baseAvatar });
+
+    ProfileStateManager.update();
+    isRemoveOpen.value = false;
+    notify(
+      {
+        group: "general",
+        title: "Image has been removed",
+        type: "success"
+      },
+      2000
+    );
+  } catch (error) {
+    isRemoveOpen.value = false;
+    notify(
+      {
+        group: "general",
+        title: "Unable to remove image",
+        text: "Please try again",
+        type: "error"
+      },
+      3000
+    );
+  }
 };
 
 watch(
@@ -159,19 +219,57 @@ watch(
 </script>
 
 <template>
-  <main class="mx-auto w-full max-w-8xl px-5 pb-11 pt-6 md:pb-12 md:pt-7">
-    <LoadingIndicator v-if="user.isLoading" color="dark" class="my-10" />
-    <NotFoundView v-else-if="isInvalidId"></NotFoundView>
-    <template v-else-if="!isInvalidId && !user.isLoading && !user.isError">
+  <LoadingIndicator v-if="user.isLoading" color="dark" class="my-10" />
+  <NotFoundView v-else-if="isInvalidId"></NotFoundView>
+  <main v-else class="mx-auto w-full max-w-8xl px-5 pb-11 pt-6 md:pb-12 md:pt-7">
+    <template v-if="!isInvalidId && !user.isLoading && !user.isError">
       <section
         class="flex flex-row-reverse flex-wrap-reverse items-center justify-end gap-5 pb-6 md:gap-6 md:pb-7"
       >
         <div>
-          <h1>{{ user.name }}</h1>
-          <span>{{ user.wins }} {{ user.wins !== 1 ? "auctions" : "auction" }} won</span>
+          <h1>{{ isRegisteredUser ? ProfileStateManager.profile.name : user.name }}</h1>
+          <span
+            >{{ isRegisteredUser ? ProfileStateManager.profile._count.wins : user.wins }}
+            {{
+              (isRegisteredUser ? ProfileStateManager.profile._count.wins : user.wins) !== 1
+                ? "auctions"
+                : "auction"
+            }}
+            won</span
+          >
         </div>
         <div class="relative">
-          <UserAvatar class="h-12 w-12" :url="user.avatar.url" :alt="user.avatar.alt" />
+          <UserAvatar
+            class="h-12 w-12"
+            :url="isRegisteredUser ? ProfileStateManager.profile.avatar.url : user.avatar.url"
+            :alt="isRegisteredUser ? ProfileStateManager.profile.avatar.alt : user.avatar.alt"
+          />
+          <div class="absolute bottom-2 right-2 h-7 w-7">
+            <PopoverMenu
+              v-if="isRegisteredUser"
+              as="div"
+              id="user-dropdown"
+              align="left"
+              width="10rem"
+              class=""
+            >
+              <button
+                class="grid h-7 w-7 place-items-center gap-3 rounded-sm bg-white/75 outline-none ring-1 ring-white/75 transition-all hover:bg-white/100 ui-focus-visible:ring-white/100 ui-focus-visible:inner-border-2 ui-focus-visible:inner-border-black"
+              >
+                <CameraIcon class="h-6 w-6" />
+              </button>
+              <template #items>
+                <MenuGroup>
+                  <PopoverItem as="button" @click="isEditOpen = true" id="edit-avatar-button">
+                    Change image
+                  </PopoverItem>
+                  <PopoverItem as="button" @click="isRemoveOpen = true" id="delete-avatar-button">
+                    Remove image
+                  </PopoverItem>
+                </MenuGroup>
+              </template>
+            </PopoverMenu>
+          </div>
         </div>
       </section>
       <div>
@@ -181,7 +279,7 @@ watch(
               ' border-b-primary-400': route.params.view !== 'all',
               ' border-b-transparent': route.params.view === 'all'
             }"
-            class="relative -bottom-1 border-b-[3px] p-1 transition-all hover:text-grey-500"
+            class="relative -bottom-1 border-b-[3px] p-1 outline-none transition-all hover:text-grey-500 focus-visible:rounded focus-visible:ring-2 focus-visible:ring-black"
             :to="{ name: 'profile', params: { username: user.name, view: 'active' } }"
             >Active
             <span class="text-grey-500">({{ activeAuctionsMeta.totalCount }})</span></RouterLink
@@ -190,7 +288,7 @@ watch(
               ' border-b-primary-400 ': route.params.view === 'all',
               ' border-b-transparent ': route.params.view !== 'all'
             }"
-            class="relative -bottom-1 border-b-[3px] p-1 transition-all hover:text-grey-500"
+            class="relative -bottom-1 border-b-[3px] p-1 outline-none transition-all hover:text-grey-500 focus-visible:rounded focus-visible:ring-2 focus-visible:ring-black"
             :to="{ name: 'profile', params: { username: user.name, view: 'all' } }"
             >All <span class="text-grey-500">({{ allAuctionsMeta.totalCount }})</span></RouterLink
           >
@@ -221,8 +319,8 @@ watch(
                 />
               </li>
             </ul>
-            <div class="mt-7 grid place-items-center">
-              <span class="block border-b border-b-grey-300 px-3 pb-3 text-xs text-grey-500"
+            <div class="grid place-items-center">
+              <span class="mt-9 block border-b border-b-grey-300 px-3 pb-3 text-xs text-grey-500"
                 >Showing {{ auctions.length }} of
                 {{
                   route.params.view !== "all"
@@ -280,5 +378,20 @@ watch(
         </p>
       </ErrorDialog>
     </template>
+    <ConfirmationDialog
+      :isOpen="isRemoveOpen"
+      @close="isRemoveOpen = false"
+      @confirm="deleteAvatar"
+      ctaText="Remove"
+      title="Remove Profile Picture"
+    >
+      Are you sure you want to remove your profile picture? This action cannot be undone, and your
+      current picture will be permanently deleted</ConfirmationDialog
+    >
+    <EditAvatarDialog
+      :isOpen="isEditOpen"
+      @close="isEditOpen = false"
+      @avatarChange="ProfileStateManager.update()"
+    />
   </main>
 </template>
