@@ -16,23 +16,31 @@ defineProps({
   },
   error: { type: String, default: "" },
   hiddenLabel: { type: Boolean, default: false },
-  placeholder: { type: String, default: "" }
+  placeholder: { type: String, default: "" },
+  min: String,
+  max: String,
+  optional: { type: Boolean, default: false }
 });
 </script>
 
 <template>
   <div class="input-group" :id="'input-group-' + id">
-    <label :class="{ 'sr-only': hiddenLabel }" :for="id">{{ label }}</label>
+    <label :class="{ 'sr-only': hiddenLabel }" :for="id"
+      >{{ label }} <span v-if="optional" class="font-normal text-grey-500">(optional)</span></label
+    >
 
     <input
       :class="{
-        error: isError
+        error: isError,
+        'text-center': type === 'time'
       }"
       :id="id"
       :name="name"
       :type="type"
       :value="modelValue"
       :placeholder="placeholder"
+      :min="min"
+      :max="max"
       @input="$emit('update:modelValue', $event.target.value)"
     />
     <span
