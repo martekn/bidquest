@@ -9,7 +9,7 @@ defineProps({
     class="relative after:absolute after:inset-0 after:rounded after:border-2 after:border-black/10"
   >
     <img
-      class="zz- relative h-full w-full rounded object-cover"
+      class="relative h-full w-full rounded bg-grey-300 object-cover"
       :src="url"
       :alt="alt"
       onerror="this.onerror=null;this.src='/avatar-placeholder.jpg';"
