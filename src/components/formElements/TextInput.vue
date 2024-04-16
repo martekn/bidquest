@@ -19,7 +19,8 @@ defineProps({
   placeholder: { type: String, default: "" },
   min: String,
   max: String,
-  optional: { type: Boolean, default: false }
+  optional: { type: Boolean, default: false },
+  disabled: { type: Boolean, default: false }
 });
 </script>
 
@@ -41,6 +42,7 @@ defineProps({
       :placeholder="placeholder"
       :min="min"
       :max="max"
+      :disabled="disabled"
       @input="$emit('update:modelValue', $event.target.value)"
     />
     <span
