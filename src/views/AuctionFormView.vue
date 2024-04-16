@@ -1,7 +1,8 @@
 <script setup>
-import { reactive, ref, computed } from "vue";
+import { reactive, ref, computed, onMounted, watch } from "vue";
 import { nanoid } from "@/helper/nanoid.js";
 import { notify } from "notiwind";
+import { DocumentMinusIcon } from "@heroicons/vue/20/solid";
 import router from "@/router";
 import dayjs from "dayjs";
 import { auction } from "@/api";
@@ -12,9 +13,16 @@ import ImageManager from "@/components/ImageManager.vue";
 import ListBox from "@/components/formElements/ListBox.vue";
 import ErrorDialog from "@/components/ErrorDialog.vue";
 import LoadingIndicator from "@/components/LoadingIndicator.vue";
+import NotFoundView from "./NotFoundView.vue";
+import ConfirmationDialog from "@/components/ConfirmationDialog.vue";
+import { useRoute } from "vue-router";
+import { AuthStateManager } from "@/helper/AuthStateManager";
+
+const route = useRoute();
 
 const apiError = reactive([]);
 const isLoading = ref(false);
+const isInvalidId = ref(false);
 
 const imageField = ref();
 const images = reactive([]);
@@ -37,6 +45,8 @@ const auctionBody = reactive({
   media: [],
   endsAt: ""
 });
+
+const isConfirmOpen = ref(false);
 
 const titleField = reactive({
   isError: false,
@@ -95,12 +105,19 @@ const submit = async () => {
 
   try {
     isLoading.value = true;
-    const response = await auction.create(auctionBody);
+    let response;
+    let successMessage = "Auction created";
+    if (route.name === "create") {
+      response = await auction.create(auctionBody);
+    } else {
+      response = await auction.update(route.params.id, auctionBody);
+      successMessage = "Auction edited";
+    }
 
     notify(
       {
         group: "general",
-        title: "Auction created",
+        title: successMessage,
         type: "success"
       },
       2000
@@ -133,13 +150,94 @@ const validate = () => {
     descriptionField.isError = true;
   }
 };
+
+const getAuction = async () => {
+  try {
+    const response = await auction.getSingle(route.params.id);
+
+    if (response.data.seller.name !== AuthStateManager.getUsername()) {
+      router.push({ name: "create" });
+    }
+
+    auctionBody.title = response.data.title;
+    auctionBody.description = response.data.description;
+
+    auctionBody.endsAt = dayjs(response.data.endsAt).format("YYYY-MM-DDTHH:mm");
+
+    if (response.data.tags.length > 0) {
+      const tags = response.data.tags.filter((tag) => categories.includes(tag));
+      selectedCategory.value = tags[0];
+    }
+
+    for (const image of response.data.media) {
+      image.id = nanoid();
+      images.push(image);
+    }
+  } catch (error) {
+    if (error.statusCode === 404 || error.errors[0].code === "invalid_string") {
+      isInvalidId.value = true;
+    }
+  }
+};
+
+const deleteAuction = async () => {
+  try {
+    await auction.remove(route.params.id);
+    notify(
+      {
+        group: "general",
+        title: "Auction deleted",
+        type: "success"
+      },
+      2000
+    );
+    isConfirmOpen.value = false;
+    router.push({ name: "profile", params: { username: AuthStateManager.getUsername() } });
+  } catch (error) {
+    notify(
+      {
+        group: "general",
+        title: "Unable to delete auction",
+        text: "Please try again",
+        type: "error"
+      },
+      3000
+    );
+    isConfirmOpen.value = false;
+  }
+};
+
+onMounted(() => {
+  if (route.name === "edit") {
+    getAuction();
+  }
+});
+
+watch(
+  () => [route.name, route.params.id],
+  () => {
+    auctionBody.title = "";
+    auctionBody.description = "";
+    auctionBody.tags.length = 0;
+    auctionBody.media.length = 0;
+    auctionBody.endsAt = "";
+  }
+);
 </script>
 
 <template>
-  <main class="bg-straws-pattern">
+  <NotFoundView v-if="isInvalidId"></NotFoundView>
+  <main v-else class="bg-straws-pattern">
     <form @submit.prevent novalidate class="mx-auto max-w-2xl px-5 pb-11 pt-6 md:pb-12 md:pt-7">
-      <div>
-        <h1>Create an auction</h1>
+      <div class="flex flex-wrap items-center justify-between gap-6">
+        <h1>{{ route.name === "create" ? "Create an auction" : "Edit auction" }}</h1>
+        <button
+          v-if="route.name === 'edit'"
+          @click="isConfirmOpen = true"
+          class="flex items-center gap-2 rounded font-semibold text-grey-500 outline-none transition-all hover:text-red-400 focus-visible:ring-2 focus-visible:ring-black"
+        >
+          <DocumentMinusIcon class="h-5 w-5" /> Delete
+        </button>
       </div>
       <ErrorDialog class="mt-7" v-if="apiError.length > 0" title="We could not create auction">
         <ul class="list-inside list-disc">
@@ -166,6 +264,7 @@ const validate = () => {
           :max="maxDateTime"
           :is-error="dateField.isError"
           :error="dateField.error"
+          :disabled="route.name === 'edit'"
           class="flex-grow"
         />
 
@@ -233,10 +332,22 @@ const validate = () => {
           class="button button-primary"
           @click="validate"
         >
-          <span v-if="!isLoading"> Create Auction </span>
+          <span v-if="!isLoading">
+            {{ route.name === "create" ? "Create Auction" : "Save Auction" }}
+          </span>
           <LoadingIndicator v-else color="light" />
         </button>
       </div>
     </form>
+    <ConfirmationDialog
+      :isOpen="isConfirmOpen"
+      @close="isConfirmOpen = false"
+      @confirm="deleteAuction"
+      ctaText="Delete"
+      title="Delete Profile Picture"
+    >
+      Are you sure you want to delete this auction? This action cannot be undone, and the auction
+      will be permanently deleted</ConfirmationDialog
+    >
   </main>
 </template>
