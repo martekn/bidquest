@@ -45,11 +45,17 @@ export const request = async (
   }
 
   const response = await fetch(url, options);
+
   if (!response.ok) {
     const error = await response.json();
     throw error;
   }
 
-  const result = await response.json();
-  return result;
+  let result;
+  try {
+    result = await response.json();
+    return result;
+  } catch (error) {
+    return response;
+  }
 };
