@@ -5,6 +5,7 @@ import { getByCategory } from "./getByCategory";
 import { search } from "./search";
 import { create } from "./create";
 import { update } from "./update";
+import { remove } from "./remove";
 
 export const auction = Object.freeze({
   getAll,
@@ -13,5 +14,6 @@ export const auction = Object.freeze({
   getByCategory,
   search,
   create,
-  update
+  update,
+  remove
 });
