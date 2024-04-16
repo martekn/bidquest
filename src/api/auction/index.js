@@ -3,11 +3,17 @@ import { getSingle } from "./getSingle";
 import { bid } from "./bid";
 import { getByCategory } from "./getByCategory";
 import { search } from "./search";
+import { create } from "./create";
+import { update } from "./update";
+import { remove } from "./remove";
 
 export const auction = Object.freeze({
   getAll,
   getSingle,
   bid,
   getByCategory,
-  search
+  search,
+  create,
+  update,
+  remove
 });

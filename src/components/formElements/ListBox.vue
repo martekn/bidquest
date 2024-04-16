@@ -22,7 +22,8 @@ const props = defineProps({
     default: "select",
     validator: (value) => ["select", "sort"].includes(value)
   },
-  id: String
+  id: String,
+  optional: { type: Boolean, default: false }
 });
 
 const emit = defineEmits(["update:modelValue"]);
@@ -49,10 +50,11 @@ const selectedLabel = computed(() => {
         v-if="label"
         :for="id"
         :class="{
-          'mb-2 ': type === 'select',
+          'mb-2 inline-block': type === 'select',
           'flex-shrink-0 text-xs font-normal text-grey-500': type === 'sort'
         }"
-        >{{ label }}</ListboxLabel
+        >{{ label }}
+        <span v-if="optional" class="font-normal text-grey-500">(optional)</span></ListboxLabel
       >
       <div class="relative w-full">
         <ListboxButton
