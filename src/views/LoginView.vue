@@ -9,9 +9,9 @@ import { Validate } from "@/helper/Validate";
 
 // Custom components
 import PasswordInput from "@/components/formElements/PasswordInput.vue";
-import LoadingIndicator from "@/components/LoadingIndicator.vue";
 import TextInput from "@/components/formElements/TextInput.vue";
 import ErrorDialog from "@/components/ErrorDialog.vue";
+import LoadingButton from "@/components/LoadingButton.vue";
 // #endregion
 
 const isLoading = ref(false);
@@ -88,10 +88,7 @@ const validate = () => {
         label="Password"
       />
 
-      <button type="submit" class="button button-primary" @click="validate">
-        <span v-if="!isLoading"> Login </span>
-        <LoadingIndicator v-else color="light" />
-      </button>
+      <LoadingButton @buttonClicked="validate" :buttonLoading="isLoading"> Login</LoadingButton>
       <span class="border-t border-t-grey-300 pt-6 leading-tight text-grey-500"
         >Dont have an account?
         <RouterLink class="link link-secondary" :to="{ name: 'register' }"
