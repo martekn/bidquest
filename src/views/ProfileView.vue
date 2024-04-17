@@ -282,7 +282,9 @@ watch(
             class="relative -bottom-1 border-b-[3px] p-1 outline-none transition-all hover:text-grey-500 focus-visible:rounded focus-visible:ring-2 focus-visible:ring-black"
             :to="{ name: 'profile', params: { username: user.name, view: 'active' } }"
             >Active
-            <span class="text-grey-500">({{ activeAuctionsMeta.totalCount }})</span></RouterLink
+            <span class="text-grey-500"
+              >({{ activeAuctionsMeta.totalCount ?? 0 }})</span
+            ></RouterLink
           ><RouterLink
             :class="{
               ' border-b-primary-400 ': route.params.view === 'all',
@@ -290,7 +292,8 @@ watch(
             }"
             class="relative -bottom-1 border-b-[3px] p-1 outline-none transition-all hover:text-grey-500 focus-visible:rounded focus-visible:ring-2 focus-visible:ring-black"
             :to="{ name: 'profile', params: { username: user.name, view: 'all' } }"
-            >All <span class="text-grey-500">({{ allAuctionsMeta.totalCount }})</span></RouterLink
+            >All
+            <span class="text-grey-500">({{ allAuctionsMeta.totalCount ?? 0 }})</span></RouterLink
           >
         </div>
         <section class="mt-6 space-y-5 md:mt-7 md:space-y-6">
