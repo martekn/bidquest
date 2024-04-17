@@ -203,12 +203,12 @@ watch(
                 class="grid w-full grid-cols-[1fr_5rem] gap-5 p-5 *:font-medium odd:bg-grey-200 sm:grid-cols-[10rem_1fr_5rem] md:gap-7"
               >
                 <td class="hidden sm:block">
-                  {{ dayjs(auction.date).format("DD/MM/YYYY HH:MM") }}
+                  {{ dayjs(auction.date).format("DD/MM/YYYY HH:mm") }}
                 </td>
                 <td>
                   <div class="flex flex-col sm:hidden">
                     <span class="font-normal text-grey-500">
-                      {{ dayjs(auction.date).format("DD/MM/YYYY HH:MM") }}</span
+                      {{ dayjs(auction.date).format("DD/MM/YYYY HH:mm") }}</span
                     >
                     <RouterLink
                       class="rounded outline-none hover:text-grey-500 focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2"

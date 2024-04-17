@@ -42,9 +42,9 @@ const bidApiError = ref(false);
 const isHistoryClosed = ref(true);
 
 const hasEnded = !dayjs(props.endsAt).isAfter(dayjs());
-const formattedCreatedDate = dayjs(props.createdAt).format("DD/MM/YYYY HH:MM");
-const formattedUpdatedDate = dayjs(props.updatedAt).format("DD/MM/YYYY HH:MM");
-const formattedEndDate = dayjs(props.endsAt).format("DD/MM/YYYY HH:MM");
+const formattedCreatedDate = dayjs(props.createdAt).format("DD/MM/YYYY HH:mm");
+const formattedUpdatedDate = dayjs(props.updatedAt).format("DD/MM/YYYY HH:mm");
+const formattedEndDate = dayjs(props.endsAt).format("DD/MM/YYYY HH:mm");
 const endDate = dayjs(props.endsAt);
 const countdown = ref();
 
