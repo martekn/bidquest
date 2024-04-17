@@ -169,7 +169,7 @@ onMounted(() => {
     </ErrorDialog>
     <EmptyState
       class="mt-5"
-      v-if="!auctionsStatus.hasAuctions && !auctionsStatus.isError"
+      v-if="!auctionsStatus.hasAuctions && !auctionsStatus.isError && auctionsStatus.fetchCompleted"
       :type="route.name === 'search' ? 'search' : 'auction'"
       title="No auctions found"
       :text="emptyStateMessage()"
