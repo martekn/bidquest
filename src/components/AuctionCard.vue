@@ -6,7 +6,7 @@ import { getCurrentBid } from "@/helper/getCurrentBid";
 
 const props = defineProps({
   endDate: { type: String, default: "" },
-  imageSrc: { type: String, default: "image-placeholder.jpg" },
+  imageSrc: { type: String, default: "/image-placeholder.jpg" },
   imageAlt: { type: String, default: "" },
   id: { type: String, default: "" },
   title: { type: String, default: "" },

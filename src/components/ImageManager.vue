@@ -23,7 +23,7 @@ defineProps({
             <img
               class="rounded object-cover"
               :src="image.url"
-              onerror="this.onerror=null;this.src='image-placeholder.jpg';"
+              onerror="this.onerror=null;this.src='/image-placeholder.jpg';"
             />
           </div>
         </div>
