@@ -35,6 +35,8 @@ const apiError = reactive([]);
 const isLoading = ref(false);
 const isInvalidId = ref(false);
 
+const dateValue = ref();
+
 const imageField = ref();
 const images = reactive([]);
 
@@ -75,7 +77,7 @@ const descriptionField = reactive({
 });
 
 const requiredFilled = computed(() => {
-  if (auctionBody.title && auctionBody.endsAt) {
+  if (auctionBody.title && dateValue) {
     return true;
   } else {
     return false;
@@ -114,6 +116,8 @@ const submit = async () => {
     auctionBody.tags.push(selectedCategory.value);
   }
 
+  auctionBody.endsAt = new Date(dateValue.value).toISOString();
+
   try {
     isLoading.value = true;
     let response;
@@ -143,7 +147,7 @@ const submit = async () => {
 };
 
 const validate = () => {
-  if (auctionBody.title && auctionBody.endsAt && auctionBody.description.length <= 280) {
+  if (auctionBody.title && dateValue && auctionBody.description.length <= 280) {
     titleField.isError = false;
     dateField.isError = false;
     submit();
@@ -154,7 +158,7 @@ const validate = () => {
     titleField.isError = true;
   }
 
-  if (!auctionBody.endsAt) {
+  if (!dateValue.value) {
     dateField.isError = true;
   }
   if (auctionBody.description.length > 280) {
@@ -173,7 +177,7 @@ const getAuction = async () => {
     auctionBody.title = response.data.title;
     auctionBody.description = response.data.description;
 
-    auctionBody.endsAt = dayjs(response.data.endsAt).format("YYYY-MM-DDTHH:mm");
+    dateValue.value = dayjs(response.data.endsAt).format("YYYY-MM-DDTHH:mm");
 
     if (response.data.tags.length > 0) {
       const tags = response.data.tags.filter((tag) => categories.includes(tag));
@@ -231,7 +235,7 @@ watch(
     auctionBody.description = "";
     auctionBody.tags.length = 0;
     auctionBody.media.length = 0;
-    auctionBody.endsAt = "";
+    dateValue.value = "";
   }
 );
 </script>
@@ -267,7 +271,7 @@ watch(
         />
 
         <TextInput
-          v-model="auctionBody.endsAt"
+          v-model="dateValue"
           label="End date and time"
           id="date"
           type="datetime-local"
