@@ -16,6 +16,7 @@ import { getCurrentBid } from "@/helper/getCurrentBid";
 // Custom components
 import LoadingIndicator from "@/components/LoadingIndicator.vue";
 import ErrorDialog from "@/components/ErrorDialog.vue";
+import EmptyState from "@/components/EmptyState.vue";
 // #endregion
 
 const route = useRoute();
@@ -259,12 +260,17 @@ watch(
             </div>
           </div>
         </template>
-        <ErrorDialog v-else-if="route.params.view !== 'wins'" title="No Bids Found" state="info">
-          <p>You have not made any bids yet, once you do, the bids will display here</p>
-        </ErrorDialog>
-        <ErrorDialog v-else title="No Wins Found" state="info">
-          <p>You have not won any auction yet, once you do, the wins will display here</p>
-        </ErrorDialog>
+        <EmptyState
+          v-else
+          class="mt-5"
+          type="auction"
+          :title="route.params.view !== 'wins' ? 'No Bids Found' : 'No Wins Found'"
+          :text="`If you know you have ${route.params.view !== 'wins' ? 'bid on' : 'won'} an auction but its not displayed here, it could be that the auction has been deleted from our site`"
+        >
+          <RouterLink :to="{ name: 'auctions' }" class="button button-primary mt-7"
+            >Explore auctions</RouterLink
+          >
+        </EmptyState>
       </template>
     </section>
     <ErrorDialog
