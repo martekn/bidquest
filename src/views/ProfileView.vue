@@ -17,7 +17,7 @@ import { AuthStateManager } from "@/helper/AuthStateManager";
 import { baseAvatar } from "@/consts/baseAvatar";
 
 // Custom components
-import AuctionCard from "@/components/AuctionCard.vue";
+import AuctionList from "@/components/AuctionList.vue";
 import UserAvatar from "@/components/UserAvatar.vue";
 import NotFoundView from "@/views/NotFoundView.vue";
 import LoadingIndicator from "@/components/LoadingIndicator.vue";
@@ -45,11 +45,21 @@ const user = reactive({
   avatar: { url: "", alt: "" }
 });
 
-const activeAuctions = reactive({ isLoading: true, isError: false, auctions: [] });
+const activeAuctions = reactive({
+  firstFetchLoaded: false,
+  isLoading: true,
+  isError: false,
+  auctions: []
+});
 const activeAuctionsMeta = ref();
 const isRegisteredUser = route.params.username === AuthStateManager.getUsername();
 
-const allAuctions = reactive({ isLoading: true, isError: false, auctions: [] });
+const allAuctions = reactive({
+  firstFetchLoaded: false,
+  isLoading: true,
+  isError: false,
+  auctions: []
+});
 const allAuctionsMeta = ref();
 
 const showMoreLoading = ref(false);
@@ -183,14 +193,18 @@ const setupProfile = async () => {
 
   if (activeAuctionsResponse.status === "fulfilled") {
     handleAuctionsResponse(activeAuctionsResponse.value, activeAuctions, activeAuctionsMeta);
+    activeAuctions.firstFetchLoaded = true;
   } else if (activeAuctionsResponse.status === "rejected") {
     auctionError(activeAuctions);
+    activeAuctions.firstFetchLoaded = true;
   }
 
   if (auctionsResponse.status === "fulfilled") {
     handleAuctionsResponse(auctionsResponse.value, allAuctions, allAuctionsMeta, true);
+    allAuctions.firstFetchLoaded = true;
   } else if (auctionsResponse.status === "rejected") {
     auctionError(allAuctions);
+    allAuctions.firstFetchLoaded = true;
   }
 };
 
@@ -314,28 +328,29 @@ watch(
             <template v-if="route.params.view === 'all'">All auctions</template>
             <template v-else>Active auctions</template>
           </h2>
-          <template
-            v-if="
-              ((!activeAuctions.isError && route.params.view !== 'all') ||
-                (!allAuctions.isError && route.params.view === 'all')) &&
-              auctions.length > 0
+          <AuctionList
+            class="mt-5 md:mt-6"
+            :auctions="auctions"
+            :loaded="
+              (activeAuctions.firstFetchLoaded && route.params.view !== 'all') ||
+              (allAuctions.firstFetchLoaded && route.params.view === 'all')
+            "
+            loaderType="regular"
+            :displayError="
+              (activeAuctions.isError && route.params.view !== 'all') ||
+              (allAuctions.isError && route.params.view === 'all')
             "
           >
-            <ul class="grid gap-5 xs:grid-cols-2 md:grid-cols-4 md:gap-6">
-              <li v-for="auction in auctions" :key="auction.id">
-                <AuctionCard
-                  :title="auction.title"
-                  :id="auction.id"
-                  :endDate="auction.endsAt"
-                  :imageSrc="auction.media?.[0]?.url"
-                  :imageAlt="auction.media?.[0]?.alt"
-                  :key="auction.id"
-                  :bids="auction.bids"
-                  :auction="auction"
-                />
-              </li>
-            </ul>
             <ShowMore
+              v-if="
+                (activeAuctions.firstFetchLoaded &&
+                  route.params.view !== 'all' &&
+                  activeAuctions.auctions.length > 0) ||
+                (allAuctions.firstFetchLoaded &&
+                  route.params.view === 'all' &&
+                  allAuctions.auctions.length > 0)
+              "
+              class="mt-7"
               :show="showButton"
               :error="showMoreError"
               @loadMore="showMore"
@@ -348,38 +363,26 @@ watch(
                   : allAuctionsMeta.totalCount
               "
             />
-          </template>
-          <ErrorDialog
-            v-if="
-              (activeAuctions.isError && route.params.view !== 'all') ||
-              (allAuctions.isError && route.params.view === 'all')
-            "
-            title="Oops! Unable to Retrieve Auctions"
-          >
-            <p>
-              We're sorry, but we couldn't fetch auctions at the moment. Please ensure you have a
-              stable internet connection and try refreshing the page. If the issue persists, our
-              team is here to assist you. Feel free to reach out for further assistance.
-            </p>
-          </ErrorDialog>
-          <EmptyState
-            class="mt-5"
-            v-else-if="auctions.length === 0"
-            type="auction"
-            title="No auctions found"
-            :text="
-              isRegisteredUser
-                ? `You do not have any ${route.params.view !== 'active' ? '' : 'active '}auctions at the moment`
-                : `${isRegisteredUser ? ProfileStateManager.profile.name : user.name} does not have any ${route.params.view !== 'active' ? '' : 'active '}auctions at the moment, please try again later`
-            "
-          >
-            <RouterLink
-              :to="{ name: 'create' }"
-              v-if="isRegisteredUser"
-              class="button button-primary mt-7"
-              >Create auction</RouterLink
+
+            <EmptyState
+              class="mt-5"
+              v-if="auctions.length === 0"
+              type="auction"
+              title="No auctions found"
+              :text="
+                isRegisteredUser
+                  ? `You do not have any ${route.params.view !== 'active' ? '' : 'active '}auctions at the moment`
+                  : `${isRegisteredUser ? ProfileStateManager.profile.name : user.name} does not have any ${route.params.view !== 'active' ? '' : 'active '}auctions at the moment, please try again later`
+              "
             >
-          </EmptyState>
+              <RouterLink
+                :to="{ name: 'create' }"
+                v-if="isRegisteredUser"
+                class="button button-primary mt-7"
+                >Create auction</RouterLink
+              >
+            </EmptyState>
+          </AuctionList>
         </section>
       </div>
     </template>

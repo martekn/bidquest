@@ -11,10 +11,8 @@ import { auction } from "@/api";
 // Custom components
 import PaginationBar from "@/components/PaginationBar.vue";
 import ListBox from "@/components/formElements/ListBox.vue";
-import AuctionCard from "@/components/AuctionCard.vue";
-import ErrorDialog from "@/components/ErrorDialog.vue";
-import LoadingIndicator from "@/components/LoadingIndicator.vue";
 import EmptyState from "@/components/EmptyState.vue";
+import AuctionList from "@/components/AuctionList.vue";
 // #endregion
 
 const emptyStateMessage = () => {
@@ -137,51 +135,31 @@ onMounted(() => {
       />
     </div>
 
-    <LoadingIndicator
-      v-if="!auctionsStatus.fetchCompleted"
-      class="col-span-full mt-8 justify-center"
-      color="dark"
-    />
-    <ul
-      v-else-if="auctionsStatus.fetchCompleted && auctionsStatus.hasAuctions"
-      class="mt-5 grid gap-5 xs:grid-cols-2 md:mt-6 md:grid-cols-4 md:gap-6"
+    <AuctionList
+      class="mt-5 md:mt-6"
+      :auctions="auctions"
+      :loaded="auctionsStatus.fetchCompleted"
+      loaderType="regular"
+      :displayError="auctionsStatus.isError"
     >
-      <li v-for="auction in auctions" :key="auction.id">
-        <AuctionCard
-          :title="auction.title"
-          :id="auction.id"
-          :endDate="auction.endsAt"
-          :imageSrc="auction.media?.[0]?.url"
-          :imageAlt="auction.media?.[0]?.alt"
-          :key="auction.id"
-          :bids="auction.bids"
-          :auction="auction"
-        />
-      </li>
-    </ul>
-    <ErrorDialog
-      v-if="auctionsStatus.isError"
-      title="Oops! Unable to Retrieve Ending Soon Auctions"
-    >
-      We're sorry, but we couldn't fetch auctions ending soon at the moment. Please ensure you have
-      a stable internet connection and try refreshing the page. If the issue persists, our team is
-      here to assist you. Feel free to reach out for further assistance.
-    </ErrorDialog>
-    <EmptyState
-      class="mt-5"
-      v-if="!auctionsStatus.hasAuctions && !auctionsStatus.isError && auctionsStatus.fetchCompleted"
-      :type="route.name === 'search' ? 'search' : 'auction'"
-      title="No auctions found"
-      :text="emptyStateMessage()"
-    >
-    </EmptyState>
+      <EmptyState
+        class="mt-5"
+        v-if="
+          !auctionsStatus.hasAuctions && !auctionsStatus.isError && auctionsStatus.fetchCompleted
+        "
+        :type="route.name === 'search' ? 'search' : 'auction'"
+        title="No auctions found"
+        :text="emptyStateMessage()"
+      >
+      </EmptyState>
 
-    <PaginationBar
-      :currentPage="currentPage"
-      :previousPage="previousPage"
-      :nextPage="nextPage"
-      :pageCount="pageCount"
-      class="my-7 self-center"
-    ></PaginationBar>
+      <PaginationBar
+        :currentPage="currentPage"
+        :previousPage="previousPage"
+        :nextPage="nextPage"
+        :pageCount="pageCount"
+        class="my-7 self-center"
+      ></PaginationBar>
+    </AuctionList>
   </main>
 </template>
