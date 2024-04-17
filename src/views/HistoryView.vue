@@ -6,7 +6,6 @@ import { useRoute, RouterLink } from "vue-router";
 
 // Third-party library imports
 import dayjs from "dayjs";
-import { ChevronDownIcon } from "@heroicons/vue/20/solid";
 
 // Custom module/helper imports
 import { AuthStateManager } from "@/helper/AuthStateManager";
@@ -14,13 +13,13 @@ import { profile } from "@/api";
 import { getCurrentBid } from "@/helper/getCurrentBid";
 
 // Custom components
-import LoadingIndicator from "@/components/LoadingIndicator.vue";
 import ErrorDialog from "@/components/ErrorDialog.vue";
 import EmptyState from "@/components/EmptyState.vue";
+import ShowMore from "@/components/ShowMore.vue";
 // #endregion
 
 const route = useRoute();
-const apiLimit = 20;
+const apiLimit = 1;
 
 const allBids = reactive({ isLoading: true, isError: false, auctions: [] });
 const allBidsMeta = ref({});
@@ -237,28 +236,17 @@ watch(
               </tr>
             </tbody>
           </table>
-          <div class="grid place-items-center">
-            <span
-              class="mt-5 block border-b-grey-300 px-3 pb-3 text-xs text-grey-500"
-              :class="{ 'border-b': showButton }"
-              >Showing {{ history.length }} of
-              {{ route.params.view !== "wins" ? allBidsMeta.totalCount : bidsWonMeta.totalCount }}
-              bids</span
-            >
-            <div v-if="showButton">
-              <LoadingIndicator color="primary" class="mt-5" v-if="showMoreLoading" />
-              <button v-else @click="showMore" class="button button-primary mt-5">
-                <span class="flex items-center justify-between gap-5"
-                  ><span class="flex-shrink-0">Show more</span> <ChevronDownIcon class="h-6 w-6"
-                /></span>
-              </button>
-            </div>
-            <div v-if="showMoreError" class="mt-5">
-              <p class="max-w-[35ch] text-center text-red-400">
-                There was an error getting more bids, please try again.
-              </p>
-            </div>
-          </div>
+          <ShowMore
+            :show="showButton"
+            :error="showMoreError"
+            @loadMore="showMore"
+            :loading="showMoreLoading"
+            :type="route.params.view === 'wins' ? 'wins' : 'bids'"
+            :visibleCount="history.length"
+            :totalCount="
+              route.params.view !== 'wins' ? allBidsMeta.totalCount : bidsWonMeta.totalCount
+            "
+          />
         </template>
         <EmptyState
           v-else

@@ -6,7 +6,7 @@ import { useRoute, RouterLink } from "vue-router";
 
 // Third-party library imports
 import { notify } from "notiwind";
-import { ChevronDownIcon, CameraIcon } from "@heroicons/vue/20/solid";
+import { CameraIcon } from "@heroicons/vue/20/solid";
 
 // Custom module/helper imports
 import { profile } from "@/api";
@@ -28,6 +28,7 @@ import PopoverItem from "@/components/popover/PopoverItem.vue";
 import ConfirmationDialog from "@/components/ConfirmationDialog.vue";
 import EditAvatarDialog from "@/components/EditAvatarDialog.vue";
 import EmptyState from "@/components/EmptyState.vue";
+import ShowMore from "@/components/ShowMore.vue";
 // #endregion
 
 const route = useRoute();
@@ -334,30 +335,19 @@ watch(
                 />
               </li>
             </ul>
-            <div class="grid place-items-center">
-              <span class="mt-9 block border-b border-b-grey-300 px-3 pb-3 text-xs text-grey-500"
-                >Showing {{ auctions.length }} of
-                {{
-                  route.params.view !== "all"
-                    ? activeAuctionsMeta.totalCount
-                    : allAuctionsMeta.totalCount
-                }}
-                auctions</span
-              >
-              <div v-if="showButton">
-                <LoadingIndicator color="primary" class="mt-5" v-if="showMoreLoading" />
-                <button v-else @click="showMore" class="button button-primary mt-5">
-                  <span class="flex items-center justify-between gap-5"
-                    ><span class="flex-shrink-0">Show more</span> <ChevronDownIcon class="h-6 w-6"
-                  /></span>
-                </button>
-              </div>
-              <div v-if="showMoreError" class="mt-5">
-                <p class="max-w-[35ch] text-center text-red-400">
-                  There was an error getting more auctions, please try again.
-                </p>
-              </div>
-            </div>
+            <ShowMore
+              :show="showButton"
+              :error="showMoreError"
+              @loadMore="showMore"
+              :loading="showMoreLoading"
+              type="bids"
+              :visibleCount="auctions.length"
+              :totalCount="
+                route.params.view !== 'all'
+                  ? activeAuctionsMeta.totalCount
+                  : allAuctionsMeta.totalCount
+              "
+            />
           </template>
           <ErrorDialog
             v-if="
