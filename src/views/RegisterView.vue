@@ -1,11 +1,18 @@
 <script setup>
+// #region -IMPORTS-
+// Vue-related imports
 import { reactive, ref } from "vue";
+
+// Custom module/helper imports
+import { auth } from "@/api";
+import { Validate } from "@/helper/Validate";
+
+// Custom components
 import PasswordInput from "@/components/formElements/PasswordInput.vue";
 import TextInput from "@/components/formElements/TextInput.vue";
 import LoadingIndicator from "@/components/LoadingIndicator.vue";
-import { register } from "@/api/auth/register";
-import { Validate } from "@/helper/Validate";
 import ErrorDialog from "@/components/ErrorDialog.vue";
+// #endregion
 
 const isLoading = ref(false);
 const apiError = reactive([]);
@@ -30,7 +37,7 @@ const submit = async () => {
   try {
     isLoading.value = true;
 
-    await register(registerBody);
+    await auth.register(registerBody);
   } catch (error) {
     isLoading.value = false;
     apiError.push([...error.errors]);

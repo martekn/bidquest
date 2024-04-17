@@ -1,4 +1,7 @@
-import { Storage } from "./Storage";
+// #region -IMPORTS-
+// Custom module/helper imports
+import { Storage } from "@/helper/Storage";
+// #endregion
 
 /**
  * A utility for managing a history stack in session storage.

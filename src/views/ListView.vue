@@ -1,15 +1,20 @@
 <script setup>
-import PaginationBar from "@/components/PaginationBar.vue";
+// #region -IMPORTS-
+// Vue-related imports
 import { onMounted, computed, ref, watch, reactive } from "vue";
 import { useRoute } from "vue-router";
+import router from "@/router";
+
+// Custom module/helper imports
+import { auction } from "@/api";
+
+// Custom components
+import PaginationBar from "@/components/PaginationBar.vue";
 import ListBox from "@/components/formElements/ListBox.vue";
-import { getAll } from "@/api/auction/getAll";
 import AuctionCard from "@/components/AuctionCard.vue";
 import ErrorDialog from "@/components/ErrorDialog.vue";
-import router from "@/router";
-import { getByCategory } from "@/api/auction/getByCategory";
-import { search } from "@/api/auction/search";
 import LoadingIndicator from "@/components/LoadingIndicator.vue";
+// #endregion
 
 const route = useRoute();
 
@@ -51,9 +56,9 @@ const getAuctions = async () => {
 
     let response;
     if (route.name === "auctions") {
-      response = await getAll(40, sortBy, sortOrder, currentPage.value);
+      response = await auction.getAll(40, sortBy, sortOrder, currentPage.value);
     } else if (route.name === "category") {
-      response = await getByCategory(
+      response = await auction.getByCategory(
         route.params.category,
         40,
         sortBy,
@@ -61,7 +66,7 @@ const getAuctions = async () => {
         currentPage.value
       );
     } else if (route.name === "search") {
-      response = await search(route.params.query, 40, sortBy, sortOrder, currentPage.value);
+      response = await auction.search(route.params.query, 40, sortBy, sortOrder, currentPage.value);
     }
 
     auctionsStatus.fetchCompleted = true;

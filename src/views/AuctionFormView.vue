@@ -1,22 +1,33 @@
 <script setup>
+// #region -IMPORTS-
+// Vue-related imports
 import { reactive, ref, computed, onMounted, watch } from "vue";
-import { nanoid } from "@/helper/nanoid.js";
+import { useRoute } from "vue-router";
+import router from "@/router";
+
+// Third-party library imports
 import { notify } from "notiwind";
 import { DocumentMinusIcon } from "@heroicons/vue/20/solid";
-import router from "@/router";
 import dayjs from "dayjs";
+
+// Custom module/helper imports
+import { nanoid } from "@/helper/nanoid.js";
 import { auction } from "@/api";
+import { AuthStateManager } from "@/helper/AuthStateManager";
+
+// Constants imports
 import { categories } from "@/consts/navItems";
+
+// Custom components
 import TextInput from "@/components/formElements/TextInput.vue";
 import TextareaInput from "@/components/formElements/TextareaInput.vue";
 import ImageManager from "@/components/ImageManager.vue";
 import ListBox from "@/components/formElements/ListBox.vue";
 import ErrorDialog from "@/components/ErrorDialog.vue";
 import LoadingIndicator from "@/components/LoadingIndicator.vue";
-import NotFoundView from "./NotFoundView.vue";
+import NotFoundView from "@/views/NotFoundView.vue";
 import ConfirmationDialog from "@/components/ConfirmationDialog.vue";
-import { useRoute } from "vue-router";
-import { AuthStateManager } from "@/helper/AuthStateManager";
+// #endregion
 
 const route = useRoute();
 

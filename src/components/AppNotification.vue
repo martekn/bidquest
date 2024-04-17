@@ -1,4 +1,6 @@
 <script setup>
+// #region -IMPORTS-
+// Third-party library imports
 import { Notification, NotificationGroup } from "notiwind";
 import {
   XCircleIcon,
@@ -6,6 +8,7 @@ import {
   InformationCircleIcon,
   CheckCircleIcon
 } from "@heroicons/vue/20/solid";
+// #endregion
 
 const isError = (type) => {
   return type === "error";

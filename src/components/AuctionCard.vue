@@ -1,12 +1,18 @@
 <script setup>
+// #region -IMPORTS-
+// Vue-related imports
 import { RouterLink } from "vue-router";
 
+// Third-party library imports
 import dayjs from "dayjs";
+
+// Custom module/helper imports
 import { getCurrentBid } from "@/helper/getCurrentBid";
+// #endregion
 
 const props = defineProps({
   endDate: { type: String, default: "" },
-  imageSrc: { type: String, default: "image-placeholder.jpg" },
+  imageSrc: { type: String, default: "/image-placeholder.jpg" },
   imageAlt: { type: String, default: "" },
   id: { type: String, default: "" },
   title: { type: String, default: "" },

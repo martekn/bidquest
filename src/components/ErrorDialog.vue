@@ -1,5 +1,8 @@
 <script setup>
+// #region -IMPORTS-
+// Third-party library imports
 import { XCircleIcon } from "@heroicons/vue/20/solid";
+// #endregion
 
 defineProps({
   title: { type: String, default: "Error" },

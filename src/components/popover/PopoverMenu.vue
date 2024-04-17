@@ -1,5 +1,8 @@
 <script setup>
+// #region -IMPORTS-
+// Third-party library imports
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/vue";
+// #endregion
 
 const props = defineProps({
   align: {

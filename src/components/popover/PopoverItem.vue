@@ -1,5 +1,8 @@
 <script setup>
+// #region -IMPORTS-
+// Vue-related imports
 import { RouterLink } from "vue-router";
+// #endregion
 
 const props = defineProps({
   description: String,

@@ -1,6 +1,11 @@
 <script setup>
+// #region -IMPORTS-
+// Vue-related imports
 import { ref } from "vue";
+
+// Third-party library imports
 import { Dialog, DialogPanel, DialogTitle, DialogDescription } from "@headlessui/vue";
+// #endregion
 
 defineProps({
   isOpen: { type: Boolean, default: false },

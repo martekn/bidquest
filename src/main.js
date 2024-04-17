@@ -1,10 +1,17 @@
 import "./assets/main.css";
 
+// #region -IMPORTS-
+// Vue-related imports
 import { createApp } from "vue";
-import App from "./App.vue";
-import router from "./router";
+import App from "@/App.vue";
+import router from "@/router";
+
+// Third-party library imports
 import Notifications from "notiwind";
-import { AuthStateManager } from "./helper/AuthStateManager";
+
+// Custom components
+import { AuthStateManager } from "@/helper/AuthStateManager";
+// #endregion
 
 const app = createApp(App);
 

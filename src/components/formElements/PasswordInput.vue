@@ -1,8 +1,12 @@
 <script setup>
+// #region -IMPORTS-
+// Vue-related imports
 import { ref } from "vue";
-import { EyeIcon } from "@heroicons/vue/20/solid";
-import { EyeSlashIcon } from "@heroicons/vue/20/solid";
-import { XCircleIcon } from "@heroicons/vue/20/solid";
+
+// Third-party library imports
+import { EyeIcon, EyeSlashIcon, XCircleIcon } from "@heroicons/vue/20/solid";
+// #endregion
+
 const props = defineProps({
   label: { type: String, default: "" },
   modelValue: {

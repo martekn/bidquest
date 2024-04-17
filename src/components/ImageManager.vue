@@ -1,6 +1,11 @@
 <script setup>
-import TextareaInput from "./formElements/TextareaInput.vue";
+// #region -IMPORTS-
+// Custom module/helper imports
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/vue/20/solid";
+
+// Custom components
+import TextareaInput from "@/components/formElements/TextareaInput.vue";
+// #endregion
 
 defineProps({
   images: {
@@ -23,7 +28,7 @@ defineProps({
             <img
               class="rounded object-cover"
               :src="image.url"
-              onerror="this.onerror=null;this.src='image-placeholder.jpg';"
+              onerror="this.onerror=null;this.src='/image-placeholder.jpg';"
             />
           </div>
         </div>

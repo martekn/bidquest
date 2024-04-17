@@ -1,17 +1,26 @@
 <script setup>
+// #region -IMPORTS-
+// Vue-related imports
 import { ref, computed } from "vue";
 import { RouterLink } from "vue-router";
-import { AuthStateManager } from "@/helper/AuthStateManager";
+
+// Third-party library imports
+import dayjs from "dayjs";
+import { notify } from "notiwind";
 import { PencilSquareIcon } from "@heroicons/vue/20/solid";
 import { ChevronDownIcon } from "@heroicons/vue/20/solid";
+
+// Custom module/helper imports
 import { nanoid } from "@/helper/nanoid";
+import { AuthStateManager } from "@/helper/AuthStateManager";
 import { getCurrentBid } from "@/helper/getCurrentBid";
 import { auction } from "@/api";
-import { notify } from "notiwind";
-import ErrorDialog from "./ErrorDialog.vue";
-import dayjs from "dayjs";
-import TextInput from "./formElements/TextInput.vue";
+
+// Custom components
+import ErrorDialog from "@/components/ErrorDialog.vue";
+import TextInput from "@/components/formElements/TextInput.vue";
 import ConfirmationDialog from "@/components/ConfirmationDialog.vue";
+// #endregion
 
 const emit = defineEmits(["bid"]);
 

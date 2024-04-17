@@ -1,6 +1,11 @@
+// #region -IMPORTS-
+// Vue-related imports
 import { reactive } from "vue";
-import { JWT } from "./JWT";
-import { Storage } from "./Storage";
+
+// Custom module/helper imports
+import { JWT } from "@/helper/JWT";
+import { Storage } from "@/helper/Storage";
+// #endregion
 
 /**
  * @module AuthStateManager

@@ -1,4 +1,16 @@
+// #region -IMPORTS-
+// Vue-related imports
 import { createRouter, createWebHistory } from "vue-router";
+
+// Custom module/helper imports
+import { ProfileStateManager } from "@/helper/ProfileStateManager";
+import { HistoryStack } from "@/helper/HistoryStack";
+import { AuthStateManager } from "@/helper/AuthStateManager";
+
+// Constants imports
+import { categories } from "@/consts/navItems";
+
+// Custom views
 import HomeView from "../views/HomeView.vue";
 import LoginView from "@/views/LoginView.vue";
 import RegisterView from "@/views/RegisterView.vue";
@@ -8,10 +20,7 @@ import HistoryView from "@/views/HistoryView.vue";
 import ProfileView from "@/views/ProfileView.vue";
 import AuctionFormView from "@/views/AuctionFormView.vue";
 import NotFoundView from "@/views/NotFoundView.vue";
-import { categories } from "@/consts/navItems";
-import { HistoryStack } from "@/helper/HistoryStack";
-import { AuthStateManager } from "@/helper/AuthStateManager";
-import { ProfileStateManager } from "@/helper/ProfileStateManager";
+// #endregion
 
 const router = createRouter({
   scrollBehavior(to) {

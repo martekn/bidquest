@@ -1,13 +1,24 @@
 <script setup>
+// #region -IMPORTS-
+// Vue-related imports
 import { ref, reactive, watch } from "vue";
+
+// Third-party library imports
 import { Dialog, DialogPanel, DialogTitle, DialogDescription } from "@headlessui/vue";
-import TextareaInput from "@/components/formElements/TextareaInput.vue";
-import TextInput from "@/components/formElements/TextInput.vue";
-import { baseAvatar } from "@/consts/baseAvatar";
+
+// Custom module/helper imports
 import { profile } from "@/api";
 import { ProfileStateManager } from "@/helper/ProfileStateManager";
+
+// Constants imports
+import { baseAvatar } from "@/consts/baseAvatar";
+
+// Custom components
+import TextareaInput from "@/components/formElements/TextareaInput.vue";
+import TextInput from "@/components/formElements/TextInput.vue";
 import ErrorDialog from "@/components/ErrorDialog.vue";
 import UserAvatar from "@/components/UserAvatar.vue";
+// #endregion
 
 const emit = defineEmits(["close", "avatarChange"]);
 

@@ -1,5 +1,10 @@
-import { baseUrl } from "../consts/baseUrl.js";
+// #region -IMPORTS-
+// Custom module/helper imports
 import { AuthStateManager } from "./AuthStateManager.js";
+
+// Constants imports
+import { baseUrl } from "../consts/baseUrl.js";
+// #endregion
 
 /**
  * Makes an asynchronous HTTP request to a specified endpoint with optional parameters, authentication token, method, and request body.

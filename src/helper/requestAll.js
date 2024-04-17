@@ -1,4 +1,7 @@
+// #region -IMPORTS-
+// Custom module/helper imports
 import { request } from "./request.js";
+// #endregion
 
 /**
  * Makes multiple asynchronous requests to various endpoints and returns an array

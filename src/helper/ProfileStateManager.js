@@ -1,6 +1,11 @@
+// #region -IMPORTS-
+// Vue-related imports
 import { reactive } from "vue";
+
+// Custom module/helper imports
 import { profile } from "@/api";
 import { AuthStateManager } from "./AuthStateManager";
+// #endregion
 
 /**
  * @module ProfileStateManager

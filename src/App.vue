@@ -1,9 +1,14 @@
 <script setup>
+// #region -IMPORTS-
+// Vue-related imports
 import { RouterView } from "vue-router";
-import AppNotification from "./components/AppNotification.vue";
-import AppNavigation from "./components/AppNavigation.vue";
-import AppFooter from "./components/AppFooter.vue";
-import SkipToContent from "./components/SkipToContent.vue";
+
+// Custom components
+import AppNotification from "@/components/AppNotification.vue";
+import AppNavigation from "@/components/AppNavigation.vue";
+import AppFooter from "@/components/AppFooter.vue";
+import SkipToContent from "@/components/SkipToContent.vue";
+// #endregion
 </script>
 <template>
   <SkipToContent />

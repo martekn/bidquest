@@ -1,13 +1,22 @@
 <script setup>
+// #region -IMPORTS-
+// Vue-related imports
 import { reactive, ref, watch, computed } from "vue";
 import { useRoute, RouterLink } from "vue-router";
-import { profile } from "@/api";
-import { ChevronDownIcon } from "@heroicons/vue/20/solid";
-import { AuthStateManager } from "@/helper/AuthStateManager";
-import LoadingIndicator from "@/components/LoadingIndicator.vue";
+
+// Third-party library imports
 import dayjs from "dayjs";
+import { ChevronDownIcon } from "@heroicons/vue/20/solid";
+
+// Custom module/helper imports
+import { AuthStateManager } from "@/helper/AuthStateManager";
+import { profile } from "@/api";
 import { getCurrentBid } from "@/helper/getCurrentBid";
+
+// Custom components
+import LoadingIndicator from "@/components/LoadingIndicator.vue";
 import ErrorDialog from "@/components/ErrorDialog.vue";
+// #endregion
 
 const route = useRoute();
 const apiLimit = 20;
