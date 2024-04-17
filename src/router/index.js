@@ -107,7 +107,7 @@ const router = createRouter({
           component: ProfileView
         },
         {
-          path: "history/:view?",
+          path: "history/:view(wins|all)?",
           name: "history",
           component: HistoryView
         }
