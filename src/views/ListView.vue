@@ -115,7 +115,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <main class="mx-auto w-full max-w-8xl px-5 pb-11 pt-6 md:pb-12 md:pt-7">
+  <main class="main-base">
     <div class="flex flex-wrap items-end justify-between gap-5">
       <h1 class="first-letter:capitalize">
         <template v-if="route.name === 'search'"

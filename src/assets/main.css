@@ -17,6 +17,10 @@
     @apply min-h-full;
   }
 
+  main.main-base {
+    @apply mx-auto w-full max-w-8xl px-5 pb-11 pt-6 md:pb-12 md:pt-7;
+  }
+
   h1,
   h2,
   h3 {

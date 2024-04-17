@@ -146,7 +146,7 @@ watch(
 </script>
 
 <template>
-  <main class="mx-auto w-full max-w-8xl px-5 pb-11 pt-6 md:pb-12 md:pt-7">
+  <main class="main-base">
     <h1>Bid history</h1>
     <div class="mt-6 flex gap-9 border-b border-b-grey-300 text-sm font-medium">
       <RouterLink

@@ -234,7 +234,7 @@ watch(
 <template>
   <LoadingIndicator v-if="user.isLoading" color="dark" class="my-10" />
   <NotFoundView v-else-if="isInvalidId"></NotFoundView>
-  <main v-else class="mx-auto w-full max-w-8xl px-5 pb-11 pt-6 md:pb-12 md:pt-7">
+  <main v-else class="main-base">
     <template v-if="!isInvalidId && !user.isLoading && !user.isError">
       <section
         class="flex flex-row-reverse flex-wrap-reverse items-center justify-end gap-5 pb-6 md:gap-6 md:pb-7"

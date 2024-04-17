@@ -113,7 +113,7 @@ onMounted(() => {
 
 <template>
   <NotFoundView v-if="isInvalidId"></NotFoundView>
-  <main v-else class="mx-auto w-full max-w-8xl px-5 pb-11 pt-6 md:pb-12 md:pt-7">
+  <main v-else class="main-base">
     <template v-if="isLoadingAuction"><LoadingIndicator color="dark" /></template>
     <section v-if="!isLoadingAuction">
       <div v-if="!auctionError" class="grid gap-6 md:grid-cols-12 md:gap-7">
