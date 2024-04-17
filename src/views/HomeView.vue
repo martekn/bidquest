@@ -8,9 +8,7 @@ import { RouterLink } from "vue-router";
 import { auction } from "@/api";
 
 // Custom components
-import AuctionCard from "@/components/AuctionCard.vue";
-import AuctionCardSkeleton from "@/components//skeletonLoaders/AuctionCardSkeleton.vue";
-import ErrorDialog from "@/components/ErrorDialog.vue";
+import AuctionList from "@/components/AuctionList.vue";
 // #endregion
 
 const auctionsEndingSoon = reactive([]);
@@ -77,73 +75,28 @@ onMounted(() => {
 
     <section class="mx-auto max-w-8xl px-5">
       <h2>Auctions ending soon</h2>
-      <ul
-        class="mt-5 grid gap-5 xs:grid-cols-2 md:mt-6 md:grid-cols-4 md:gap-6"
-        v-if="!auctionsEndingSoonError"
-      >
-        <template v-if="!isAuctionsEndingSoonLoading">
-          <li v-for="auction in auctionsEndingSoon" :key="'ending-' + auction.id">
-            <AuctionCard
-              :title="auction.title"
-              :id="auction.id"
-              :endDate="auction.endsAt"
-              :imageSrc="auction.media?.[0]?.url"
-              :imageAlt="auction.media?.[0]?.alt"
-              :key="auction.id"
-              :bids="auction.bids"
-              :auction="auction"
-            />
-          </li>
-        </template>
-        <template v-else>
-          <li v-for="n in 4" :key="n">
-            <AuctionCardSkeleton />
-          </li>
-        </template>
-      </ul>
-      <ErrorDialog
+      <AuctionList
         class="mt-5 md:mt-6"
-        v-else
-        title="Oops! Unable to Retrieve Ending Soon Auctions"
+        :auctions="auctionsEndingSoon"
+        :loaded="!isAuctionsEndingSoonLoading"
+        loaderType="skeleton"
+        :skeletonCount="4"
+        :displayError="auctionsEndingSoonError"
       >
-        We're sorry, but we couldn't fetch auctions ending soon at the moment. Please ensure you
-        have a stable internet connection and try refreshing the page. If the issue persists, our
-        team is here to assist you. Feel free to reach out for further assistance.
-      </ErrorDialog>
+      </AuctionList>
     </section>
 
     <section class="mx-auto max-w-8xl px-5">
       <h2>Newest auctions</h2>
-      <ul
-        class="mt-5 grid gap-5 xs:grid-cols-2 md:mt-6 md:grid-cols-4 md:gap-6"
-        v-if="!newestAuctionsError"
+      <AuctionList
+        class="mt-5 md:mt-6"
+        :auctions="newestAuctions"
+        :loaded="!isNewestAuctionsLoading"
+        loaderType="skeleton"
+        :skeletonCount="4"
+        :displayError="newestAuctionsError"
       >
-        <template v-if="!isNewestAuctionsLoading">
-          <li v-for="auction in newestAuctions" :key="'ending-' + auction.id">
-            <AuctionCard
-              :title="auction.title"
-              :id="auction.id"
-              :endDate="auction.endsAt"
-              :imageSrc="auction.media?.[0]?.url"
-              :imageAlt="auction.media?.[0]?.alt"
-              :key="auction.id"
-              :bids="auction.bids"
-              :auction="auction"
-            />
-          </li>
-        </template>
-        <template v-else>
-          <li v-for="n in 8" :key="n">
-            <AuctionCardSkeleton />
-          </li>
-        </template>
-      </ul>
-
-      <ErrorDialog class="mt-5 md:mt-6" v-else title="Uh-oh! Can't Retrieve Newest Auctions">
-        We're sorry, but we're currently experiencing difficulties retrieving the newest auctions.
-        Please check your internet connection and try refreshing the page. If the problem persists,
-        our support team is available to help. Don't hesitate to contact us for assistance.
-      </ErrorDialog>
+      </AuctionList>
     </section>
   </main>
 </template>
