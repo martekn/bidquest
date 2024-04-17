@@ -24,7 +24,7 @@ import TextareaInput from "@/components/formElements/TextareaInput.vue";
 import ImageManager from "@/components/ImageManager.vue";
 import ListBox from "@/components/formElements/ListBox.vue";
 import ErrorDialog from "@/components/ErrorDialog.vue";
-import LoadingIndicator from "@/components/LoadingIndicator.vue";
+import LoadingButton from "@/components/LoadingButton.vue";
 import NotFoundView from "@/views/NotFoundView.vue";
 import ConfirmationDialog from "@/components/ConfirmationDialog.vue";
 // #endregion
@@ -341,17 +341,13 @@ watch(
           >You need to fill out title and end date before you can continue</span
         >
 
-        <button
-          type="submit"
+        <LoadingButton
+          @buttonClicked="validate"
+          :buttonLoading="isLoading"
           :disabled="!requiredFilled"
-          class="button button-primary"
-          @click="validate"
         >
-          <span v-if="!isLoading">
-            {{ route.name === "create" ? "Create Auction" : "Save Auction" }}
-          </span>
-          <LoadingIndicator v-else color="light" />
-        </button>
+          {{ route.name === "create" ? "Create Auction" : "Save Auction" }}</LoadingButton
+        >
       </div>
     </form>
     <ConfirmationDialog

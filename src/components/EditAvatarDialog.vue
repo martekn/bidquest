@@ -18,6 +18,7 @@ import TextareaInput from "@/components/formElements/TextareaInput.vue";
 import TextInput from "@/components/formElements/TextInput.vue";
 import ErrorDialog from "@/components/ErrorDialog.vue";
 import UserAvatar from "@/components/UserAvatar.vue";
+import LoadingButton from "./LoadingButton.vue";
 // #endregion
 
 const emit = defineEmits(["close", "avatarChange"]);
@@ -96,7 +97,9 @@ watch(
         ></DialogDescription>
 
         <div class="mt-6 flex flex-row-reverse gap-6 border-t border-t-grey-300 py-4">
-          <button class="button button-primary button-sm" @click="submitAvatar">Save</button>
+          <LoadingButton @buttonClicked="submitAvatar" :buttonLoading="isLoading"
+            >Save</LoadingButton
+          >
           <button @click="$emit('close')" class="link link-secondary ml-auto">Cancel</button>
         </div>
       </DialogPanel>
