@@ -27,6 +27,7 @@ import MenuGroup from "@/components/MenuGroup.vue";
 import PopoverItem from "@/components/popover/PopoverItem.vue";
 import ConfirmationDialog from "@/components/ConfirmationDialog.vue";
 import EditAvatarDialog from "@/components/EditAvatarDialog.vue";
+import EmptyState from "@/components/EmptyState.vue";
 // #endregion
 
 const route = useRoute();
@@ -294,7 +295,7 @@ watch(
             :to="{ name: 'profile', params: { username: user.name, view: 'active' } }"
             >Active
             <span class="text-grey-500"
-              >({{ activeAuctionsMeta.totalCount ?? 0 }})</span
+              >({{ activeAuctionsMeta?.totalCount ?? 0 }})</span
             ></RouterLink
           ><RouterLink
             :class="{
@@ -304,7 +305,7 @@ watch(
             class="relative -bottom-1 border-b-[3px] p-1 outline-none transition-all hover:text-grey-500 focus-visible:rounded focus-visible:ring-2 focus-visible:ring-black"
             :to="{ name: 'profile', params: { username: user.name, view: 'all' } }"
             >All
-            <span class="text-grey-500">({{ allAuctionsMeta.totalCount ?? 0 }})</span></RouterLink
+            <span class="text-grey-500">({{ allAuctionsMeta?.totalCount ?? 0 }})</span></RouterLink
           >
         </div>
         <section class="mt-6 space-y-5 md:mt-7 md:space-y-6">
@@ -371,15 +372,24 @@ watch(
               team is here to assist you. Feel free to reach out for further assistance.
             </p>
           </ErrorDialog>
-          <ErrorDialog v-else-if="auctions.length === 0" title="No Auctions Found" state="info">
-            <p>
-              We're sorry, but it seems that there are currently no auctions available at the
-              moment. Our inventory is constantly being updated, so please check back later for new
-              listings. In the meantime, feel free to explore other sections of our platform or
-              reach out to our customer support team if you have any questions or concerns. Thank
-              you for your patience and understanding.
-            </p>
-          </ErrorDialog>
+          <EmptyState
+            class="mt-5"
+            v-else-if="auctions.length === 0"
+            type="auction"
+            title="No auctions found"
+            :text="
+              isRegisteredUser
+                ? `You do not have any ${route.params.view !== 'active' ? '' : 'active '}auctions at the moment`
+                : `${isRegisteredUser ? ProfileStateManager.profile.name : user.name} does not have any ${route.params.view !== 'active' ? '' : 'active '}auctions at the moment, please try again later`
+            "
+          >
+            <RouterLink
+              :to="{ name: 'create' }"
+              v-if="isRegisteredUser"
+              class="button button-primary mt-7"
+              >Create auction</RouterLink
+            >
+          </EmptyState>
         </section>
       </div>
     </template>

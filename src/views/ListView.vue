@@ -14,8 +14,18 @@ import ListBox from "@/components/formElements/ListBox.vue";
 import AuctionCard from "@/components/AuctionCard.vue";
 import ErrorDialog from "@/components/ErrorDialog.vue";
 import LoadingIndicator from "@/components/LoadingIndicator.vue";
+import EmptyState from "@/components/EmptyState.vue";
 // #endregion
 
+const emptyStateMessage = () => {
+  if (route.view === "category") {
+    return "Theres no auctions in this category, please try again later";
+  } else if (route.view === "search") {
+    return "Theres no auctions for this search";
+  } else {
+    return "Theres no auctions, please try again later";
+  }
+};
 const route = useRoute();
 
 const currentPage = ref();
@@ -157,17 +167,15 @@ onMounted(() => {
       a stable internet connection and try refreshing the page. If the issue persists, our team is
       here to assist you. Feel free to reach out for further assistance.
     </ErrorDialog>
-    <ErrorDialog
+    <EmptyState
+      class="mt-5"
       v-if="!auctionsStatus.hasAuctions && !auctionsStatus.isError"
-      title="No Auctions Found"
-      state="info"
+      :type="route.name === 'search' ? 'search' : 'auction'"
+      title="No auctions found"
+      :text="emptyStateMessage()"
     >
-      We're sorry, but it seems that there are currently no auctions available at the moment. Our
-      inventory is constantly being updated, so please check back later for new listings. In the
-      meantime, feel free to explore other sections of our platform or reach out to our customer
-      support team if you have any questions or concerns. Thank you for your patience and
-      understanding.
-    </ErrorDialog>
+    </EmptyState>
+
     <PaginationBar
       :currentPage="currentPage"
       :previousPage="previousPage"
