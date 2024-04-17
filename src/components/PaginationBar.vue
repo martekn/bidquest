@@ -1,7 +1,12 @@
 <script setup>
-import { RouterLink, useRoute } from "vue-router";
-import { ChevronRightIcon, ChevronLeftIcon } from "@heroicons/vue/20/solid";
+// #region -IMPORTS-
+// Vue-related imports
 import { reactive, watch } from "vue";
+import { RouterLink, useRoute } from "vue-router";
+
+// Third-party library imports
+import { ChevronRightIcon, ChevronLeftIcon } from "@heroicons/vue/20/solid";
+// #endregion
 
 const props = defineProps({
   currentPage: { type: [Number, String, null], default: 1 },

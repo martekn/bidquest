@@ -1,7 +1,14 @@
 <script setup>
+// #region -IMPORTS-
+// Vue-related imports
 import { onMounted, ref } from "vue";
+
+// Third-party library imports
 import { ChevronRightIcon, ChevronLeftIcon } from "@heroicons/vue/20/solid";
+
+// Custom module/helper imports
 import { debounce } from "@/helper/debounce";
+// #endregion
 
 const props = defineProps({
   images: {

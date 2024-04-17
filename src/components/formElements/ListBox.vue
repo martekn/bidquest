@@ -1,5 +1,10 @@
 <script setup>
+// #region -IMPORTS-
+// Vue-related imports
 import { computed } from "vue";
+// #endregion
+
+// Third-party library imports
 import {
   ListboxLabel,
   Listbox,

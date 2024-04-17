@@ -1,8 +1,14 @@
 <script setup>
+// #region -IMPORTS-
+// Vue-related imports
 import { onMounted, reactive, ref, watch } from "vue";
 import { useRoute, RouterLink } from "vue-router";
+
+// Custom module/helper imports
 import { auction } from "@/api";
 import { nanoid } from "@/helper/nanoid";
+
+// Custom components
 import AuctionCard from "@/components/AuctionCard.vue";
 import NotFoundView from "./NotFoundView.vue";
 import AuctionBid from "@/components/AuctionBid.vue";
@@ -10,6 +16,7 @@ import MediaGallery from "@/components/MediaGallery.vue";
 import LoadingIndicator from "@/components/LoadingIndicator.vue";
 import ErrorDialog from "@/components/ErrorDialog.vue";
 import UserAvatar from "@/components/UserAvatar.vue";
+// #endregion
 
 const isLoadingAuction = ref(true);
 const auctionError = ref(false);

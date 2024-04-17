@@ -1,5 +1,8 @@
-import { validateObjectKeys } from "./validateObjectKeys";
-import { addBase64Padding } from "./addBase64Padding";
+// #region -IMPORTS-
+// Custom module/helper imports
+import { validateObjectKeys } from "@/helper/validateObjectKeys";
+import { addBase64Padding } from "@/helper/addBase64Padding";
+// #endregion
 
 /**
  * JWT is an object that provides methods for handling JSON Web Tokens (JWTs)

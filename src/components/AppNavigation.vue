@@ -1,18 +1,29 @@
 <script setup>
+// #region -IMPORTS-
+// Vue-related imports
 import { computed, onMounted, reactive, ref } from "vue";
 import { RouterLink, useRoute } from "vue-router";
+
+// Third-party library imports
 import { ChevronDownIcon, Bars3Icon, XMarkIcon } from "@heroicons/vue/20/solid";
-import PopoverMenu from "./popover/PopoverMenu.vue";
-import MenuGroup from "./MenuGroup.vue";
-import PopoverItem from "./popover/PopoverItem.vue";
 import { Dialog, DialogPanel } from "@headlessui/vue";
-import SearchInput from "./SearchInput.vue";
+
+// Custom module/helper imports
 import { debounce } from "@/helper/debounce";
 import { AuthStateManager } from "@/helper/AuthStateManager";
 import { ProfileStateManager } from "@/helper/ProfileStateManager";
-import { logout } from "@/api/auth/logout";
+import { auth } from "@/api";
+
+// Constants imports
 import { navItems } from "@/consts/navItems";
-import UserAvatar from "./UserAvatar.vue";
+
+// Custom components
+import PopoverMenu from "@/components/popover/PopoverMenu.vue";
+import MenuGroup from "@/components/MenuGroup.vue";
+import PopoverItem from "@/components/popover/PopoverItem.vue";
+import SearchInput from "@/components/SearchInput.vue";
+import UserAvatar from "@/components/UserAvatar.vue";
+// #endregion
 
 const mobileNavOpen = ref(false);
 const route = useRoute();
@@ -184,7 +195,7 @@ onMounted(async () => {
                   </PopoverItem>
                 </MenuGroup>
                 <MenuGroup>
-                  <PopoverItem as="button" @click="logout()" id="logout-button">
+                  <PopoverItem as="button" @click="auth.logout()" id="logout-button">
                     Logout
                   </PopoverItem>
                 </MenuGroup>

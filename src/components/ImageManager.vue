@@ -1,6 +1,11 @@
 <script setup>
-import TextareaInput from "./formElements/TextareaInput.vue";
+// #region -IMPORTS-
+// Custom module/helper imports
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/vue/20/solid";
+
+// Custom components
+import TextareaInput from "@/components/formElements/TextareaInput.vue";
+// #endregion
 
 defineProps({
   images: {

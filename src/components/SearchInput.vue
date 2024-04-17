@@ -1,8 +1,13 @@
 <script setup>
+// #region -IMPORTS-
+// Vue-related imports
 import { ref, watch } from "vue";
-import { MagnifyingGlassIcon } from "@heroicons/vue/20/solid";
 import { useRoute } from "vue-router";
 import router from "@/router";
+
+// Third-party library imports
+import { MagnifyingGlassIcon } from "@heroicons/vue/20/solid";
+// #endregion
 
 const route = useRoute();
 let searchInput = ref("");

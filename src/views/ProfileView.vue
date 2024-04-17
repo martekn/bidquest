@@ -1,15 +1,25 @@
 <script setup>
+// #region -IMPORTS-
+// Vue-related imports
 import { reactive, ref, watch, computed } from "vue";
 import { useRoute, RouterLink } from "vue-router";
-import { profile } from "@/api";
+
+// Third-party library imports
+import { notify } from "notiwind";
 import { ChevronDownIcon, CameraIcon } from "@heroicons/vue/20/solid";
+
+// Custom module/helper imports
+import { profile } from "@/api";
 import { ProfileStateManager } from "@/helper/ProfileStateManager";
 import { AuthStateManager } from "@/helper/AuthStateManager";
+
+// Constants imports
 import { baseAvatar } from "@/consts/baseAvatar";
-import { notify } from "notiwind";
+
+// Custom components
 import AuctionCard from "@/components/AuctionCard.vue";
 import UserAvatar from "@/components/UserAvatar.vue";
-import NotFoundView from "./NotFoundView.vue";
+import NotFoundView from "@/views/NotFoundView.vue";
 import LoadingIndicator from "@/components/LoadingIndicator.vue";
 import ErrorDialog from "@/components/ErrorDialog.vue";
 import PopoverMenu from "@/components/popover/PopoverMenu.vue";
@@ -17,6 +27,7 @@ import MenuGroup from "@/components/MenuGroup.vue";
 import PopoverItem from "@/components/popover/PopoverItem.vue";
 import ConfirmationDialog from "@/components/ConfirmationDialog.vue";
 import EditAvatarDialog from "@/components/EditAvatarDialog.vue";
+// #endregion
 
 const route = useRoute();
 const apiLimit = 20;

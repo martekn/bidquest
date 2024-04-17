@@ -1,10 +1,17 @@
 <script setup>
+// #region -IMPORTS-
+// Vue-related imports
 import { onMounted, reactive, ref } from "vue";
 import { RouterLink } from "vue-router";
+
+// Custom module/helper imports
 import { auction } from "@/api";
+
+// Custom components
 import AuctionCard from "@/components/AuctionCard.vue";
 import AuctionCardSkeleton from "@/components//skeletonLoaders/AuctionCardSkeleton.vue";
 import ErrorDialog from "@/components/ErrorDialog.vue";
+// #endregion
 
 const auctionsEndingSoon = reactive([]);
 const newestAuctions = reactive([]);

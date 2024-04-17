@@ -1,5 +1,9 @@
 <script setup>
+// #region -IMPORTS-
+// Third-party library imports
 import { Menu, MenuButton, MenuItems } from "@headlessui/vue";
+// #endregion
+
 const props = defineProps({
   align: {
     type: String,
