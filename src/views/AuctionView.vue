@@ -56,7 +56,10 @@ const getAuctions = async () => {
     auctionDetail.value = singleAuction.value.data;
     isLoadingAuction.value = false;
   } else if (singleAuction.status === "rejected") {
-    if (singleAuction.reason.errors[0].code === "invalid_string") {
+    if (
+      singleAuction.reason.errors[0].code === "invalid_string" ||
+      singleAuction.reason.statusCode === 404
+    ) {
       isInvalidId.value = true;
     }
     auctionError.value = true;
