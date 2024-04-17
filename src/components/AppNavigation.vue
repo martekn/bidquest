@@ -173,6 +173,15 @@ onMounted(async () => {
                   >
                     My profile
                   </PopoverItem>
+                  <PopoverItem
+                    router-link
+                    :route="{
+                      name: 'history',
+                      params: { username: ProfileStateManager.profile.name }
+                    }"
+                  >
+                    My bid history
+                  </PopoverItem>
                 </MenuGroup>
                 <MenuGroup>
                   <PopoverItem as="button" @click="logout()" id="logout-button">
