@@ -1,5 +1,9 @@
 <script setup>
+// #region -IMPORTS-
+// Custom components
 import LoadingIndicator from "./LoadingIndicator.vue";
+// #endregion
+
 defineProps({
   type: { type: String, default: "submit" },
   disabled: { type: Boolean, default: false },
