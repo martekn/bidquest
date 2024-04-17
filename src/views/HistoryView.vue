@@ -19,7 +19,7 @@ import ShowMore from "@/components/ShowMore.vue";
 // #endregion
 
 const route = useRoute();
-const apiLimit = 1;
+const apiLimit = 20;
 
 const allBids = reactive({ isLoading: true, isError: false, auctions: [] });
 const allBidsMeta = ref({});
