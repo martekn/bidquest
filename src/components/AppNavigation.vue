@@ -1,7 +1,7 @@
 <script setup>
 // #region -IMPORTS-
 // Vue-related imports
-import { computed, onMounted, reactive, ref } from "vue";
+import { computed, reactive, ref, watch } from "vue";
 import { RouterLink, useRoute } from "vue-router";
 
 // Third-party library imports
@@ -28,6 +28,9 @@ import UserAvatar from "@/components/UserAvatar.vue";
 const mobileNavOpen = ref(false);
 const route = useRoute();
 
+const navbar = ref();
+const dropdown = ref();
+
 let visibleItems = reactive([...navItems]);
 let dropdownItems = computed(() => navItems.filter((value) => !visibleItems.includes(value)));
 
@@ -41,20 +44,20 @@ const isActive = (itemRoute) => {
 };
 
 const collapseMenu = () => {
-  const itemElements = Array.from(document.querySelectorAll("nav ul .item"));
-  const firstItem = itemElements[0];
+  const itemElements = Array.from(navbar.value.children).filter((item) =>
+    item.classList.contains("item")
+  );
+
   let lastItem = itemElements[itemElements.length - 1];
 
-  if (firstItem.offsetTop < lastItem.offsetTop) {
+  if (navbar.value.offsetTop < lastItem.offsetTop) {
     visibleItems.pop();
   }
-
-  const dropdown = document.querySelector("#menudropdown");
 
   for (let i = 0; i < visibleItems.length; i++) {
     // Using requestAnimationFrame to ensure that the element's offsetTop has been properly set
     requestAnimationFrame(() => {
-      if (dropdown.offsetTop > firstItem.offsetTop) {
+      if (dropdown.value.offsetTop > navbar.value.offsetTop) {
         visibleItems.pop();
       } else {
         return;
@@ -85,11 +88,13 @@ window.addEventListener("resize", () => {
 
 // Reason for async-await: Ensures proper rendering by delaying execution,
 // preventing inaccurate positioning of elements based on offsetTop property.
-onMounted(async () => {
-  await new Promise((resolve) => setTimeout(resolve));
-
-  collapseMenu();
-});
+watch(
+  () => navbar.value,
+  async () => {
+    await new Promise((resolve) => setTimeout(resolve));
+    collapseMenu();
+  }
+);
 </script>
 <template>
   <div class="bg-white">
@@ -214,21 +219,22 @@ onMounted(async () => {
 
     <nav class="hidden border-b border-grey-300 sm:block">
       <ul
+        ref="navbar"
         class="mx-auto flex w-full max-w-8xl items-center justify-between px-5 after:order-first after:block after:h-6 after:w-[1px] after:bg-grey-300 sm:flex-wrap sm:gap-7"
       >
         <li v-for="item in visibleItems" :key="item.id" class="item first:order-first">
           <RouterLink
             :class="{
-              ' font-semibold after:absolute after:inset-x-0 after:bottom-0 after:block after:h-2 after:rounded after:bg-primary-400':
+              'font-semibold after:absolute after:inset-x-0 after:bottom-0 after:block after:h-2 after:rounded after:bg-primary-400':
                 isActive(item.route)
             }"
-            class="relative block w-full py-4 outline-none transition-all duration-150 hover:text-grey-500 focus-visible:rounded focus-visible:ring-1 focus-visible:ring-black"
+            class="relative block py-4 text-center outline-none transition-all duration-150 hover:text-grey-500 focus-visible:rounded focus-visible:ring-1 focus-visible:ring-black"
             :to="item.route"
             >{{ item.name }}</RouterLink
           >
         </li>
 
-        <li id="menudropdown" v-show="dropdownItems.length > 0">
+        <li ref="dropdown" id="menudropdown" v-show="dropdownItems.length > 0">
           <PopoverMenu align="right" width="15rem">
             <button
               class="flex items-center gap-2 border-x border-grey-300 px-4 py-4 outline-none transition-all duration-150 hover:bg-grey-200"
