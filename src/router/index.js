@@ -23,16 +23,29 @@ import NotFoundView from "@/views/NotFoundView.vue";
 // #endregion
 
 const router = createRouter({
-  scrollBehavior(to) {
+  scrollBehavior(to, from) {
     if (to.hash) {
       return {
         el: to.hash,
         behavior: "smooth"
       };
+    } else if (
+      to.name === "history" &&
+      from.name === "history" &&
+      (to.params.view === "all" || to.params.view === "wins")
+    ) {
+      return;
+    } else if (
+      to.name === "profile" &&
+      from.name === "profile" &&
+      (to.params.view === "all" || to.params.view === "active")
+    ) {
+      return;
     } else {
-      return { el: "body" };
+      return { top: 0 };
     }
   },
+
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {

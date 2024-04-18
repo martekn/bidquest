@@ -29,6 +29,7 @@ import ConfirmationDialog from "@/components/ConfirmationDialog.vue";
 import EditAvatarDialog from "@/components/EditAvatarDialog.vue";
 import EmptyState from "@/components/EmptyState.vue";
 import ShowMore from "@/components/ShowMore.vue";
+import TabContainer from "@/components/TabContainer.vue";
 // #endregion
 
 const route = useRoute();
@@ -84,6 +85,29 @@ const showButton = computed(() => {
 
   return false;
 });
+
+const tabs = computed(() => [
+  {
+    label: "Active",
+    state: "1",
+    active: route.params.view === "active" || route.params.view !== "all",
+    count: activeAuctionsMeta.value?.totalCount ?? 0,
+    route: {
+      name: "profile",
+      params: { username: route.params.username, view: "active" }
+    }
+  },
+  {
+    label: "All",
+    id: "2",
+    active: route.params.view === "all",
+    count: allAuctionsMeta.value?.totalCount ?? 0,
+    route: {
+      name: "profile",
+      params: { username: route.params.username, view: "all" }
+    }
+  }
+]);
 
 const showMore = async () => {
   try {
@@ -300,90 +324,69 @@ watch(
         </div>
       </section>
       <div>
-        <div class="flex gap-9 border-b border-b-grey-300 text-sm font-medium">
-          <RouterLink
-            :class="{
-              ' border-b-primary-400': route.params.view !== 'all',
-              ' border-b-transparent': route.params.view === 'all'
-            }"
-            class="relative -bottom-1 border-b-[3px] p-1 outline-none transition-all hover:text-grey-500 focus-visible:rounded focus-visible:ring-2 focus-visible:ring-black"
-            :to="{ name: 'profile', params: { username: user.name, view: 'active' } }"
-            >Active
-            <span class="text-grey-500"
-              >({{ activeAuctionsMeta?.totalCount ?? 0 }})</span
-            ></RouterLink
-          ><RouterLink
-            :class="{
-              ' border-b-primary-400 ': route.params.view === 'all',
-              ' border-b-transparent ': route.params.view !== 'all'
-            }"
-            class="relative -bottom-1 border-b-[3px] p-1 outline-none transition-all hover:text-grey-500 focus-visible:rounded focus-visible:ring-2 focus-visible:ring-black"
-            :to="{ name: 'profile', params: { username: user.name, view: 'all' } }"
-            >All
-            <span class="text-grey-500">({{ allAuctionsMeta?.totalCount ?? 0 }})</span></RouterLink
-          >
-        </div>
-        <section class="mt-6 space-y-5 md:mt-7 md:space-y-6">
-          <h2>
-            <template v-if="route.params.view === 'all'">All auctions</template>
-            <template v-else>Active auctions</template>
-          </h2>
-          <AuctionList
-            class="mt-5 md:mt-6"
-            :auctions="auctions"
-            :loaded="
-              (activeAuctions.firstFetchLoaded && route.params.view !== 'all') ||
-              (allAuctions.firstFetchLoaded && route.params.view === 'all')
-            "
-            loaderType="regular"
-            :displayError="
-              (activeAuctions.isError && route.params.view !== 'all') ||
-              (allAuctions.isError && route.params.view === 'all')
-            "
-          >
-            <ShowMore
-              v-if="
-                (activeAuctions.firstFetchLoaded &&
-                  route.params.view !== 'all' &&
-                  activeAuctions.auctions.length > 0) ||
-                (allAuctions.firstFetchLoaded &&
-                  route.params.view === 'all' &&
-                  allAuctions.auctions.length > 0)
+        <TabContainer :tabs="tabs">
+          <section class="mt-6 space-y-5 md:mt-7 md:space-y-6">
+            <h2>
+              <template v-if="route.params.view === 'all'">All auctions</template>
+              <template v-else>Active auctions</template>
+            </h2>
+            <AuctionList
+              class="mt-5 md:mt-6"
+              :auctions="auctions"
+              :loaded="
+                (activeAuctions.firstFetchLoaded && route.params.view !== 'all') ||
+                (allAuctions.firstFetchLoaded && route.params.view === 'all')
               "
-              class="mt-7"
-              :show="showButton"
-              :error="showMoreError"
-              @loadMore="showMore"
-              :loading="showMoreLoading"
-              type="bids"
-              :visibleCount="auctions.length"
-              :totalCount="
-                route.params.view !== 'all'
-                  ? activeAuctionsMeta.totalCount
-                  : allAuctionsMeta.totalCount
-              "
-            />
-
-            <EmptyState
-              class="mt-5"
-              v-if="auctions.length === 0"
-              type="auction"
-              title="No auctions found"
-              :text="
-                isRegisteredUser
-                  ? `You do not have any ${route.params.view !== 'active' ? '' : 'active '}auctions at the moment`
-                  : `${isRegisteredUser ? ProfileStateManager.profile.name : user.name} does not have any ${route.params.view !== 'active' ? '' : 'active '}auctions at the moment, please try again later`
+              loaderType="regular"
+              :displayError="
+                (activeAuctions.isError && route.params.view !== 'all') ||
+                (allAuctions.isError && route.params.view === 'all')
               "
             >
-              <RouterLink
-                :to="{ name: 'create' }"
-                v-if="isRegisteredUser"
-                class="button button-primary mt-7"
-                >Create auction</RouterLink
+              <ShowMore
+                v-if="
+                  (activeAuctions.firstFetchLoaded &&
+                    route.params.view !== 'all' &&
+                    activeAuctions.auctions.length > 0) ||
+                  (allAuctions.firstFetchLoaded &&
+                    route.params.view === 'all' &&
+                    allAuctions.auctions.length > 0)
+                "
+                class="mt-7"
+                :show="showButton"
+                :error="showMoreError"
+                @loadMore="showMore"
+                :loading="showMoreLoading"
+                type="bids"
+                :visibleCount="auctions.length"
+                :totalCount="
+                  route.params.view !== 'all'
+                    ? activeAuctionsMeta.totalCount
+                    : allAuctionsMeta.totalCount
+                "
+              />
+
+              <EmptyState
+                class="mt-5"
+                v-if="auctions.length === 0"
+                type="auction"
+                title="No auctions found"
+                :text="
+                  isRegisteredUser
+                    ? `You do not have any ${route.params.view !== 'active' ? '' : 'active '}auctions at the moment`
+                    : `${isRegisteredUser ? ProfileStateManager.profile.name : user.name} does not have any ${route.params.view !== 'active' ? '' : 'active '}auctions at the moment, please try again later`
+                "
               >
-            </EmptyState>
-          </AuctionList>
-        </section>
+                <RouterLink
+                  :to="{ name: 'create' }"
+                  v-if="isRegisteredUser"
+                  class="button button-primary mt-7"
+                  >Create auction</RouterLink
+                >
+              </EmptyState>
+            </AuctionList>
+          </section>
+        </TabContainer>
       </div>
     </template>
     <template v-else>
