@@ -52,7 +52,7 @@ const activeAuctions = reactive({
   auctions: []
 });
 const activeAuctionsMeta = ref();
-const isRegisteredUser = route.params.username === AuthStateManager.getUsername();
+const isRegisteredUser = computed(() => route.params.username === AuthStateManager.getUsername());
 
 const allAuctions = reactive({
   firstFetchLoaded: false,
@@ -166,7 +166,7 @@ const setupProfile = async () => {
   let activeAuctionsResponse;
   let auctionsResponse;
 
-  if (isRegisteredUser) {
+  if (isRegisteredUser.value) {
     [activeAuctionsResponse, auctionsResponse] = await Promise.allSettled([
       profile.getUserAuctions(route.params.username, true, apiLimit, "endsAt", "asc", 1),
       profile.getUserAuctions(route.params.username, false, apiLimit, "created", "desc", 1)
