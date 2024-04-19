@@ -17,17 +17,44 @@ Users can engage with features like creating, editing, and viewing auction listi
 
 ### Installing
 
-1. Clone the repo:
+#### 1. Clone the repo:
 
 ```bash
 git clone git@github.com:martekn/bidquest.git
 ```
 
-2. Install the dependencies:
+#### 2. Install the dependencies:
 
 ```bash
 npm install
 ```
+
+### Environment Variable Setup
+
+To run the application, you only need to set up the `VITE_API_KEY` variable. For testing, you will need to set up additional environment variables.
+
+#### 1. Copy `.env.example`
+
+Copy the contents of the `.env.example` file into a new file named `.env`.
+
+#### 2. Generate API Key
+
+Visit the [Noroff API Documentation](https://docs.noroff.dev/docs/v2/auth/api-key) to learn how to generate an API key.
+
+#### 3. Environment Variables
+
+Fill out the following environment variables in the `.env` file:
+
+- **For running the application**:
+
+  - `VITE_API_KEY`: Your API key generated from Noroff.
+
+- **For testing**:
+  - `VITE_API_KEY`: Your API key generated from Noroff.
+  - `VITE_TOKEN`: A JWT token generated for testing purposes.
+  - `USER_NAME`: The username of a registered user for testing.
+  - `USER_EMAIL`: The email address of the registered user.
+  - `USER_PASSWORD`: The password of the registered user.
 
 ### Running
 
@@ -60,14 +87,14 @@ It is much faster than the production build.
 
 But it's still recommended to test the production build with `test:e2e` before deploying (e.g. in CI environments):
 
-```sh
+```bash
 npm run build
 npm run test:e2e
 ```
 
 #### Lint with [ESLint](https://eslint.org/)
 
-```sh
+```bash
 npm run lint
 ```
 
