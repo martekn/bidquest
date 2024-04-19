@@ -230,7 +230,10 @@ watch(
             }"
             class="relative block py-4 text-center outline-none transition-all duration-150 hover:text-grey-500 focus-visible:rounded focus-visible:ring-1 focus-visible:ring-black"
             :to="item.route"
-            >{{ item.name }}</RouterLink
+            ><span aria-hidden="true" class="invisible font-semibold">{{ item.name }}</span
+            ><span class="absolute inset-0 inline-flex h-full w-full items-center justify-center">{{
+              item.name
+            }}</span></RouterLink
           >
         </li>
 
