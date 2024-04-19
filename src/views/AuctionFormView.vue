@@ -349,7 +349,8 @@ watch(
             :is-error="descriptionField.isError"
             :error="descriptionField.error"
             optional
-            class="h-[17rem] md:col-span-full"
+            class="min-h-[15rem] md:col-span-full"
+            :max-count="280"
           />
         </div>
         <section class="mb-7 mt-9 border-b border-b-grey-300">

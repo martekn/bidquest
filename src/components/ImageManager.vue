@@ -38,6 +38,8 @@ defineProps({
             label="Alternative text"
             v-model="image.alt"
             class="col-span-2 w-full"
+            :maxCount="120"
+            counter-location="top"
           ></TextareaInput>
           <div class="flex gap-3">
             <button

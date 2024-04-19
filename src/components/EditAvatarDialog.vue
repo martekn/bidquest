@@ -90,7 +90,12 @@ watch(
           class="mt-2 grid grid-cols-[1fr_auto] grid-rows-[auto_1fr] gap-y-5 text-grey-500"
         >
           <TextInput v-model="urlField" label="Image url" type="url" id="url" />
-          <TextareaInput v-model="altField" label="Alternative Text" id="alt" />
+          <TextareaInput
+            v-model="altField"
+            label="Alternative Text"
+            id="alt"
+            :maxCount="120"
+            counter-location="bottom" />
 
           <div class="col-start-2 row-span-2 row-start-1 ml-5 border-l border-grey-300 pl-5">
             <UserAvatar class="h-[15rem] w-[15rem]" :url="urlField" :alt="altField" /></div
