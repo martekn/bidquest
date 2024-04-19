@@ -9,6 +9,7 @@ import router from "@/router";
 import { notify } from "notiwind";
 import { DocumentMinusIcon } from "@heroicons/vue/20/solid";
 import dayjs from "dayjs";
+import { XCircleIcon } from "@heroicons/vue/20/solid";
 
 // Custom module/helper imports
 import { nanoid } from "@/helper/nanoid.js";
@@ -38,11 +39,24 @@ const isInvalidId = ref(false);
 const dateValue = ref();
 
 const imageField = ref();
+const imageFieldError = ref(false);
+const imageFieldMessage = computed(() => {
+  if (imageFieldError.value) {
+    return "Image URL must be valid URL";
+  } else if (images.length > maxImageCount) {
+    return `Too many images (${images.length}/${maxImageCount})`;
+  } else if (images.length === maxImageCount) {
+    return "You have added the maximum of 8 images. If you want to upload a different image you have to delete an existing image";
+  }
+  return "";
+});
 const images = reactive([]);
 
 const currentDate = dayjs();
 const minDateTime = currentDate.format("YYYY-MM-DDTHH:mm");
 const maxDateTime = currentDate.add(1, "year").format("YYYY-MM-DDTHH:mm");
+
+const maxImageCount = 8;
 
 const categoryOptions = categories.map((category) => {
   return { value: category, label: category.charAt(0).toUpperCase() + category.slice(1) };
@@ -68,7 +82,7 @@ const titleField = reactive({
 
 const dateField = reactive({
   isError: false,
-  error: "Date is required"
+  error: ""
 });
 
 const descriptionField = reactive({
@@ -84,9 +98,18 @@ const requiredFilled = computed(() => {
   }
 });
 
-const addImage = () => {
-  images.push({ url: imageField.value, alt: "", id: nanoid() });
-  imageField.value = "";
+const addImage = async () => {
+  imageFieldError.value = false;
+  try {
+    const response = await fetch(imageField.value, { method: "HEAD" });
+    if (!response.headers.get("Content-Type").startsWith("image")) {
+      throw Error("Url is not an image");
+    }
+    images.push({ url: imageField.value, alt: "", id: nanoid() });
+    imageField.value = "";
+  } catch (error) {
+    imageFieldError.value = true;
+  }
 };
 
 const moveImage = (from, to) => {
@@ -108,6 +131,8 @@ const deleteImage = (index) => {
 };
 
 const submit = async () => {
+  imageFieldError.value = false;
+  imageField.value = "";
   if (images.length > 0) {
     auctionBody.media.push(...images);
   }
@@ -147,22 +172,39 @@ const submit = async () => {
 };
 
 const validate = () => {
-  if (auctionBody.title && dateValue && auctionBody.description.length <= 280) {
-    titleField.isError = false;
-    dateField.isError = false;
-    submit();
-    return;
+  titleField.isError = false;
+  dateField.isError = false;
+  descriptionField.isError = false;
+
+  if (auctionBody.title.length > 280) {
+    titleField.isError = true;
+    titleField.error = "Title cannot be longer than 280 characters";
   }
 
   if (!auctionBody.title) {
     titleField.isError = true;
+    titleField.error = "Title is required";
+  }
+
+  const isPastDate = new Date(dateValue.value).getTime() <= new Date();
+
+  if (isPastDate) {
+    dateField.isError = true;
+    dateField.error = "End date and time cannot be in the past";
   }
 
   if (!dateValue.value) {
     dateField.isError = true;
+    dateField.error = "Date and time is required";
   }
+
   if (auctionBody.description.length > 280) {
     descriptionField.isError = true;
+  }
+
+  if (!titleField.isError && !dateField.isError && !descriptionField.isError) {
+    submit();
+    return;
   }
 };
 
@@ -309,13 +351,15 @@ watch(
           rearrange the images by using the arrow buttons to adjust their order.
         </p>
         <div
-          class="mt-7 flex gap-4"
+          class="mt-7 grid grid-cols-[1fr_auto] gap-4"
           :class="{
             ' border-b border-b-grey-300 pb-7': images.length > 0,
             'mb-7': images.length === 0
           }"
         >
           <TextInput
+            :disabled="images.length >= maxImageCount"
+            :is-error="imageFieldError"
             v-model="imageField"
             id="image"
             label="Image url"
@@ -323,11 +367,20 @@ watch(
             class="flex-grow"
           />
           <button
+            :disabled="images.length >= maxImageCount"
             class="button button-secondary self-end py-[calc(0.5rem+1px)] leading-normal"
             @click="addImage"
           >
             Add
           </button>
+          <span
+            v-if="images.length >= maxImageCount || imageFieldError"
+            :class="{ 'text-grey-500': !imageFieldError, 'text-red-400': imageFieldError }"
+            class="col-span-full mt-2 flex gap-2 text-sm leading-tight"
+            :id="'input-error-' + id"
+            ><XCircleIcon v-if="imageFieldError" class="h-5 w-5 flex-shrink-0 leading-tight" />
+            {{ imageFieldMessage }}</span
+          >
         </div>
         <ImageManager
           :images="images"
