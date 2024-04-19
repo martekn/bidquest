@@ -328,6 +328,7 @@ watch(
               <button
                 class="grid h-7 w-7 place-items-center gap-3 rounded-sm bg-white/75 outline-none ring-1 ring-white/75 transition-all hover:bg-white/100 ui-focus-visible:ring-white/100 ui-focus-visible:inner-border-2 ui-focus-visible:inner-border-black"
               >
+                <span class="sr-only">Avatar edit menu</span>
                 <CameraIcon class="h-6 w-6" />
               </button>
               <template #items>

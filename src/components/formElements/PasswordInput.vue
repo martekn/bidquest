@@ -52,6 +52,8 @@ const visibilityToggle = () => {
         class="absolute right-3 top-1/2 -translate-y-1/2 transform rounded text-grey-500 outline-none transition-all hover:text-black/90 focus-visible:text-black focus-visible:ring-2 focus-visible:ring-black"
         @click="visibilityToggle"
       >
+        <span v-if="activeType === 'password'" class="sr-only">Show password</span> >
+        <span v-if="activeType === 'text'" class="sr-only">Hide password</span>
         <EyeIcon class="h-[1.25rem] w-[1.25rem]" v-if="activeType === 'password'"></EyeIcon>
         <EyeSlashIcon class="h-[1.25rem] w-[1.25rem]" v-if="activeType === 'text'"></EyeSlashIcon>
       </button>
