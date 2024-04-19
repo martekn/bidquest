@@ -9,6 +9,7 @@ import { auction } from "@/api";
 
 // Custom components
 import AuctionList from "@/components/AuctionList.vue";
+import EmptyState from "@/components/EmptyState.vue";
 // #endregion
 
 const auctionsEndingSoon = reactive([]);
@@ -83,6 +84,16 @@ onMounted(() => {
         :skeletonCount="4"
         :displayError="auctionsEndingSoonError"
       >
+        <EmptyState
+          v-if="
+            auctionsEndingSoon.length === 0 &&
+            !isAuctionsEndingSoonLoading &&
+            !auctionsEndingSoonError
+          "
+          type="auction"
+          title="No auctions found"
+          text="Theres no auctions ending soon at the moment, please try again later"
+        />
       </AuctionList>
     </section>
 
@@ -96,6 +107,12 @@ onMounted(() => {
         :skeletonCount="4"
         :displayError="newestAuctionsError"
       >
+        <EmptyState
+          v-if="newestAuctions.length === 0 && !isNewestAuctionsLoading && !newestAuctionsError"
+          type="auction"
+          title="No auctions found"
+          text="Theres no new auctions at the moment, please try again later"
+        />
       </AuctionList>
     </section>
   </main>
