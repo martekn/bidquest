@@ -59,6 +59,7 @@ const getAuctions = async () => {
   ]);
 
   if (singleAuction.status === "fulfilled") {
+    document.title = `${singleAuction.value.data.title} | BidQuest`;
     singleAuction.value.data.media = setMediaArray(singleAuction.value.data.media);
     auctionDetail.value = singleAuction.value.data;
     isLoadingAuction.value = false;

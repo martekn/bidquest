@@ -51,24 +51,65 @@ const router = createRouter({
     {
       path: "/",
       name: "home",
-      component: HomeView
+      component: HomeView,
+      meta: {
+        title: "BidQuest",
+        metaTags: [
+          {
+            name: "description",
+            content:
+              "Welcome to BidQuest - your ultimate destination for online auctions. Explore a wide range of items and start bidding today!"
+          }
+        ]
+      }
     },
     {
       path: "/login",
       name: "login",
       component: LoginView,
-      meta: { guest: true }
+      meta: {
+        guest: true,
+
+        title: "Login - BidQuest",
+        metaTags: [
+          {
+            name: "description",
+            content:
+              "Log in to your BidQuest account and start bidding on your favorite items. Join our vibrant community today!"
+          }
+        ]
+      }
     },
     {
       path: "/register",
       name: "register",
       component: RegisterView,
-      meta: { guest: true }
+      meta: {
+        guest: true,
+        title: "Register - BidQuest",
+        metaTags: [
+          {
+            name: "description",
+            content:
+              "Create your BidQuest account and unlock access to exciting auctions. Sign up now and start bidding!"
+          }
+        ]
+      }
     },
     {
       path: "/search/:query/:page(page-\\d+)?",
       name: "search",
-      component: ListView
+      component: ListView,
+      meta: {
+        title: "Search: [:query] - BidQuest",
+        metaTags: [
+          {
+            name: "description",
+            content:
+              "Find what you're looking for with BidQuest's powerful search feature. Explore a wide variety of items matching your query and place your bids!"
+          }
+        ]
+      }
     },
     {
       path: "/auctions",
@@ -76,7 +117,17 @@ const router = createRouter({
         {
           path: ":page(page-\\d+)?",
           name: "auctions",
-          component: ListView
+          component: ListView,
+          meta: {
+            title: "All Auctions - BidQuest",
+            metaTags: [
+              {
+                name: "description",
+                content:
+                  "Discover a vast selection of auctions on BidQuest. Browse through different categories, find your interests, and place your bids to win!"
+              }
+            ]
+          }
         },
 
         {
@@ -91,6 +142,16 @@ const router = createRouter({
                 params: { pathMatch: to.path.split("/").slice(1), query: to.query, hash: to.hash }
               };
             }
+          },
+          meta: {
+            title: "[:category] - BidQuest",
+            metaTags: [
+              {
+                name: "description",
+                content:
+                  "Explore auctions in this category on BidQuest. Find unique items, participate in bidding, and seize the opportunity to win!"
+              }
+            ]
           }
         }
       ]
@@ -103,25 +164,64 @@ const router = createRouter({
           name: "create",
           component: AuctionFormView,
           props: { mode: "create" },
-          meta: { requiresAuth: true }
+          meta: {
+            requiresAuth: true,
+            title: "Create Auction - BidQuest",
+            metaTags: [
+              {
+                name: "description",
+                content:
+                  "Start selling your items on BidQuest by creating an auction. Set your terms, attract bidders, and maximize your earnings!"
+              }
+            ]
+          }
         },
         {
           path: ":id",
           name: "auction",
-          component: AuctionView
+          component: AuctionView,
+          meta: {
+            title: "Auction - BidQuest",
+            metaTags: [
+              {
+                name: "description",
+                content:
+                  "View details and participate in this auction on BidQuest. Place your bids and compete with others to secure your desired item!"
+              }
+            ]
+          }
         },
         {
           path: ":id/edit",
           name: "edit",
           component: AuctionFormView,
           props: { mode: "edit" },
-          meta: { requiresAuth: true }
+          meta: {
+            requiresAuth: true,
+            title: "Edit Auction - BidQuest",
+            metaTags: [
+              {
+                name: "description",
+                content:
+                  "Modify your auction details on BidQuest. Update item information and optimize your auction to attract more bidders!"
+              }
+            ]
+          }
         }
       ]
     },
     {
       path: "/profile/:username",
-      meta: { requiresAuth: true },
+      meta: {
+        requiresAuth: true,
+        title: "[:username] - BidQuest",
+        metaTags: [
+          {
+            name: "description",
+            content: "View this profile on BidQuest. Explore their auctions!"
+          }
+        ]
+      },
       children: [
         {
           path: ":view(active|all)?",
@@ -131,23 +231,45 @@ const router = createRouter({
         {
           path: "history/:view(wins|all)?",
           name: "history",
-          component: HistoryView
+          component: HistoryView,
+          meta: {
+            title: "Bid History - BidQuest",
+            metaTags: [
+              {
+                name: "description",
+                content:
+                  "Review your bidding history on BidQuest. See your past wins, monitor your bidding activity, and enhance your auction strategy"
+              }
+            ]
+          }
         }
       ]
     },
     {
       name: "404",
       path: "/:pathMatch(.*)*",
-      component: NotFoundView
+      component: NotFoundView,
+      meta: {
+        title: "Page Not Found - BidQuest",
+        metaTags: [
+          {
+            name: "description",
+            content:
+              "Oops! The page you're looking for doesn't exist on BidQuest. Explore our site and discover exciting auctions!"
+          }
+        ]
+      }
     }
   ]
 });
 
 router.beforeEach((to, from, next) => {
+  // Set profile on route if authenticated
   if (AuthStateManager.isAuthenticated()) {
     ProfileStateManager.update();
   }
 
+  // Redirection history
   if (from.name !== "login" && from.name !== "register") {
     HistoryStack.update(from.fullPath);
   }
@@ -156,6 +278,7 @@ router.beforeEach((to, from, next) => {
     HistoryStack.clear();
   }
 
+  // Auth guards
   if (to.matched.some((record) => record.meta.requiresAuth)) {
     if (!AuthStateManager.isAuthenticated()) {
       return next({
@@ -177,6 +300,29 @@ router.beforeEach((to, from, next) => {
   } else {
     return next();
   }
+});
+
+router.afterEach((to) => {
+  let pageTitle;
+  if (to.meta.title.includes("[:")) {
+    const param = to.meta.title.split("[:")[1].split("]")[0];
+    pageTitle = `${to.params[param].charAt(0).toUpperCase() + to.params[param].slice(1)} - BidQuest`;
+  } else {
+    pageTitle = to.meta.title;
+  }
+  document.title = pageTitle;
+
+  // Remove old meta description
+  const oldMeta = document.querySelector('meta[name="description"]');
+  if (oldMeta) {
+    document.head.removeChild(oldMeta);
+  }
+
+  // Add new meta description
+  const descriptionTag = document.createElement("meta");
+  descriptionTag.name = "description";
+  descriptionTag.content = to.meta.metaTags.find((tag) => tag.name === "description").content;
+  document.head.appendChild(descriptionTag);
 });
 
 export default router;
