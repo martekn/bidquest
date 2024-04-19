@@ -36,14 +36,48 @@ const route = useRoute();
 const apiLimit = 20;
 const isEditOpen = ref(false);
 const isRemoveOpen = ref(false);
-
 const isInvalidId = ref(false);
-const user = reactive({
-  isLoading: true,
-  isError: true,
+
+const showMoreLoading = ref(false);
+const showMoreError = ref(false);
+
+const allAuctionsMeta = ref();
+const activeAuctionsMeta = ref();
+
+const isRegisteredUser = computed(() => route.params.username === AuthStateManager.getUsername());
+
+const userResponse = reactive({
   name: "",
   wins: 0,
   avatar: { url: "", alt: "" }
+});
+
+const userState = reactive({
+  isError: false,
+  isLoading: true
+});
+
+const user = computed(() => {
+  if (isRegisteredUser.value) {
+    return {
+      name: ProfileStateManager.profile.name,
+      wins: ProfileStateManager.profile._count.wins,
+      avatar: {
+        url: ProfileStateManager.profile.avatar.url,
+
+        alt: ProfileStateManager.profile.avatar.alt
+      }
+    };
+  }
+
+  return {
+    name: userResponse.name,
+    wins: userResponse.wins,
+    avatar: {
+      url: userResponse.avatar.url,
+      alt: userResponse.avatar.alt
+    }
+  };
 });
 
 const activeAuctions = reactive({
@@ -52,8 +86,6 @@ const activeAuctions = reactive({
   isError: false,
   auctions: []
 });
-const activeAuctionsMeta = ref();
-const isRegisteredUser = computed(() => route.params.username === AuthStateManager.getUsername());
 
 const allAuctions = reactive({
   firstFetchLoaded: false,
@@ -61,10 +93,6 @@ const allAuctions = reactive({
   isError: false,
   auctions: []
 });
-const allAuctionsMeta = ref();
-
-const showMoreLoading = ref(false);
-const showMoreError = ref(false);
 
 const auctions = computed(() => {
   if (route.params.view === "all") {
@@ -165,11 +193,12 @@ const handleAuctionsResponse = (response, auctionsObj, metaObj) => {
 
 const setUserData = (response) => {
   const { name, _count, avatar } = response;
-  user.name = name;
-  user.wins = _count.wins;
-  user.avatar.url = avatar.url;
-  user.avatar.alt = avatar.alt;
-  user.isLoading = false;
+  userResponse.name = name;
+  userResponse.wins = _count.wins;
+  userResponse.avatar.url = avatar.url;
+  userResponse.avatar.alt = avatar.alt;
+
+  userState.isLoading = false;
 };
 
 const setUserError = (statusCode) => {
@@ -177,12 +206,12 @@ const setUserError = (statusCode) => {
     isInvalidId.value = true;
   }
 
-  user.isError = true;
-  user.isLoading = false;
+  userState.isError = true;
+  userState.isLoading = false;
 };
 
 const setupProfile = async () => {
-  resetAuctions(user);
+  resetAuctions(userResponse);
   resetAuctions(activeAuctions, true);
   resetAuctions(allAuctions, true);
 
@@ -197,9 +226,9 @@ const setupProfile = async () => {
     ]);
 
     if (ProfileStateManager.profile.status === "fulfilled") {
-      setUserData(ProfileStateManager.profile);
+      userState.isLoading = false;
     } else if (ProfileStateManager.profile.status === "rejected") {
-      setUserError(ProfileStateManager.profile.statusCode);
+      setUserError(profileResponse.reason.statusCode);
     }
   } else {
     [profileResponse, activeAuctionsResponse, auctionsResponse] = await Promise.allSettled([
@@ -270,31 +299,23 @@ watch(
 </script>
 
 <template>
-  <LoadingIndicator v-if="user.isLoading" color="dark" class="my-10" />
+  <LoadingIndicator v-if="userState.isLoading" color="dark" class="my-10" />
   <NotFoundView v-else-if="isInvalidId"></NotFoundView>
   <main v-else class="main-base">
-    <template v-if="!isInvalidId && !user.isLoading && !user.isError">
+    <template v-if="!isInvalidId && !userState.isLoading && !userState.isError">
       <section
         class="flex flex-row-reverse flex-wrap-reverse items-center justify-end gap-5 pb-6 md:gap-6 md:pb-7"
       >
         <div>
-          <h1>{{ isRegisteredUser ? ProfileStateManager.profile.name : user.name }}</h1>
+          <h1>{{ user.name }}</h1>
           <span
-            >{{ isRegisteredUser ? ProfileStateManager.profile._count.wins : user.wins }}
-            {{
-              (isRegisteredUser ? ProfileStateManager.profile._count.wins : user.wins) !== 1
-                ? "auctions"
-                : "auction"
-            }}
+            >{{ user.wins }}
+            {{ user.wins !== 1 ? "auctions" : "auction" }}
             won</span
           >
         </div>
         <div class="relative">
-          <UserAvatar
-            class="h-12 w-12"
-            :url="isRegisteredUser ? ProfileStateManager.profile.avatar.url : user.avatar.url"
-            :alt="isRegisteredUser ? ProfileStateManager.profile.avatar.alt : user.avatar.alt"
-          />
+          <UserAvatar class="h-12 w-12" :url="user.avatar.url" :alt="user.avatar.alt" />
           <div class="absolute bottom-2 right-2 h-7 w-7">
             <PopoverMenu
               v-if="isRegisteredUser"
@@ -374,7 +395,7 @@ watch(
                 :text="
                   isRegisteredUser
                     ? `You do not have any ${route.params.view !== 'active' ? '' : 'active '}auctions at the moment`
-                    : `${isRegisteredUser ? ProfileStateManager.profile.name : user.name} does not have any ${route.params.view !== 'active' ? '' : 'active '}auctions at the moment, please try again later`
+                    : `${user.name} does not have any ${route.params.view !== 'active' ? '' : 'active '}auctions at the moment, please try again later`
                 "
               >
                 <RouterLink
