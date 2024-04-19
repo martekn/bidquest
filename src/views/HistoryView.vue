@@ -17,6 +17,7 @@ import ErrorDialog from "@/components/ErrorDialog.vue";
 import EmptyState from "@/components/EmptyState.vue";
 import ShowMore from "@/components/ShowMore.vue";
 import TabContainer from "@/components/TabContainer.vue";
+import LoadingIndicator from "@/components/LoadingIndicator.vue";
 // #endregion
 
 const route = useRoute();
@@ -180,6 +181,14 @@ watch(
             (!bidsWon.isError && route.params.view === 'wins')
           "
         >
+          <LoadingIndicator
+            color="dark"
+            class="my-12"
+            v-if="
+              (allBids.isLoading && route.params.view !== 'wins') ||
+              (bidsWon.isLoading && route.params.view === 'wins')
+            "
+          />
           <template v-if="history.length > 0">
             <table
               class="w-full border-collapse divide-y divide-grey-300 border-b border-grey-300 text-left"
@@ -249,7 +258,10 @@ watch(
             />
           </template>
           <EmptyState
-            v-else
+            v-else-if="
+              (!allBids.isLoading && route.params.view !== 'wins') ||
+              (!bidsWon.isLoading && route.params.view === 'wins')
+            "
             class="mt-5"
             type="auction"
             :title="route.params.view !== 'wins' ? 'No Bids Found' : 'No Wins Found'"
