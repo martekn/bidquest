@@ -23,7 +23,7 @@ const panel = ref();
       <div class="fixed inset-0 bg-black/75" aria-hidden="true" />
       <DialogPanel
         ref="panel"
-        class="z-10 grid w-full max-w-lg overflow-y-auto rounded bg-white px-6 pt-6 shadow-md shadow-black/10"
+        class="z-10 grid max-h-[100svh] w-full max-w-lg overflow-y-auto rounded bg-white px-6 pt-6 shadow-md shadow-black/10"
       >
         <DialogTitle class="text-semibold font-accent text-lg">{{ title }}</DialogTitle>
         <DialogDescription class="mt-2 text-grey-500"> <slot /></DialogDescription>

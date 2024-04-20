@@ -266,7 +266,7 @@ watch(
     <Dialog as="div" class="sm:hidden" @close="mobileNavOpen = false" :open="mobileNavOpen">
       <div class="fixed inset-0 bg-black/75" aria-hidden="true" @click="mobileNavOpen = false" />
       <DialogPanel
-        class="fixed inset-y-0 left-0 z-10 w-full max-w-sm overflow-y-auto bg-white py-5 shadow-md shadow-black/10"
+        class="fixed inset-y-0 left-0 z-10 max-h-[100svh] w-full max-w-sm overflow-y-auto bg-white py-5 shadow-md shadow-black/10"
       >
         <div class="flex items-center justify-between px-5">
           <RouterLink

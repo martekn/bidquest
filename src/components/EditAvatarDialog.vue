@@ -77,7 +77,7 @@ watch(
         as="form"
         @submit.prevent
         ref="panel"
-        class="z-10 grid w-full max-w-3xl overflow-y-auto rounded bg-white px-6 pt-6 shadow-md shadow-black/10"
+        class="z-10 grid max-h-[100svh] w-full max-w-3xl overflow-y-auto rounded bg-white px-6 pt-6 shadow-md shadow-black/10"
       >
         <ErrorDialog v-if="apiError.length > 0" title="We could save your image" class="mb-5">
           <ul class="list-inside list-disc">
@@ -87,21 +87,33 @@ watch(
 
         <DialogTitle class="text-semibold font-accent text-lg">Edit image</DialogTitle>
         <DialogDescription
-          class="mt-2 grid grid-cols-[1fr_auto] grid-rows-[auto_1fr] gap-y-5 text-grey-500"
+          class="mt-4 grid gap-y-5 text-grey-500 min-[35em]:grid-cols-[1fr_auto] min-[35em]:grid-rows-[auto_1fr]"
         >
           <TextInput v-model="urlField" label="Image url" type="url" id="url" />
           <TextareaInput
+            class="min-h-[9rem]"
             v-model="altField"
             label="Alternative Text"
             id="alt"
             :maxCount="120"
-            counter-location="bottom" />
+            counter-location="bottom"
+            resize
+          />
 
-          <div class="col-start-2 row-span-2 row-start-1 ml-5 border-l border-grey-300 pl-5">
-            <UserAvatar class="h-[15rem] w-[15rem]" :url="urlField" :alt="altField" /></div
-        ></DialogDescription>
+          <div
+            class="row-start-1 justify-self-center border-grey-300 max-[35em]:aspect-h-1 max-[35em]:aspect-w-1 max-[35em]:w-full min-[35em]:col-start-2 min-[35em]:row-span-2 min-[35em]:row-start-1 min-[35em]:ml-5 min-[35em]:border-l min-[35em]:pl-5"
+          >
+            <div>
+              <UserAvatar
+                class="h-full w-full min-[35em]:h-[15rem] min-[35em]:w-[15rem]"
+                :url="urlField"
+                :alt="altField"
+              />
+            </div>
+          </div>
+        </DialogDescription>
 
-        <div class="mt-6 flex flex-row-reverse gap-6 border-t border-t-grey-300 py-4">
+        <div class="mt-6 flex flex-row-reverse gap-6 border-t border-grey-300 py-4">
           <LoadingButton @buttonClicked="submitAvatar" :buttonLoading="isLoading"
             >Save</LoadingButton
           >
