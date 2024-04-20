@@ -19,7 +19,7 @@ import { navItems } from "@/consts/navItems";
 
 // Custom components
 import PopoverMenu from "@/components/popover/PopoverMenu.vue";
-import MenuGroup from "@/components/MenuGroup.vue";
+import PopoverGroup from "@/components/popover/PopoverGroup.vue";
 import PopoverItem from "@/components/popover/PopoverItem.vue";
 import SearchInput from "@/components/SearchInput.vue";
 import UserAvatar from "@/components/UserAvatar.vue";
@@ -160,7 +160,7 @@ watch(
                 </div>
               </button>
               <template #items>
-                <MenuGroup class="sm:hidden">
+                <PopoverGroup class="sm:hidden">
                   <PopoverItem as="div">
                     <div
                       class="pointer-events-none flex flex-row-reverse justify-end gap-3 text-sm"
@@ -178,8 +178,8 @@ watch(
                       />
                     </div>
                   </PopoverItem>
-                </MenuGroup>
-                <MenuGroup class="sm:border-none">
+                </PopoverGroup>
+                <PopoverGroup class="sm:border-none">
                   <PopoverItem
                     router-link
                     :route="{
@@ -198,12 +198,12 @@ watch(
                   >
                     My bid history
                   </PopoverItem>
-                </MenuGroup>
-                <MenuGroup>
+                </PopoverGroup>
+                <PopoverGroup>
                   <PopoverItem as="button" @click="auth.logout()" id="logout-button">
                     Logout
                   </PopoverItem>
-                </MenuGroup>
+                </PopoverGroup>
               </template>
             </PopoverMenu>
           </div>
@@ -248,7 +248,7 @@ watch(
               />
             </button>
             <template #items>
-              <MenuGroup>
+              <PopoverGroup>
                 <PopoverItem
                   v-for="item in dropdownItems"
                   routerLink
@@ -257,7 +257,7 @@ watch(
                 >
                   {{ item.name }}
                 </PopoverItem>
-              </MenuGroup>
+              </PopoverGroup>
             </template>
           </PopoverMenu>
         </li>

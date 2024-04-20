@@ -23,7 +23,7 @@ import NotFoundView from "@/views/NotFoundView.vue";
 import LoadingIndicator from "@/components/LoadingIndicator.vue";
 import ErrorDialog from "@/components/ErrorDialog.vue";
 import PopoverMenu from "@/components/popover/PopoverMenu.vue";
-import MenuGroup from "@/components/MenuGroup.vue";
+import PopoverGroup from "@/components/popover/PopoverGroup.vue";
 import PopoverItem from "@/components/popover/PopoverItem.vue";
 import ConfirmationDialog from "@/components/ConfirmationDialog.vue";
 import EditAvatarDialog from "@/components/EditAvatarDialog.vue";
@@ -331,14 +331,14 @@ watch(
                 <CameraIcon class="h-6 w-6" />
               </button>
               <template #items>
-                <MenuGroup>
+                <PopoverGroup>
                   <PopoverItem as="button" @click="isEditOpen = true" id="edit-avatar-button">
                     Change image
                   </PopoverItem>
                   <PopoverItem as="button" @click="isRemoveOpen = true" id="delete-avatar-button">
                     Remove image
                   </PopoverItem>
-                </MenuGroup>
+                </PopoverGroup>
               </template>
             </PopoverMenu>
           </div>
