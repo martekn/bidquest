@@ -6,6 +6,7 @@ import AuctionCardSkeleton from "@/components/skeletonLoaders/AuctionCardSkeleto
 import LoadingIndicator from "@/components/LoadingIndicator.vue";
 import ErrorDialog from "@/components/ErrorDialog.vue";
 import EmptyState from "./EmptyState.vue";
+import FadeTransition from "./FadeTransition.vue";
 // #endregion
 
 defineProps({
@@ -31,15 +32,7 @@ defineProps({
 <template>
   <div>
     <div>
-      <Transition
-        mode="out-in"
-        enter-active-class="duration-200 ease-out"
-        enter-from-class="transform opacity-0"
-        enter-to-class="opacity-100"
-        leave-active-class="duration-100 ease-in"
-        leave-from-class="opacity-100"
-        leave-to-class="transform opacity-0"
-      >
+      <FadeTransition mode="out-in">
         <ul
           v-if="loaded && !displayError && auctions.length > 0"
           class="grid gap-5 xs:grid-cols-2 md:grid-cols-4 md:gap-6"
@@ -83,7 +76,7 @@ defineProps({
         <EmptyState v-else :title="emptyStateTitle" :type="emptyStateType" :text="emptyStateText">
           <slot name="empty-state-slot" />
         </EmptyState>
-      </Transition>
+      </FadeTransition>
     </div>
     <slot name="pagination-slot" />
   </div>
