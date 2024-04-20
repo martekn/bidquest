@@ -6,7 +6,7 @@ import { RouterLink, useRoute } from "vue-router";
 
 // Third-party library imports
 import { ChevronDownIcon, Bars3Icon, XMarkIcon } from "@heroicons/vue/20/solid";
-import { Dialog, DialogPanel } from "@headlessui/vue";
+import { Dialog, DialogPanel, TransitionChild, TransitionRoot } from "@headlessui/vue";
 
 // Custom module/helper imports
 import { debounce } from "@/helper/debounce";
@@ -263,44 +263,80 @@ watch(
         </li>
       </ul>
     </nav>
-    <Dialog as="div" class="sm:hidden" @close="mobileNavOpen = false" :open="mobileNavOpen">
-      <div class="fixed inset-0 bg-black/75" aria-hidden="true" @click="mobileNavOpen = false" />
-      <DialogPanel
-        class="fixed inset-y-0 left-0 z-10 max-h-[100svh] w-full max-w-sm overflow-y-auto bg-white py-5 shadow-md shadow-black/10"
-      >
-        <div class="flex items-center justify-between px-5">
-          <RouterLink
-            :to="{ name: 'home' }"
-            class="rounded font-accent text-xl font-semibold outline-none transition-all duration-150 hover:opacity-95 focus-visible:ring-2 focus-visible:ring-black sm:hidden sm:text-3xl"
+    <TransitionRoot as="template" :show="mobileNavOpen">
+      <Dialog as="div" class="sm:hidden" @close="mobileNavOpen = false" :open="mobileNavOpen">
+        <TransitionChild
+          as="template"
+          enter="ease-in-out duration-300"
+          enter-from="opacity-0"
+          enter-to="opacity-100"
+          leave="ease-in-out duration-300"
+          leave-from="opacity-100"
+          leave-to="opacity-0"
+        >
+          <div
+            class="fixed inset-0 bg-black/75"
+            aria-hidden="true"
             @click="mobileNavOpen = false"
+          />
+        </TransitionChild>
+        <TransitionChild
+          as="template"
+          enter="transform transition ease-in-out duration-200"
+          enter-from="-translate-x-full"
+          enter-to="translate-x-0"
+          leave="transform transition ease-in-out duration-200"
+          leave-from="-translate-x-full"
+          leave-to="translate-x-0"
+        >
+          <DialogPanel
+            class="fixed inset-y-0 left-0 z-10 max-h-[100svh] w-full max-w-sm overflow-y-auto bg-white py-5 shadow-md shadow-black/10"
           >
-            Bid<span class="text-primary-400">Quest</span>
-          </RouterLink>
-          <button
-            type="button"
-            class="rounded p-2 text-grey-500 outline-none focus-visible:ring-2 focus-visible:ring-black"
-            @click="mobileNavOpen = false"
-          >
-            <span class="sr-only">Close menu</span>
-            <XMarkIcon class="h-6 w-6" aria-hidden="true" />
-          </button>
-        </div>
-
-        <ul class="mt-5">
-          <li v-for="item in navItems" :key="item.id">
-            <RouterLink
-              :class="{
-                'px-1 font-semibold after:absolute after:inset-y-0 after:left-0 after:block after:w-2 after:rounded after:bg-primary-400':
-                  isActive(item.route)
-              }"
-              class="relative block w-full px-5 py-4 outline-none transition-all duration-150 hover:bg-grey-200 focus-visible:rounded focus-visible:inner-border focus-visible:inner-border-black"
-              :to="item.route"
-              @click="mobileNavOpen = false"
-              >{{ item.name }}</RouterLink
+            <TransitionChild
+              as="nav"
+              enter="ease-in-out duration-300"
+              enter-from="opacity-0"
+              enter-to="opacity-100"
+              leave="ease-in-out duration-300"
+              leave-from="opacity-100"
+              leave-to="opacity-0"
             >
-          </li>
-        </ul>
-      </DialogPanel>
-    </Dialog>
+              <div class="flex items-center justify-between px-5">
+                <RouterLink
+                  :to="{ name: 'home' }"
+                  class="rounded font-accent text-xl font-semibold outline-none transition-all duration-150 hover:opacity-95 focus-visible:ring-2 focus-visible:ring-black sm:hidden sm:text-3xl"
+                  @click="mobileNavOpen = false"
+                >
+                  Bid<span class="text-primary-400">Quest</span>
+                </RouterLink>
+                <button
+                  type="button"
+                  class="rounded p-2 text-grey-500 outline-none focus-visible:ring-2 focus-visible:ring-black"
+                  @click="mobileNavOpen = false"
+                >
+                  <span class="sr-only">Close menu</span>
+                  <XMarkIcon class="h-6 w-6" aria-hidden="true" />
+                </button>
+              </div>
+
+              <ul class="mt-5">
+                <li v-for="item in navItems" :key="item.id">
+                  <RouterLink
+                    :class="{
+                      'px-1 font-semibold after:absolute after:inset-y-0 after:left-0 after:block after:w-2 after:rounded after:bg-primary-400':
+                        isActive(item.route)
+                    }"
+                    class="relative block w-full px-5 py-4 outline-none transition-all duration-150 hover:bg-grey-200 focus-visible:rounded focus-visible:inner-border focus-visible:inner-border-black"
+                    :to="item.route"
+                    @click="mobileNavOpen = false"
+                    >{{ item.name }}</RouterLink
+                  >
+                </li>
+              </ul>
+            </TransitionChild>
+          </DialogPanel>
+        </TransitionChild>
+      </Dialog>
+    </TransitionRoot>
   </div>
 </template>
