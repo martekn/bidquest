@@ -2,6 +2,9 @@
 // #region -IMPORTS-
 // Third-party library imports
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/vue";
+
+// Custom components
+import FadeTransition from "@/components/FadeTransition.vue";
 // #endregion
 
 const props = defineProps({
@@ -22,16 +25,17 @@ const props = defineProps({
         ><slot
       /></PopoverButton>
     </div>
-
-    <PopoverPanel
-      :class="{
-        'right-0': props.align === 'right',
-        'left-0': props.align === 'left'
-      }"
-      class="absolute z-30 mt-2 max-w-[80vw] divide-y divide-grey-300 rounded border border-grey-300 bg-white text-grey-500 shadow-md shadow-black/5 focus:outline-none"
-      :style="{ width: props.width }"
-    >
-      <slot name="items" />
-    </PopoverPanel>
+    <FadeTransition>
+      <PopoverPanel
+        :class="{
+          'right-0': props.align === 'right',
+          'left-0': props.align === 'left'
+        }"
+        class="absolute z-30 mt-2 max-w-[80vw] divide-y divide-grey-300 rounded border border-grey-300 bg-white text-grey-500 shadow-md shadow-black/5 focus:outline-none"
+        :style="{ width: props.width }"
+      >
+        <slot name="items" />
+      </PopoverPanel>
+    </FadeTransition>
   </Popover>
 </template>

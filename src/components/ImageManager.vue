@@ -38,6 +38,8 @@ defineProps({
             label="Alternative text"
             v-model="image.alt"
             class="col-span-2 w-full"
+            :maxCount="120"
+            counter-location="top"
           ></TextareaInput>
           <div class="flex gap-3">
             <button
@@ -45,6 +47,7 @@ defineProps({
               class="grid min-h-[30px] min-w-[30px] place-items-center rounded bg-grey-300 outline-none transition-all duration-150 hover:bg-grey-300/70 hover:shadow-sm focus-visible:ring-2 focus-visible:ring-black active:bg-grey-400/60"
               @click="$emit('moveDown', index)"
             >
+              <span class="sr-only">Move image up</span>
               <ChevronDownIcon class="h-6 w-6" />
             </button>
             <button
@@ -52,6 +55,7 @@ defineProps({
               class="grid min-h-[30px] min-w-[30px] place-items-center rounded bg-grey-300 outline-none transition-all duration-150 hover:bg-grey-300/70 hover:shadow-sm focus-visible:ring-2 focus-visible:ring-black active:bg-grey-400/60"
               @click="$emit('moveUp', index)"
             >
+              <span class="sr-only">Move image down</span>
               <ChevronUpIcon class="h-6 w-6" />
             </button>
           </div>

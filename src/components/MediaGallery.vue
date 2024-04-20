@@ -98,6 +98,7 @@ onMounted(() => {
           class="absolute inset-y-0 left-5 z-20 my-auto grid h-9 w-7 place-items-center rounded bg-black/75 text-white shadow-sm outline-none transition-all duration-150 hover:bg-black/90 focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 active:bg-black"
           @click="previousImage"
         >
+          <span class="sr-only">Previous</span>
           <ChevronLeftIcon class="h-6 w-6" />
         </button>
         <button
@@ -105,6 +106,7 @@ onMounted(() => {
           class="absolute inset-y-0 right-5 z-20 my-auto grid h-9 w-7 place-items-center rounded bg-black/75 text-white shadow-sm outline-none transition-all duration-150 hover:bg-black/90 focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 active:bg-black"
           @click="nextImage"
         >
+          <span class="sr-only">Next</span>
           <ChevronRightIcon class="h-6 w-6" />
         </button>
         <div

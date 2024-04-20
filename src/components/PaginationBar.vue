@@ -1,7 +1,7 @@
 <script setup>
 // #region -IMPORTS-
 // Vue-related imports
-import { reactive, watch } from "vue";
+import { reactive } from "vue";
 import { RouterLink, useRoute } from "vue-router";
 
 // Third-party library imports
@@ -73,19 +73,6 @@ const setupPagination = () => {
   createPages();
   adjustPaginationDisplay();
 };
-
-watch(
-  () => route.path,
-  () => {
-    setupPagination();
-  }
-);
-watch(
-  () => props.pageCount,
-  () => {
-    setupPagination();
-  }
-);
 
 setupPagination();
 </script>

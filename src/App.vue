@@ -9,6 +9,7 @@ import AppNotification from "@/components/AppNotification.vue";
 import AppNavigation from "@/components/AppNavigation.vue";
 import AppFooter from "@/components/AppFooter.vue";
 import SkipToContent from "@/components/SkipToContent.vue";
+import FadeTransition from "@/components/FadeTransition.vue";
 // #endregion
 
 const router = useRouter();
@@ -39,7 +40,11 @@ router.afterEach((from, to) => {
   <SkipToContent />
   <div class="flex min-h-screen flex-col">
     <AppNavigation></AppNavigation>
-    <RouterView class="flex-1" id="main-content" />
+    <RouterView class="flex-1" id="main-content" v-slot="{ Component }">
+      <FadeTransition>
+        <component :is="Component" />
+      </FadeTransition>
+    </RouterView>
   </div>
 
   <AppFooter></AppFooter>

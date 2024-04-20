@@ -6,7 +6,7 @@ import { RouterLink, useRoute } from "vue-router";
 
 // Third-party library imports
 import { ChevronDownIcon, Bars3Icon, XMarkIcon } from "@heroicons/vue/20/solid";
-import { Dialog, DialogPanel } from "@headlessui/vue";
+import { Dialog, DialogPanel, TransitionChild, TransitionRoot } from "@headlessui/vue";
 
 // Custom module/helper imports
 import { debounce } from "@/helper/debounce";
@@ -19,10 +19,11 @@ import { navItems } from "@/consts/navItems";
 
 // Custom components
 import PopoverMenu from "@/components/popover/PopoverMenu.vue";
-import MenuGroup from "@/components/MenuGroup.vue";
+import PopoverGroup from "@/components/popover/PopoverGroup.vue";
 import PopoverItem from "@/components/popover/PopoverItem.vue";
 import SearchInput from "@/components/SearchInput.vue";
 import UserAvatar from "@/components/UserAvatar.vue";
+import FadeTransition from "./FadeTransition.vue";
 // #endregion
 
 const mobileNavOpen = ref(false);
@@ -126,86 +127,99 @@ watch(
           class="col-start-2 row-start-1 place-self-end self-center pr-5 sm:col-start-3 sm:justify-self-end sm:pr-[0px]"
         >
           <div v-if="AuthStateManager.isAuthenticated()" class="flex min-w-max">
-            <PopoverMenu
-              id="user-dropdown"
-              align="right"
-              width="15rem"
-              v-if="ProfileStateManager.profile.status === 'fulfilled'"
-            >
-              <button class="group/button flex gap-3 rounded text-sm outline-none">
-                <div
-                  class="hidden flex-col place-items-end justify-center transition-all group-hover/button:opacity-90 sm:flex"
-                >
-                  <span class="font-accent font-medium">{{
-                    ProfileStateManager.profile.name
-                  }}</span>
-                  <span class="text-grey-500"
-                    >{{ ProfileStateManager.profile.credits }} credits</span
-                  >
-                </div>
-                <div class="relative flex flex-shrink-0 flex-row-reverse justify-center gap-2">
-                  <UserAvatar
-                    class="h-8 w-8 group-hover/button:brightness-95 sm:h-9 sm:w-9"
-                    :url="ProfileStateManager.profile.avatar.url"
-                    :alt="ProfileStateManager.profile.avatar.alt"
-                  />
-
+            <FadeTransition mode="out-in">
+              <PopoverMenu
+                id="user-dropdown"
+                align="right"
+                width="15rem"
+                v-if="ProfileStateManager.profile.status === 'fulfilled'"
+              >
+                <button class="group/button flex gap-3 rounded text-sm outline-none">
                   <div
-                    class="grid place-items-center rounded bg-white/75 p-1 transition-all group-hover/button:bg-white/100 sm:absolute sm:bottom-1 sm:right-1"
+                    class="hidden flex-col place-items-end justify-center transition-all group-hover/button:opacity-90 sm:flex"
                   >
-                    <ChevronDownIcon
-                      class="h-5 w-5 rounded transition-all group-data-[headlessui-state=open]:-rotate-180"
-                    />
-                  </div>
-                </div>
-              </button>
-              <template #items>
-                <MenuGroup class="sm:hidden">
-                  <PopoverItem as="div">
-                    <div
-                      class="pointer-events-none flex flex-row-reverse justify-end gap-3 text-sm"
+                    <span class="font-accent font-medium">{{
+                      ProfileStateManager.profile.name
+                    }}</span>
+                    <span class="text-grey-500"
+                      >{{ ProfileStateManager.profile.credits }} credits</span
                     >
-                      <div class="flex flex-col justify-center">
-                        <span class="font-medium">{{ ProfileStateManager.profile.name }}</span>
-                        <span class="text-grey-500"
-                          >{{ ProfileStateManager.profile.credits }} credits</span
-                        >
-                      </div>
-                      <UserAvatar
-                        class="h-9 w-9"
-                        :url="ProfileStateManager.profile.avatar.url"
-                        :alt="ProfileStateManager.profile.avatar.alt"
+                  </div>
+                  <div class="relative flex flex-shrink-0 flex-row-reverse justify-center gap-2">
+                    <UserAvatar
+                      class="h-8 w-8 group-hover/button:brightness-95 sm:h-9 sm:w-9"
+                      :url="ProfileStateManager.profile.avatar.url"
+                      :alt="ProfileStateManager.profile.avatar.alt"
+                    />
+
+                    <div
+                      class="grid place-items-center rounded bg-white/75 p-1 transition-all group-hover/button:bg-white/100 sm:absolute sm:bottom-1 sm:right-1"
+                    >
+                      <ChevronDownIcon
+                        class="h-5 w-5 rounded transition-all group-data-[headlessui-state=open]:-rotate-180"
                       />
                     </div>
-                  </PopoverItem>
-                </MenuGroup>
-                <MenuGroup class="sm:border-none">
-                  <PopoverItem
-                    router-link
-                    :route="{
-                      name: 'profile',
-                      params: { username: ProfileStateManager.profile.name }
-                    }"
-                  >
-                    My profile
-                  </PopoverItem>
-                  <PopoverItem
-                    router-link
-                    :route="{
-                      name: 'history',
-                      params: { username: ProfileStateManager.profile.name }
-                    }"
-                  >
-                    My bid history
-                  </PopoverItem>
-                </MenuGroup>
-                <MenuGroup>
-                  <PopoverItem as="button" @click="auth.logout()" id="logout-button">
-                    Logout
-                  </PopoverItem>
-                </MenuGroup>
-              </template>
-            </PopoverMenu>
+                  </div>
+                </button>
+                <template #items>
+                  <PopoverGroup class="sm:hidden">
+                    <PopoverItem as="div">
+                      <div
+                        class="pointer-events-none flex flex-row-reverse justify-end gap-3 text-sm"
+                      >
+                        <div class="flex flex-col justify-center">
+                          <span class="font-medium">{{ ProfileStateManager.profile.name }}</span>
+                          <span class="text-grey-500"
+                            >{{ ProfileStateManager.profile.credits }} credits</span
+                          >
+                        </div>
+                        <UserAvatar
+                          class="h-9 w-9"
+                          :url="ProfileStateManager.profile.avatar.url"
+                          :alt="ProfileStateManager.profile.avatar.alt"
+                        />
+                      </div>
+                    </PopoverItem>
+                  </PopoverGroup>
+                  <PopoverGroup class="sm:border-none">
+                    <PopoverItem
+                      router-link
+                      :route="{
+                        name: 'profile',
+                        params: { username: ProfileStateManager.profile.name }
+                      }"
+                    >
+                      My profile
+                    </PopoverItem>
+                    <PopoverItem
+                      router-link
+                      :route="{
+                        name: 'history',
+                        params: { username: ProfileStateManager.profile.name }
+                      }"
+                    >
+                      My bid history
+                    </PopoverItem>
+                  </PopoverGroup>
+                  <PopoverGroup>
+                    <PopoverItem as="button" @click="auth.logout()" id="logout-button">
+                      Logout
+                    </PopoverItem>
+                  </PopoverGroup>
+                </template>
+              </PopoverMenu>
+              <div v-else>
+                <div class="flex animate-pulse gap-3 text-sm animate-duration-[3000ms]">
+                  <div class="hidden flex-col place-items-end justify-center gap-2 sm:flex">
+                    <span class="h-5 w-11 bg-grey-300 font-accent font-medium"></span>
+                    <span class="h-4 w-10 bg-grey-300 text-grey-500"></span>
+                  </div>
+                  <div class="flex-shrink-0">
+                    <div class="h-8 w-8 rounded bg-grey-300 sm:h-9 sm:w-9"></div>
+                  </div>
+                </div>
+              </div>
+            </FadeTransition>
           </div>
           <RouterLink
             v-else
@@ -248,7 +262,7 @@ watch(
               />
             </button>
             <template #items>
-              <MenuGroup>
+              <PopoverGroup>
                 <PopoverItem
                   v-for="item in dropdownItems"
                   routerLink
@@ -257,50 +271,86 @@ watch(
                 >
                   {{ item.name }}
                 </PopoverItem>
-              </MenuGroup>
+              </PopoverGroup>
             </template>
           </PopoverMenu>
         </li>
       </ul>
     </nav>
-    <Dialog as="div" class="sm:hidden" @close="mobileNavOpen = false" :open="mobileNavOpen">
-      <div class="fixed inset-0 bg-black/75" aria-hidden="true" @click="mobileNavOpen = false" />
-      <DialogPanel
-        class="fixed inset-y-0 left-0 z-10 w-full max-w-sm overflow-y-auto bg-white py-5 shadow-md shadow-black/10"
-      >
-        <div class="flex items-center justify-between px-5">
-          <RouterLink
-            :to="{ name: 'home' }"
-            class="rounded font-accent text-xl font-semibold outline-none transition-all duration-150 hover:opacity-95 focus-visible:ring-2 focus-visible:ring-black sm:hidden sm:text-3xl"
+    <TransitionRoot as="template" :show="mobileNavOpen">
+      <Dialog as="div" class="sm:hidden" @close="mobileNavOpen = false" :open="mobileNavOpen">
+        <TransitionChild
+          as="template"
+          enter="ease-in-out duration-300"
+          enter-from="opacity-0"
+          enter-to="opacity-100"
+          leave="ease-in-out duration-300"
+          leave-from="opacity-100"
+          leave-to="opacity-0"
+        >
+          <div
+            class="fixed inset-0 bg-black/75"
+            aria-hidden="true"
             @click="mobileNavOpen = false"
+          />
+        </TransitionChild>
+        <TransitionChild
+          as="template"
+          enter="transform transition ease-in-out duration-200"
+          enter-from="-translate-x-full"
+          enter-to="translate-x-0"
+          leave="transform transition ease-in-out duration-200"
+          leave-from="-translate-x-full"
+          leave-to="translate-x-0"
+        >
+          <DialogPanel
+            class="fixed inset-y-0 left-0 z-10 max-h-[100svh] w-full max-w-sm overflow-y-auto bg-white py-5 shadow-md shadow-black/10"
           >
-            Bid<span class="text-primary-400">Quest</span>
-          </RouterLink>
-          <button
-            type="button"
-            class="rounded p-2 text-grey-500 outline-none focus-visible:ring-2 focus-visible:ring-black"
-            @click="mobileNavOpen = false"
-          >
-            <span class="sr-only">Close menu</span>
-            <XMarkIcon class="h-6 w-6" aria-hidden="true" />
-          </button>
-        </div>
-
-        <ul class="mt-5">
-          <li v-for="item in navItems" :key="item.id">
-            <RouterLink
-              :class="{
-                'px-1 font-semibold after:absolute after:inset-y-0 after:left-0 after:block after:w-2 after:rounded after:bg-primary-400':
-                  isActive(item.route)
-              }"
-              class="relative block w-full px-5 py-4 outline-none transition-all duration-150 hover:bg-grey-200 focus-visible:rounded focus-visible:inner-border focus-visible:inner-border-black"
-              :to="item.route"
-              @click="mobileNavOpen = false"
-              >{{ item.name }}</RouterLink
+            <TransitionChild
+              as="nav"
+              enter="ease-in-out duration-300"
+              enter-from="opacity-0"
+              enter-to="opacity-100"
+              leave="ease-in-out duration-300"
+              leave-from="opacity-100"
+              leave-to="opacity-0"
             >
-          </li>
-        </ul>
-      </DialogPanel>
-    </Dialog>
+              <div class="flex items-center justify-between px-5">
+                <RouterLink
+                  :to="{ name: 'home' }"
+                  class="rounded font-accent text-xl font-semibold outline-none transition-all duration-150 hover:opacity-95 focus-visible:ring-2 focus-visible:ring-black sm:hidden sm:text-3xl"
+                  @click="mobileNavOpen = false"
+                >
+                  Bid<span class="text-primary-400">Quest</span>
+                </RouterLink>
+                <button
+                  type="button"
+                  class="rounded p-2 text-grey-500 outline-none focus-visible:ring-2 focus-visible:ring-black"
+                  @click="mobileNavOpen = false"
+                >
+                  <span class="sr-only">Close menu</span>
+                  <XMarkIcon class="h-6 w-6" aria-hidden="true" />
+                </button>
+              </div>
+
+              <ul class="mt-5">
+                <li v-for="item in navItems" :key="item.id">
+                  <RouterLink
+                    :class="{
+                      'px-1 font-semibold after:absolute after:inset-y-0 after:left-0 after:block after:w-2 after:rounded after:bg-primary-400':
+                        isActive(item.route)
+                    }"
+                    class="relative block w-full px-5 py-4 outline-none transition-all duration-150 hover:bg-grey-200 focus-visible:rounded focus-visible:inner-border focus-visible:inner-border-black"
+                    :to="item.route"
+                    @click="mobileNavOpen = false"
+                    >{{ item.name }}</RouterLink
+                  >
+                </li>
+              </ul>
+            </TransitionChild>
+          </DialogPanel>
+        </TransitionChild>
+      </Dialog>
+    </TransitionRoot>
   </div>
 </template>

@@ -16,7 +16,6 @@ import LoadingIndicator from "@/components/LoadingIndicator.vue";
 import ErrorDialog from "@/components/ErrorDialog.vue";
 import UserAvatar from "@/components/UserAvatar.vue";
 import AuctionList from "@/components/AuctionList.vue";
-import EmptyState from "@/components/EmptyState.vue";
 // #endregion
 
 const isLoadingAuction = ref(true);
@@ -118,7 +117,7 @@ onMounted(() => {
   <main v-else class="main-base">
     <template v-if="isLoadingAuction"><LoadingIndicator color="dark" /></template>
     <section v-if="!isLoadingAuction">
-      <div v-if="!auctionError" class="grid gap-6 md:grid-cols-12 md:gap-7">
+      <div v-if="!auctionError" class="grid gap-7 md:grid-cols-12 md:gap-7">
         <MediaGallery
           :images="auctionDetail.media"
           class="md:col-span-7 md:col-start-1 md:row-start-1"
@@ -142,7 +141,7 @@ onMounted(() => {
           </div>
         </div>
         <AuctionBid
-          class="md:col-span-5 md:row-span-2 md:row-start-1"
+          class="border-t border-t-grey-300 pt-7 md:col-span-5 md:row-span-2 md:row-start-1 md:border-t-0 md:pt-0"
           :endsAt="auctionDetail.endsAt"
           :updatedAt="auctionDetail.updated"
           :createdAt="auctionDetail.created"
@@ -174,14 +173,6 @@ onMounted(() => {
         :skeletonCount="4"
         :displayError="featuredAuctionsError"
       >
-        <EmptyState
-          v-if="
-            featuredAuctions.length === 0 && !isLoadingFeaturedAuctions && !featuredAuctionsError
-          "
-          type="auction"
-          title="No auctions found"
-          text="Theres no new auctions at the moment, please try again later"
-        />
       </AuctionList>
     </section>
   </main>
