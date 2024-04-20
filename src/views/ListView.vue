@@ -11,7 +11,6 @@ import { auction } from "@/api";
 // Custom components
 import PaginationBar from "@/components/PaginationBar.vue";
 import ListBox from "@/components/formElements/ListBox.vue";
-import EmptyState from "@/components/EmptyState.vue";
 import AuctionList from "@/components/AuctionList.vue";
 // #endregion
 
@@ -141,25 +140,27 @@ onMounted(() => {
       :loaded="auctionsStatus.fetchCompleted"
       loaderType="regular"
       :displayError="auctionsStatus.isError"
+      :emptyStateType="route.name === 'search' ? 'search' : 'auction'"
+      emptyStateTitle="No auctions found"
+      :emptyStateText="emptyStateMessage()"
     >
-      <EmptyState
-        class="mt-5"
-        v-if="
-          !auctionsStatus.hasAuctions && !auctionsStatus.isError && auctionsStatus.fetchCompleted
-        "
-        :type="route.name === 'search' ? 'search' : 'auction'"
-        title="No auctions found"
-        :text="emptyStateMessage()"
-      >
-      </EmptyState>
-
-      <PaginationBar
-        :currentPage="currentPage"
-        :previousPage="previousPage"
-        :nextPage="nextPage"
-        :pageCount="pageCount"
-        class="my-7 self-center"
-      ></PaginationBar>
+      <template #pagination-slot>
+        <PaginationBar
+          v-if="auctions.length > 0"
+          :currentPage="currentPage"
+          :previousPage="previousPage"
+          :nextPage="nextPage"
+          :pageCount="pageCount"
+          class="my-7 self-center"
+          @paginationClick="
+            () => {
+              setTimeout(() => {
+                document.body.scrollIntoView();
+              }, 0);
+            }
+          "
+        ></PaginationBar>
+      </template>
     </AuctionList>
   </main>
 </template>

@@ -16,7 +16,6 @@ import LoadingIndicator from "@/components/LoadingIndicator.vue";
 import ErrorDialog from "@/components/ErrorDialog.vue";
 import UserAvatar from "@/components/UserAvatar.vue";
 import AuctionList from "@/components/AuctionList.vue";
-import EmptyState from "@/components/EmptyState.vue";
 // #endregion
 
 const isLoadingAuction = ref(true);
@@ -174,14 +173,6 @@ onMounted(() => {
         :skeletonCount="4"
         :displayError="featuredAuctionsError"
       >
-        <EmptyState
-          v-if="
-            featuredAuctions.length === 0 && !isLoadingFeaturedAuctions && !featuredAuctionsError
-          "
-          type="auction"
-          title="No auctions found"
-          text="Theres no new auctions at the moment, please try again later"
-        />
       </AuctionList>
     </section>
   </main>

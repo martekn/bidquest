@@ -27,7 +27,6 @@ import MenuGroup from "@/components/MenuGroup.vue";
 import PopoverItem from "@/components/popover/PopoverItem.vue";
 import ConfirmationDialog from "@/components/ConfirmationDialog.vue";
 import EditAvatarDialog from "@/components/EditAvatarDialog.vue";
-import EmptyState from "@/components/EmptyState.vue";
 import ShowMore from "@/components/ShowMore.vue";
 import TabContainer from "@/components/TabContainer.vue";
 // #endregion
@@ -364,48 +363,46 @@ watch(
                 (activeAuctions.isError && route.params.view !== 'all') ||
                 (allAuctions.isError && route.params.view === 'all')
               "
+              :emptyStateType="route.name === 'search' ? 'search' : 'auction'"
+              emptyStateTitle="No auctions found"
+              :emptyStateText="
+                isRegisteredUser
+                  ? `You do not have any ${route.params.view !== 'active' ? '' : 'active '}auctions at the moment`
+                  : `${user.name} does not have any ${route.params.view !== 'active' ? '' : 'active '}auctions at the moment, please try again later`
+              "
             >
-              <ShowMore
-                v-if="
-                  (activeAuctions.firstFetchLoaded &&
-                    route.params.view !== 'all' &&
-                    activeAuctions.auctions.length > 0) ||
-                  (allAuctions.firstFetchLoaded &&
-                    route.params.view === 'all' &&
-                    allAuctions.auctions.length > 0)
-                "
-                class="mt-7"
-                :show="showButton"
-                :error="showMoreError"
-                @loadMore="showMore"
-                :loading="showMoreLoading"
-                type="bids"
-                :visibleCount="auctions.length"
-                :totalCount="
-                  route.params.view !== 'all'
-                    ? activeAuctionsMeta.totalCount
-                    : allAuctionsMeta.totalCount
-                "
-              />
-
-              <EmptyState
-                class="mt-5"
-                v-if="auctions.length === 0"
-                type="auction"
-                title="No auctions found"
-                :text="
-                  isRegisteredUser
-                    ? `You do not have any ${route.params.view !== 'active' ? '' : 'active '}auctions at the moment`
-                    : `${user.name} does not have any ${route.params.view !== 'active' ? '' : 'active '}auctions at the moment, please try again later`
-                "
-              >
+              <template #empty-state-slot>
                 <RouterLink
                   :to="{ name: 'create' }"
                   v-if="isRegisteredUser"
                   class="button button-primary mt-7"
                   >Create auction</RouterLink
-                >
-              </EmptyState>
+                ></template
+              >
+              <template #pagination-slot>
+                <ShowMore
+                  v-if="
+                    (activeAuctions.firstFetchLoaded &&
+                      route.params.view !== 'all' &&
+                      activeAuctions.auctions.length > 0) ||
+                    (allAuctions.firstFetchLoaded &&
+                      route.params.view === 'all' &&
+                      allAuctions.auctions.length > 0)
+                  "
+                  class="mt-7"
+                  :show="showButton"
+                  :error="showMoreError"
+                  @loadMore="showMore"
+                  :loading="showMoreLoading"
+                  type="bids"
+                  :visibleCount="auctions.length"
+                  :totalCount="
+                    route.params.view !== 'all'
+                      ? activeAuctionsMeta.totalCount
+                      : allAuctionsMeta.totalCount
+                  "
+                />
+              </template>
             </AuctionList>
           </section>
         </TabContainer>
