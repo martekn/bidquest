@@ -2,7 +2,6 @@
 // #region -IMPORTS-
 // Vue-related imports
 import { computed } from "vue";
-// #endregion
 
 // Third-party library imports
 import {
@@ -13,6 +12,10 @@ import {
   ListboxOptions
 } from "@headlessui/vue";
 import { ChevronUpDownIcon, ChevronDownIcon } from "@heroicons/vue/20/solid";
+
+// Custom components
+import FadeTransition from "../FadeTransition.vue";
+// #endregion
 
 const props = defineProps({
   options: Array,
@@ -89,33 +92,35 @@ const selectedLabel = computed(() => {
           </span>
         </ListboxButton>
 
-        <ListboxOptions
-          class="max-h-60 absolute z-10 mt-1 w-full overflow-auto rounded border border-grey-300 bg-white py-1 text-base shadow-md shadow-black/5 focus:outline-none sm:text-sm"
-        >
-          <ListboxOption
-            v-for="option in props.options"
-            :key="option.value"
-            v-slot="{ active, selected }"
-            :value="option.value"
-            as="template"
+        <FadeTransition>
+          <ListboxOptions
+            class="max-h-60 absolute z-10 mt-1 w-full overflow-auto rounded border border-grey-300 bg-white py-1 text-base shadow-md shadow-black/5 outline-none sm:text-sm"
           >
-            <li
-              :class="{
-                ' border-black': active === true,
-                ' border-transparent': active === false,
-                'bg-grey-200': active === true && selected === false,
-                'bg-primary-400 text-white': selected === true,
-                'bg-primary-300 text-white': selected === true && active === true,
-                'text-sm': type === 'sort'
-              }"
-              class="cursor-pointer border-y border-dotted px-3 py-2"
+            <ListboxOption
+              v-for="option in props.options"
+              :key="option.value"
+              v-slot="{ active, selected }"
+              :value="option.value"
+              as="template"
             >
-              <span :class="[selected ? 'font-medium' : 'font-normal', 'block truncate']">{{
-                option.label
-              }}</span>
-            </li>
-          </ListboxOption>
-        </ListboxOptions>
+              <li
+                :class="{
+                  ' border-black': active === true,
+                  ' border-transparent': active === false,
+                  'bg-grey-200': active === true && selected === false,
+                  'bg-primary-400 text-white': selected === true,
+                  'bg-primary-300 text-white': selected === true && active === true,
+                  'text-sm': type === 'sort'
+                }"
+                class="cursor-pointer border-y border-dotted px-3 py-2"
+              >
+                <span :class="[selected ? 'font-medium' : 'font-normal', 'block truncate']">{{
+                  option.label
+                }}</span>
+              </li>
+            </ListboxOption>
+          </ListboxOptions>
+        </FadeTransition>
       </div>
     </div>
   </Listbox>
