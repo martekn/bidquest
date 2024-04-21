@@ -10,8 +10,8 @@ defineProps({
     type: String,
     default: ""
   },
-  name: { type: String },
-  id: { type: String },
+  name: String,
+  id: String,
   resize: { type: Boolean, default: true },
   isError: {
     type: Boolean,

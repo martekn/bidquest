@@ -11,8 +11,8 @@ defineProps({
     default: ""
   },
   type: { type: String, default: "text" },
-  name: { type: String },
-  id: { type: String },
+  name: String,
+  id: String,
   isError: {
     type: Boolean,
     default: false

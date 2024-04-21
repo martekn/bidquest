@@ -14,8 +14,8 @@ const props = defineProps({
     default: ""
   },
   type: { type: String, default: "password" },
-  name: { type: String },
-  id: { type: String },
+  name: String,
+  id: String,
   isError: {
     type: Boolean,
     default: false

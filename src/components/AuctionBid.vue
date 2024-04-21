@@ -25,12 +25,12 @@ import ConfirmationDialog from "@/components/ConfirmationDialog.vue";
 const emit = defineEmits(["bid"]);
 
 const props = defineProps({
-  endsAt: { type: String },
-  updatedAt: { type: String },
-  createdAt: { type: String },
-  seller: { type: String },
-  bids: { type: Array, default: () => [] },
-  id: { type: String }
+  endsAt: String,
+  updatedAt: String,
+  createdAt: String,
+  seller: String,
+  bids: Array,
+  id: String
 });
 
 const isConfirmBidOpen = ref(false);

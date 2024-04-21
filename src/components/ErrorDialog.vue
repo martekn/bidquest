@@ -6,7 +6,7 @@ import { XCircleIcon } from "@heroicons/vue/20/solid";
 
 defineProps({
   title: { type: String, default: "Error" },
-  id: { type: String }
+  id: String
 });
 </script>
 
