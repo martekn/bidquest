@@ -1,7 +1,8 @@
 <script setup>
 // #region -IMPORTS-
 // Vue-related imports
-import { ref } from "vue";
+import { ref, watch } from "vue";
+import { useRoute } from "vue-router";
 
 // Third-party library imports
 import { EyeIcon, EyeSlashIcon, XCircleIcon } from "@heroicons/vue/20/solid";
@@ -23,11 +24,19 @@ const props = defineProps({
   error: { type: String, default: "" }
 });
 
+const route = useRoute();
 let activeType = ref(props.type);
 
 const visibilityToggle = () => {
   activeType.value = activeType.value === "password" ? "text" : "password";
 };
+
+watch(
+  () => route.name,
+  () => {
+    activeType.value = props.type;
+  }
+);
 </script>
 
 <template>
