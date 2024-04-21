@@ -19,13 +19,16 @@ import { ProfileStateManager } from "@/helper/ProfileStateManager";
 
 // Constants imports
 import { baseAvatar } from "@/consts/baseAvatar";
+import { debounce } from "@/helper/debounce";
 
 // Custom components
 import TextareaInput from "@/components/formElements/TextareaInput.vue";
 import TextInput from "@/components/formElements/TextInput.vue";
 import ErrorDialog from "@/components/ErrorDialog.vue";
-import UserAvatar from "@/components/UserAvatar.vue";
-import LoadingButton from "./LoadingButton.vue";
+import LoadingButton from "@/components/LoadingButton.vue";
+import LoadingIndicator from "@/components/LoadingIndicator.vue";
+import FadeTransition from "@/components/FadeTransition.vue";
+
 // #endregion
 
 const emit = defineEmits(["close", "avatarChange"]);
@@ -39,6 +42,9 @@ const isLoading = ref(false);
 const apiError = reactive([]);
 const urlField = ref();
 const altField = ref();
+const previewImage = ref();
+const previewLoading = ref(true);
+const previewError = ref(false);
 
 const submitAvatar = async () => {
   try {
@@ -64,12 +70,44 @@ const resetField = (field, baseValue, newValue) => {
   field.value = newValue === baseValue ? "" : newValue;
 };
 
+const loadNewPreview = debounce(async () => {
+  try {
+    const response = await fetch(urlField.value, { method: "HEAD" });
+    if (!response.headers.get("Content-Type").startsWith("image")) {
+      throw Error("Url is not an image");
+    }
+    previewImage.value = urlField.value;
+  } catch (error) {
+    previewImage.value = "/image-placeholder.jpg";
+    previewError.value = true;
+  }
+  previewLoading.value = false;
+}, 500);
+
 watch(
   () => props.isOpen,
   () => {
     if (props.isOpen === true) {
+      previewError.value = false;
       resetField(urlField, baseAvatar.url, ProfileStateManager.profile.avatar.url);
+      resetField(previewImage, baseAvatar.url, ProfileStateManager.profile.avatar.url);
       resetField(altField, baseAvatar.alt, ProfileStateManager.profile.avatar.alt);
+      previewLoading.value = false;
+    }
+  }
+);
+
+watch(
+  () => urlField.value,
+  () => {
+    previewLoading.value = true;
+    previewError.value = false;
+    if (!urlField.value) {
+      previewImage.value = "/avatar-placeholder.jpg";
+      previewLoading.value = false;
+      return;
+    } else {
+      loadNewPreview();
     }
   }
 );
@@ -131,18 +169,28 @@ watch(
               <div
                 class="row-start-1 justify-self-center border-grey-300 max-[35em]:aspect-h-1 max-[35em]:aspect-w-1 max-[35em]:w-full min-[35em]:col-start-2 min-[35em]:row-span-2 min-[35em]:row-start-1 min-[35em]:ml-5 min-[35em]:border-l min-[35em]:pl-5"
               >
-                <div>
-                  <UserAvatar
-                    class="h-full w-full min-[35em]:h-[15rem] min-[35em]:w-[15rem]"
-                    :url="urlField"
-                    :alt="altField"
-                  />
+                <div
+                  class="image-border-overlay grid h-full w-full place-items-center rounded bg-grey-300 min-[35em]:h-[15rem] min-[35em]:w-[15rem]"
+                >
+                  <FadeTransition mode="out-in">
+                    <LoadingIndicator color="dark" v-if="previewLoading" />
+                    <span v-else-if="previewError">Invalid image url</span>
+                    <img
+                      v-else
+                      :src="previewImage"
+                      :alt="altField"
+                      class="max-h-full w-full rounded object-cover"
+                    />
+                  </FadeTransition>
                 </div>
               </div>
             </DialogDescription>
 
             <div class="mt-6 flex flex-row-reverse gap-6 border-t border-grey-300 py-4">
-              <LoadingButton @buttonClicked="submitAvatar" :buttonLoading="isLoading"
+              <LoadingButton
+                @buttonClicked="submitAvatar"
+                :buttonLoading="isLoading"
+                :disabled="previewError || previewLoading"
                 >Save</LoadingButton
               >
               <button @click="$emit('close')" class="link link-secondary ml-auto">Cancel</button>

@@ -142,8 +142,7 @@ onMounted(() => {
         >
           <button
             :class="{
-              '  relative scale-110 brightness-100 after:absolute after:inset-0 after:rounded after:border-2 after:border-black/10':
-                index === currentImageIndex,
+              'image-border-overlay scale-110 brightness-100 ': index === currentImageIndex,
               ' brightness-75': index !== currentImageIndex
             }"
             class="aspect-h-3 aspect-w-4 h-full w-full outline-none transition-all duration-150 after:rounded hover:brightness-100 focus-visible:brightness-100 focus-visible:after:absolute focus-visible:after:inset-0 focus-visible:after:z-10 focus-visible:after:border-2 focus-visible:after:border-black focus-visible:after:inner-border-2 focus-visible:after:inner-border-white/85"
