@@ -386,7 +386,7 @@ watch(
               v-if="images.length >= maxImageCount || imageFieldError"
               :class="{ 'text-grey-500': !imageFieldError, 'text-red-400': imageFieldError }"
               class="col-span-full mt-2 flex gap-2 text-sm leading-tight"
-              :id="'input-error-' + id"
+              id="image-input-error"
               ><XCircleIcon v-if="imageFieldError" class="h-5 w-5 flex-shrink-0 leading-tight" />
               {{ imageFieldMessage }}</span
             >
