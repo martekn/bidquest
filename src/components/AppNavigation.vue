@@ -127,88 +127,85 @@ watch(
           class="col-start-2 row-start-1 place-self-end self-center pr-5 sm:col-start-3 sm:justify-self-end sm:pr-[0px]"
         >
           <div v-if="AuthStateManager.isAuthenticated()" class="flex min-w-max">
-            <PopoverMenu
-              id="user-dropdown"
-              align="right"
-              width="15rem"
-              v-if="ProfileStateManager.profile.status === 'fulfilled'"
-            >
-              <button class="group/button flex gap-3 rounded text-sm outline-none">
-                <div
-                  class="hidden flex-col place-items-end justify-center transition-all group-hover/button:opacity-90 sm:flex"
-                >
-                  <span class="font-accent font-medium">{{
-                    ProfileStateManager.profile.name
-                  }}</span>
-                  <span class="text-grey-500"
-                    >{{ ProfileStateManager.profile.credits }} credits</span
-                  >
-                </div>
-                <div class="relative flex flex-shrink-0 flex-row-reverse justify-center gap-2">
-                  <UserAvatar
-                    class="h-8 w-8 group-hover/button:brightness-95 sm:h-9 sm:w-9"
-                    :url="ProfileStateManager.profile.avatar.url"
-                    :alt="ProfileStateManager.profile.avatar.alt"
-                  />
-
-                  <div
-                    class="grid place-items-center rounded bg-white/75 p-1 transition-all group-hover/button:bg-white/100 sm:absolute sm:bottom-1 sm:right-1"
-                  >
-                    <ChevronDownIcon
-                      class="h-5 w-5 rounded transition-all group-data-[headlessui-state=open]:-rotate-180"
-                    />
-                  </div>
-                </div>
-              </button>
-              <template #items>
-                <PopoverGroup class="sm:hidden">
-                  <PopoverItem as="div">
+            <FadeTransition mode="out-in">
+              <div v-if="ProfileStateManager.profile.status === 'fulfilled'">
+                <PopoverMenu id="user-dropdown" align="right" width="15rem">
+                  <button class="group/button flex gap-3 rounded text-sm outline-none">
                     <div
-                      class="pointer-events-none flex flex-row-reverse justify-end gap-3 text-sm"
+                      class="hidden flex-col place-items-end justify-center transition-all group-hover/button:opacity-90 sm:flex"
                     >
-                      <div class="flex flex-col justify-center">
-                        <span class="font-medium">{{ ProfileStateManager.profile.name }}</span>
-                        <span class="text-grey-500"
-                          >{{ ProfileStateManager.profile.credits }} credits</span
-                        >
-                      </div>
+                      <span class="font-accent font-medium">{{
+                        ProfileStateManager.profile.name
+                      }}</span>
+                      <span class="text-grey-500"
+                        >{{ ProfileStateManager.profile.credits }} credits</span
+                      >
+                    </div>
+                    <div class="relative flex flex-shrink-0 flex-row-reverse justify-center gap-2">
                       <UserAvatar
-                        class="h-9 w-9"
+                        class="h-8 w-8 group-hover/button:brightness-95 sm:h-9 sm:w-9"
                         :url="ProfileStateManager.profile.avatar.url"
                         :alt="ProfileStateManager.profile.avatar.alt"
                       />
+                      <div
+                        class="grid place-items-center rounded bg-white/75 p-1 transition-all group-hover/button:bg-white/100 sm:absolute sm:bottom-1 sm:right-1"
+                      >
+                        <ChevronDownIcon
+                          class="h-5 w-5 rounded transition-all group-data-[headlessui-state=open]:-rotate-180"
+                        />
+                      </div>
                     </div>
-                  </PopoverItem>
-                </PopoverGroup>
-                <PopoverGroup class="sm:border-none">
-                  <PopoverItem
-                    router-link
-                    :route="{
-                      name: 'profile',
-                      params: { username: ProfileStateManager.profile.name }
-                    }"
-                  >
-                    My profile
-                  </PopoverItem>
-                  <PopoverItem
-                    router-link
-                    :route="{
-                      name: 'history',
-                      params: { username: ProfileStateManager.profile.name }
-                    }"
-                  >
-                    My bid history
-                  </PopoverItem>
-                </PopoverGroup>
-                <PopoverGroup>
-                  <PopoverItem as="button" @click="auth.logout()" id="logout-button">
-                    Logout
-                  </PopoverItem>
-                </PopoverGroup>
-              </template>
-            </PopoverMenu>
-            <FadeTransition mode="out-in">
-              <div v-if="ProfileStateManager.profile.status === 'none'">
+                  </button>
+                  <template #items>
+                    <PopoverGroup class="sm:hidden">
+                      <PopoverItem as="div">
+                        <div
+                          class="pointer-events-none flex flex-row-reverse justify-end gap-3 text-sm"
+                        >
+                          <div class="flex flex-col justify-center">
+                            <span class="font-medium">{{ ProfileStateManager.profile.name }}</span>
+                            <span class="text-grey-500"
+                              >{{ ProfileStateManager.profile.credits }} credits</span
+                            >
+                          </div>
+                          <UserAvatar
+                            class="h-9 w-9"
+                            :url="ProfileStateManager.profile.avatar.url"
+                            :alt="ProfileStateManager.profile.avatar.alt"
+                          />
+                        </div>
+                      </PopoverItem>
+                    </PopoverGroup>
+                    <PopoverGroup class="sm:border-none">
+                      <PopoverItem
+                        router-link
+                        :route="{
+                          name: 'profile',
+                          params: { username: ProfileStateManager.profile.name }
+                        }"
+                      >
+                        My profile
+                      </PopoverItem>
+                      <PopoverItem
+                        router-link
+                        :route="{
+                          name: 'history',
+                          params: { username: ProfileStateManager.profile.name }
+                        }"
+                      >
+                        My bid history
+                      </PopoverItem>
+                    </PopoverGroup>
+                    <PopoverGroup>
+                      <PopoverItem as="button" @click="auth.logout()" id="logout-button">
+                        Logout
+                      </PopoverItem>
+                    </PopoverGroup>
+                  </template>
+                </PopoverMenu>
+              </div>
+
+              <div v-else>
                 <div class="flex animate-pulse gap-3 text-sm animate-duration-[3000ms]">
                   <div class="hidden flex-col place-items-end justify-center gap-2 sm:flex">
                     <span class="h-5 w-11 bg-grey-300 font-accent font-medium"></span>
