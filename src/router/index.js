@@ -12,8 +12,7 @@ import { categories } from "@/consts/navItems";
 
 // Custom views
 import HomeView from "../views/HomeView.vue";
-import LoginView from "@/views/LoginView.vue";
-import RegisterView from "@/views/RegisterView.vue";
+import AuthView from "@/views/AuthView.vue";
 import ListView from "@/views/ListView.vue";
 import AuctionView from "@/views/AuctionView.vue";
 import HistoryView from "@/views/HistoryView.vue";
@@ -66,7 +65,7 @@ const router = createRouter({
     {
       path: "/login",
       name: "login",
-      component: LoginView,
+      component: AuthView,
       meta: {
         guest: true,
 
@@ -83,7 +82,7 @@ const router = createRouter({
     {
       path: "/register",
       name: "register",
-      component: RegisterView,
+      component: AuthView,
       meta: {
         guest: true,
         title: "Register - BidQuest",
