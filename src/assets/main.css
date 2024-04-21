@@ -114,6 +114,10 @@
 }
 
 @layer utilities {
+  .image-border-overlay {
+    @apply relative after:absolute after:inset-0 after:rounded after:border-2 after:border-black/10;
+  }
+
   .ellipse-text {
     display: -webkit-box;
     -webkit-line-clamp: 1;
