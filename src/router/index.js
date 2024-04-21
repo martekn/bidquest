@@ -306,7 +306,11 @@ router.afterEach((to) => {
   let pageTitle;
   if (to.meta.title.includes("[:")) {
     const param = to.meta.title.split("[:")[1].split("]")[0];
-    pageTitle = `${to.params[param].charAt(0).toUpperCase() + to.params[param].slice(1)} - BidQuest`;
+    if (to.name === "search") {
+      pageTitle = `Search: ${to.params[param].charAt(0).toUpperCase() + to.params[param].slice(1)} - BidQuest`;
+    } else {
+      pageTitle = `${to.params[param].charAt(0).toUpperCase() + to.params[param].slice(1)} - BidQuest`;
+    }
   } else {
     pageTitle = to.meta.title;
   }
