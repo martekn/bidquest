@@ -29,6 +29,8 @@ const currentPage = ref();
 const pageCount = ref();
 const previousPage = ref(null);
 const nextPage = ref();
+const showList = ref(true);
+const showPagination = ref(false);
 
 const auctions = reactive([]);
 const auctionsStatus = reactive({
@@ -54,10 +56,12 @@ const getCurrentPageNumber = () => {
 
 const getAuctions = async () => {
   try {
+    showPagination.value = false;
     auctions.length = 0;
     auctionsStatus.fetchCompleted = false;
     auctionsStatus.isError = false;
     currentPage.value = getCurrentPageNumber();
+    showList.value = true;
 
     const [sortBy, sortOrder] = selectedSortOption.value.split("_");
 
@@ -82,7 +86,9 @@ const getAuctions = async () => {
     pageCount.value = response.meta.pageCount;
     previousPage.value = response.meta.previousPage ?? null;
     nextPage.value = response.meta.nextPage ?? null;
-    showSkeleton.value = false;
+    setTimeout(() => {
+      showPagination.value = auctionsStatus.hasAuctions;
+    }, 200);
   } catch (error) {
     auctionsStatus.fetchCompleted = true;
     auctionsStatus.isError = true;
@@ -92,7 +98,12 @@ const getAuctions = async () => {
 watch(
   () => [route.params.page, route.name, route.params.query],
   () => {
-    getAuctions();
+    showList.value = false;
+
+    // The timeout is to make sure the scroll happens properly before page loads auctions
+    setTimeout(() => {
+      getAuctions();
+    }, 100);
   }
 );
 
@@ -103,8 +114,6 @@ watch(selectedSortOption, () => {
     getAuctions();
   }
 });
-
-const showSkeleton = ref(true);
 
 onMounted(() => {
   getAuctions();
@@ -135,6 +144,7 @@ onMounted(() => {
     </div>
 
     <AuctionList
+      v-if="showList"
       class="mt-5 md:mt-6"
       :auctions="auctions"
       :loaded="auctionsStatus.fetchCompleted"
@@ -146,19 +156,12 @@ onMounted(() => {
     >
       <template #pagination-slot>
         <PaginationBar
-          v-if="auctions.length > 0"
+          v-if="showPagination"
           :currentPage="currentPage"
           :previousPage="previousPage"
           :nextPage="nextPage"
           :pageCount="pageCount"
           class="my-7 self-center"
-          @paginationClick="
-            () => {
-              setTimeout(() => {
-                document.body.scrollIntoView();
-              }, 0);
-            }
-          "
         ></PaginationBar>
       </template>
     </AuctionList>
