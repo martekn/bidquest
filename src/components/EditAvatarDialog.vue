@@ -170,7 +170,7 @@ watch(
                 class="row-start-1 justify-self-center border-grey-300 max-[35em]:aspect-h-1 max-[35em]:aspect-w-1 max-[35em]:w-full min-[35em]:col-start-2 min-[35em]:row-span-2 min-[35em]:row-start-1 min-[35em]:ml-5 min-[35em]:border-l min-[35em]:pl-5"
               >
                 <div
-                  class="image-border-overlay grid h-full w-full place-items-center rounded bg-grey-300 min-[35em]:h-[15rem] min-[35em]:w-[15rem]"
+                  class="image-border-overlay grid max-h-full w-full place-items-center rounded bg-grey-300 min-[35em]:h-[15rem] min-[35em]:w-[15rem]"
                 >
                   <FadeTransition mode="out-in">
                     <LoadingIndicator color="dark" v-if="previewLoading" />
@@ -179,7 +179,7 @@ watch(
                       v-else
                       :src="previewImage"
                       :alt="altField"
-                      class="max-h-full w-full rounded object-cover"
+                      class="max-h-full w-full overflow-hidden rounded object-cover"
                     />
                   </FadeTransition>
                 </div>
