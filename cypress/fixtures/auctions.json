@@ -1,0 +1,51 @@
+{
+  "data": [
+    {
+      "id": "f12345b9-056f-4e3f-8bf5-fb583d319f49",
+      "title": "Vintage Leather Jacket",
+      "description": "Stylish vintage leather jacket, perfect for fashion enthusiasts.",
+      "media": [
+        {
+          "url": "https://example.com/vintage_jacket.jpg",
+          "alt": "Auction item image"
+        }
+      ],
+      "tags": ["fashion"],
+      "created": "2024-02-19T08:38:31.385Z",
+      "updated": "2024-02-19T08:38:31.385Z",
+      "endsAt": "2024-02-19T10:00:00.000Z",
+      "bids": [],
+      "_count": {
+        "bids": 0
+      }
+    },
+    {
+      "id": "e12345b9-056f-4e3f-8bf5-fb583d319f49",
+      "title": "Smart Home Speaker",
+      "description": "High-quality smart home speaker with voice recognition.",
+      "media": [
+        {
+          "url": "https://example.com/smart_speaker.jpg",
+          "alt": "Auction item image"
+        }
+      ],
+      "tags": ["electronics"],
+      "created": "2024-02-18T18:21:35.211Z",
+      "updated": "2024-02-18T18:21:35.211Z",
+      "endsAt": "2024-02-19T12:00:00.000Z",
+      "bids": [],
+      "_count": {
+        "bids": 0
+      }
+    }
+  ],
+  "meta": {
+    "isFirstPage": true,
+    "isLastPage": true,
+    "currentPage": 1,
+    "previousPage": null,
+    "nextPage": null,
+    "pageCount": 1,
+    "totalCount": 2
+  }
+}
