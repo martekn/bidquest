@@ -70,6 +70,12 @@ npm run dev
 npm run build
 ```
 
+#### Generate jsdoc documentation
+
+```bash
+npm run docs
+```
+
 #### Run Unit Tests with [Vitest](https://vitest.dev/)
 
 ```bash
