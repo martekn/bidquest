@@ -5,6 +5,7 @@ on:
 
 env:
   VITE_TOKEN: ${{secrets.VITE_TOKEN}}
+  VITE_API_KEY: ${{secrets.API_KEY}}
   
 jobs:
   run-unit-tests:
