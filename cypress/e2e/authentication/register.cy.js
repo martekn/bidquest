@@ -16,7 +16,7 @@ describe("Register", () => {
 
     cy.wait("@register");
 
-    cy.get("#register-error").should("be.visible");
+    cy.get("#auth-error").should("be.visible");
   });
 
   it("should display input errors if passing in email and password in wrong format", () => {

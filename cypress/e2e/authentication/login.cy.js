@@ -19,6 +19,6 @@ describe("Login", () => {
     cy.fillLoginForm("unregistered@stud.noroff.no", "password");
     cy.wait("@login");
 
-    cy.get("#login-error").should("be.visible");
+    cy.get("#auth-error").should("be.visible");
   });
 });
