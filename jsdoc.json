@@ -1,0 +1,40 @@
+{
+  "source": {
+    "include": ["src", "README.md"]
+  },
+  "templates": {
+    "default": {
+      "outputSourceFiles": true
+    }
+  },
+  "opts": {
+    "encoding": "utf8",
+    "readme": "./README.md",
+    "destination": "docs/",
+    "recurse": true,
+    "verbose": true,
+    "template": "node_modules/clean-jsdoc-theme",
+    "theme_opts": {
+      "default_theme": "dark",
+      "homepageTitle": "BidQuest Documentation",
+      "title": "BidQuest Documentation",
+      "displayModuleHeader": true,
+      "menu": [
+        {
+          "title": "Website",
+          "link": "https://bidquest.netlify.app"
+        },
+        {
+          "title": "Repository",
+          "link": "https://github.com/martekn/bidquest"
+        }
+      ],
+      "create_style": "h3.name {border-bottom: 1px solid rgba(120,120,120,0.25); padding-block:0.5rem; margin-top: 2.5rem;} .subsection-title + h3.name {margin-top: 0}"
+    }
+  },
+  "plugins": ["plugins/markdown"],
+  "markdown": {
+    "hardwrap": false,
+    "idInHeadings": true
+  }
+}

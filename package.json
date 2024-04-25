@@ -13,12 +13,14 @@
     "test:e2e:dev": "start-server-and-test 'vite dev --port 4173' http://localhost:4173 'cypress open --e2e'",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore",
     "format": "prettier --write src/",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "docs": "jsdoc --configure jsdoc.json --verbose"
   },
   "dependencies": {
     "@headlessui/tailwindcss": "^0.2.0",
     "@headlessui/vue": "^1.7.19",
     "@heroicons/vue": "^2.1.1",
+    "clean-jsdoc-theme": "^4.2.18",
     "dayjs": "^1.11.10",
     "nanoid": "^5.0.6",
     "notiwind": "^2.0.2",
@@ -38,6 +40,7 @@
     "eslint-plugin-cypress": "^2.15.1",
     "eslint-plugin-vue": "^9.17.0",
     "husky": "^9.0.11",
+    "jsdoc": "^4.0.2",
     "jsdom": "^24.0.0",
     "lint-staged": "^15.2.2",
     "postcss": "^8.4.35",
