@@ -1,6 +1,7 @@
 /**
  * Calculates the current highest bid amount from an array of bids.
  *
+ * @function
  * @param {Array} bids - An array of bid objects, where each bid must have an "amount" property.
  * @return {number} - The highest bid amount (or 0 if no bids).
  * @throws {TypeError} - If the input is not an array.

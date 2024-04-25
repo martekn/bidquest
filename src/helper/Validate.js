@@ -1,10 +1,12 @@
 /**
  * Validation object for user inputs.
- * @namespace Validate
+ * @module Validate
  */
 export const Validate = Object.freeze({
   /**
    * Validates a username.
+   *
+   * @method
    * @param {string} username - The username to validate.
    * @returns {string|null} Error message if validation fails, otherwise null.
    * @throws {Error} Throws an error if the argument is not a string.
@@ -30,6 +32,8 @@ export const Validate = Object.freeze({
 
   /**
    * Validates an email address.
+   *
+   * @method
    * @param {string} email - The email address to validate.
    * @returns {string|null} Error message if validation fails, otherwise null.
    * @throws {Error} Throws an error if the argument is not a string.
@@ -49,6 +53,8 @@ export const Validate = Object.freeze({
 
   /**
    * Validates a password.
+   *
+   * @method
    * @param {string} password - The password to validate.
    * @returns {string|null} Error message if validation fails, otherwise null.
    * @throws {Error} Throws an error if the argument is not a string.

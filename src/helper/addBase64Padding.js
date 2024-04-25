@@ -1,6 +1,7 @@
 /**
- * Adds padding to a Base64 string until its length is a multiple of 4.
+ * Adds padding to a Base64 string until its length is a multiple of 4. "abc" turns into "abc="
  *
+ * @function
  * @param {string} value - The Base64 string to pad.
  * @returns {string} The padded Base64 string.
  */

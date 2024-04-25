@@ -8,7 +8,6 @@ import { useRouter } from "vue-router";
  * Resets focus based on navigation from one route to another.
  *
  * @function
- * @returns {void}
  */
 export const resetFocus = () => {
   const router = useRouter();

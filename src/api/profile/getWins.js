@@ -4,6 +4,9 @@ import { AuthStateManager } from "@/helper/AuthStateManager";
 /**
  * Retrieves auction wins for a specific user.
  *
+ * @function
+ * @async
+ * @memberof profile
  * @param {number} [limit=40] - The maximum number of auction wins to return.
  * @param {number} [page=1] - The page number to return in the paginated response.
  * @returns {Promise<Object>} The response from the request

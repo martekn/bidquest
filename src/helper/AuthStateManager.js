@@ -8,19 +8,22 @@ import { Storage } from "@/helper/Storage";
 // #endregion
 
 /**
+ * This module exports a reactive object that manages authentication state.
+ *
  * @module AuthStateManager
- * @description This module exports a reactive object that manages authentication state.
  */
 export const AuthStateManager = reactive({
   /**
+   * @private
    * @property {string} _token - The current JWT token.
    */
   _token: Storage.local.get("accessToken") || "",
 
   /**
+   * Sets the JWT token and stores it in local storage.
+   *
    * @method token
-   * @description Sets the JWT token and stores it in local storage.
-   * @param {string} token - The JWT token.
+   * @param {string} token - The JWT token to be set.
    */
   set token(token) {
     this._token = token;
@@ -28,6 +31,8 @@ export const AuthStateManager = reactive({
   },
 
   /**
+   * Retrieves the current JWT token
+   *
    * @method token
    * @returns {string} The current JWT token.
    */
@@ -36,8 +41,9 @@ export const AuthStateManager = reactive({
   },
 
   /**
+   * Removes the JWT token and deletes it from local storage.
+   *
    * @method remove
-   * @description Removes the JWT token and deletes it from local storage.
    */
   remove() {
     this._token = "";
@@ -45,8 +51,9 @@ export const AuthStateManager = reactive({
   },
 
   /**
+   * Checks if the current JWT token is valid.
+   *
    * @method isAuthenticated
-   * @description Checks if the current JWT token is valid.
    * @returns {boolean} True if the token is valid, false otherwise.
    */
   isAuthenticated() {
@@ -58,8 +65,9 @@ export const AuthStateManager = reactive({
   },
 
   /**
+   * Retrieves the username from the JWT token payload.
+   *
    * @method getUsername
-   * @description Retrieves the username from the JWT token payload.
    * @returns {string} The username.
    */
   getUsername() {

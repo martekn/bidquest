@@ -2,6 +2,10 @@ import { request } from "../../helper/request";
 
 /**
  * Performs a request to retrieve a user's profile.
+ *
+ * @function
+ * @async
+ * @memberof profile
  * @param {string} username - The username of the user whose profile is to be retrieved.
  * @returns {Promise<Object>} A promise that resolves to the response from the request.
  */

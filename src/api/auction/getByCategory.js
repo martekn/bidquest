@@ -3,6 +3,9 @@ import { request } from "../../helper/request";
 /**
  * This function retrieves auction listings by category.
  *
+ * @memberof auction
+ * @async
+ * @function
  * @param {string} category - The category to filter the listings by.
  * @param {number} [limit=40] - The maximum number of auction listings to return.
  * @param {string} [sortBy="created"] - The field to sort the auction listings by.

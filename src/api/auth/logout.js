@@ -6,6 +6,10 @@ import router from "@/router";
 /**
  * Performs a logout operation by removing authentication and profile state.
  * If the current route requires authentication, it redirects to the login page.
+ *
+ * @memberof auth
+ * @async
+ * @function
  */
 export const logout = () => {
   AuthStateManager.remove();

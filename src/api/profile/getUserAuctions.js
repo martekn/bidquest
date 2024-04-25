@@ -3,6 +3,9 @@ import { request } from "../../helper/request";
 /**
  * Retrieves the auctions of a specific user.
  *
+ * @function
+ * @async
+ * @memberof profile
  * @param {string} username - The username of the user whose auctions are to be retrieved.
  * @param {boolean} onlyActive - If true, only active auctions will be retrieved.
  * @param {number} [limit=40] - The maximum number of auction listings to return.

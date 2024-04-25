@@ -3,6 +3,9 @@ import { request } from "../../helper/request";
 /**
  * Performs a search on auction listings.
  *
+ * @memberof auction
+ * @async
+ * @function
  * @param {string} query - The search query.
  * @param {number} [limit=40] - The maximum number of auction listings to return.
  * @param {string} [sortBy="created"] - The field to sort the auction listings by.

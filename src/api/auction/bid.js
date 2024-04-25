@@ -3,6 +3,9 @@ import { request } from "../../helper/request";
 /**
  * Sends a bid for a specific auction listing.
  *
+ * @memberof auction
+ * @async
+ * @function
  * @param {string} id - The ID of the auction listing.
  * @param {Object} body - The body of the request, containing the bid details.
  * @param {number} body.amount - The amount of the bid.

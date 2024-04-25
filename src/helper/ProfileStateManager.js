@@ -14,11 +14,12 @@ import { AuthStateManager } from "./AuthStateManager";
 export const ProfileStateManager = reactive({
   /**
    * @property {Object} _profile - The current profile state.
+   * @private
    */
   _profile: { status: "none" },
 
   /**
-   * @method profile
+   * @method
    * @description Sets the profile state.
    * @param {Object} profile - The new profile state.
    */
@@ -27,7 +28,7 @@ export const ProfileStateManager = reactive({
   },
 
   /**
-   * @method profile
+   * @method
    * @returns {Object} The current profile state.
    */
   get profile() {
@@ -35,7 +36,7 @@ export const ProfileStateManager = reactive({
   },
 
   /**
-   * @method remove
+   * @method
    * @description Resets the profile state to its initial value.
    */
   remove() {
@@ -43,7 +44,7 @@ export const ProfileStateManager = reactive({
   },
 
   /**
-   * @method update
+   * @method
    * @description Asynchronously updates the profile state based on the response from the `getProfile` API call.
    */
   async update() {

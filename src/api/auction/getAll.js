@@ -2,6 +2,10 @@ import { request } from "../../helper/request";
 
 /**
  * Fetches all auction listings with specified parameters.
+ *
+ * @memberof auction
+ * @async
+ * @function
  * @param {number} [limit=40] - The maximum number of auction listings to return.
  * @param {string} [sortBy="created"] - The field to sort the auction listings by.
  * @param {string} [sortOrder="desc"] - The order to sort the auction listings in.

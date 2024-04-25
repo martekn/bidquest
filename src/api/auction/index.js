@@ -7,6 +7,11 @@ import { create } from "./create";
 import { update } from "./update";
 import { remove } from "./remove";
 
+/**
+ * A collection of functions for handling auctions api calls.
+ *
+ * @namespace auction
+ */
 export const auction = Object.freeze({
   getAll,
   getSingle,

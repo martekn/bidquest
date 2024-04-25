@@ -5,6 +5,9 @@ import { AuthStateManager } from "@/helper/AuthStateManager";
 
 /**
  * Clears the history stack and redirects to the last visited path or redirected from path.
+ *
+ * @function
+ * @private
  */
 const redirect = () => {
   let redirectPath = HistoryStack.lastVisited();
@@ -21,6 +24,10 @@ const redirect = () => {
 
 /**
  * Performs a login request and stores the access token in local storage.
+ *
+ * @memberof auth
+ * @async
+ * @function
  * @param {Object} body - The login request body containing email and password.
  * @param {string} body.email - The user's email address.
  * @param {string} body.password - The user's password.

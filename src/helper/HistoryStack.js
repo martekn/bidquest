@@ -5,11 +5,14 @@ import { Storage } from "@/helper/Storage";
 
 /**
  * A utility for managing a history stack in session storage.
- * @namespace HistoryStack
+ *
+ * @module HistoryStack
  */
 export const HistoryStack = Object.freeze({
   /**
    * Retrieves the history stack from session storage.
+   *
+   * @method
    * @returns {string[]} An array containing the history stack.
    */
   get() {
@@ -18,6 +21,8 @@ export const HistoryStack = Object.freeze({
 
   /**
    * Updates the history stack with a new path.
+   *
+   * @method
    * @param {string} path - The path to add to the history stack.
    * @throws {Error} Throws an error if the argument is not a string.
    */
@@ -39,6 +44,8 @@ export const HistoryStack = Object.freeze({
 
   /**
    * Clears the entire history stack.
+   *
+   * @method
    */
   clear() {
     Storage.session.set("historyStack", []);
@@ -46,6 +53,8 @@ export const HistoryStack = Object.freeze({
 
   /**
    * Retrieves the last visited path from the history stack.
+   *
+   * @method
    * @returns {string} The last visited path, or "/" if the stack is empty.
    */
   lastVisited() {

@@ -10,12 +10,17 @@ import { baseUrl } from "../consts/baseUrl.js";
  * Makes an asynchronous HTTP request to a specified endpoint with optional parameters, authentication token, method, and request body.
  *
  * @async
+ * @function
  * @param {String} endpoint - The endpoint for the HTTP request.
  * @param {Object} [params] - Optional query parameters as key-value pairs (e.g., { key: value }).
- * @param {Boolean} [useToken=false] - Indicates whether to use a token in the request (optional).
- * @param {String} [method="GET"] - The HTTP method for the request (e.g., "GET", "POST"). Default is "GET".
+ * @param {Boolean} [useToken=false] - Indicates whether to use a token in the request or not.
+ * @param {String} [method="GET"] - The HTTP method for the request (e.g., "GET", "POST", "DELETE").
  * @param {Object} [body] - The request body data to send (if applicable) as an object.
  * @returns {Promise} - A promise that resolves to the JSON response data from the HTTP request.
+ * @example
+ * const fetchData = async () => {
+ *  const response = await request("/endpoint", {sortBy = "title"}, true)
+ * }
  */
 export const request = async (
   endpoint,

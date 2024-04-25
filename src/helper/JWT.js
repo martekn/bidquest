@@ -6,12 +6,13 @@ import { addBase64Padding } from "@/helper/addBase64Padding";
 
 /**
  * JWT is an object that provides methods for handling JSON Web Tokens (JWTs)
- * @namespace
+ * @module JWT
  */
 export const JWT = Object.freeze({
   /**
    * Extracts a specific value from the payload of a JSON Web Token (JWT).
    *
+   * @method
    * @param {string} token - The JSON Web Token (JWT) containing the payload.
    * @param {string} key - The key of the value to extract from the payload.
    * @returns {*} The value associated with the specified key in the payload, or null if the key is not found or the token is invalid.
@@ -38,6 +39,7 @@ export const JWT = Object.freeze({
    * Validates the structure of a JSON Web Token (JWT) to ensure it contains
    * the required header, payload and signature components, including specific keys.
    *
+   * @method
    * @param {string} token - The JWT to be validated.
    * @returns {boolean} Returns true if the token structure is valid, or false otherwise.
    */

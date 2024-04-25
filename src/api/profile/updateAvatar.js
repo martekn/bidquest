@@ -4,6 +4,9 @@ import { request } from "../../helper/request";
 /**
  * Updates the avatar of a profile.
  *
+ * @function
+ * @async
+ * @memberof profile
  * @param {Object} body - The body of the request, containing the new avatar data.
  * @returns {Promise<Object>} A promise that resolves to the response from the request to "/auction/profiles/:username"
  */

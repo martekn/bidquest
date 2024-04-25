@@ -1,3 +1,13 @@
+/**
+ * Array of navigation items.
+ * @type {Object[]}
+ * @property {string} name - The name of the navigation item.
+ * @property {Object} route - The route configuration object.
+ *                            It should have a 'name' property representing the route name
+ *                            and an optional 'params' property containing route parameters,
+ *                            where 'category' is one of the parameters if applicable.
+ * @property {number} id - The unique identifier for the navigation item.
+ */
 export const navItems = [
   { name: "+ Create auction", route: { name: "create" }, id: 1 },
   { name: "All auctions", route: { name: "auctions" }, id: 2 },
@@ -16,6 +26,10 @@ export const navItems = [
   }
 ];
 
+/**
+ * Array of category names extracted from the navigation items.
+ * @type {string[]}
+ */
 export const categories = navItems
   .filter((item) => item.route.params?.category)
   .map((item) => item.route.params.category);

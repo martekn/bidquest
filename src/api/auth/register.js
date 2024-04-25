@@ -5,6 +5,10 @@ import { baseAvatar } from "@/consts/baseAvatar";
 /**
  * Registers a new user by sending a registration request.
  * After successful registration, logs in the user using the provided email and password.
+ *
+ * @memberof auth
+ * @async
+ * @function
  * @param {Object} body - The registration request body containing email, password, and username.
  * @param {string} body.email - The user's email address.
  * @param {string} body.password - The user's password.

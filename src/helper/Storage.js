@@ -1,6 +1,8 @@
 /**
  * Creates a storage interface for the given storage API (localStorage or sessionStorage).
  *
+ * @private
+ * @memberof Storage
  * @param {Storage} storage - The storage API to create an interface for.
  * @returns {Object} The storage interface with get, set, remove, clear, and has methods.
  */
@@ -9,6 +11,9 @@ function storageFactory(storage) {
     /**
      * Retrieves an item from storage and tries to parse it as JSON if it's a stringified object.
      *
+     *
+     * @memberof Storage
+     * @method
      * @param {string} key - The key of the item to retrieve from storage.
      * @returns {any} The parsed JSON object if successful, the original value if it's not a stringified object, or null if an error occurred.
      */
@@ -24,6 +29,9 @@ function storageFactory(storage) {
     /**
      * Stores a value in storage. If the value is not a string, it is stringified before storing.
      *
+     *
+     * @memberof Storage
+     * @method
      * @param {string} key - The key under which the value will be stored.
      * @param {string|number|object} value - The value to be stored.
      */
@@ -39,6 +47,9 @@ function storageFactory(storage) {
     /**
      * Removes a value stored in storage under the given key.
      *
+     *
+     * @memberof Storage
+     * @method
      * @param {string} key - The key under which the value is stored and should be removed.
      */
     remove(key) {
@@ -47,6 +58,10 @@ function storageFactory(storage) {
 
     /**
      * Clears all keys out of the storage.
+     *
+     *
+     * @memberof Storage
+     * @method
      */
     clear() {
       storage.clear();
@@ -55,6 +70,9 @@ function storageFactory(storage) {
     /**
      * Checks if a given key exists in the storage.
      *
+     *
+     * @memberof Storage
+     * @method
      * @param {string} key - The key to check.
      * @returns {boolean} Returns true if the key exists, or false otherwise.
      */
@@ -67,16 +85,26 @@ function storageFactory(storage) {
 /**
  * The Storage object provides methods for interacting with the browser's session storage and local storage.
  *
- * @namespace
+ * @namespace Storage
+ * @property {Object} local - Interface for interacting with the browser's local storage.
+ * @property {Object} session - Interface for interacting with the browser's session storage.
  */
 export const Storage = Object.freeze({
   /**
    * Interface for interacting with the browser's local storage.
+   *
+   * @memberof Storage
+   * @example
+   * Storage.local.get()
    */
   local: storageFactory(localStorage),
 
   /**
    * Interface for interacting with the browser's session storage.
+   *
+   * @memberof Storage
+   * @example
+   * Storage.session.clear()
    */
   session: storageFactory(sessionStorage)
 });
