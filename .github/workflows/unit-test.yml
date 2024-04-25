@@ -3,6 +3,9 @@ on:
   pull_request:
   workflow_dispatch:
 
+env:
+  VITE_TOKEN: ${{secrets.VITE_TOKEN}}
+  
 jobs:
   run-unit-tests:
     name: Run Unit Tests
