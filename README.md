@@ -1,4 +1,6 @@
 # BidQuest
+![Screen Shot 2024-04-25 at 16 11 37](https://github.com/martekn/bidquest/assets/51702274/92925a6b-5344-4f90-9efb-1694f75bea95)
+
 
 BidQuest is an online auction platform where users can buy and sell various items through auctions.
 
