@@ -13,6 +13,7 @@ import { ChevronDownIcon } from "@heroicons/vue/20/solid";
 // Custom module/helper imports
 import { nanoid } from "@/helper/nanoid";
 import { AuthStateManager } from "@/helper/AuthStateManager";
+import { ProfileStateManager } from "@/helper/ProfileStateManager";
 import { getCurrentBid } from "@/helper/getCurrentBid";
 import { auction } from "@/api";
 
@@ -99,6 +100,7 @@ const submitBid = async () => {
 
     isConfirmBidOpen.value = false;
     bidInput.value = "";
+    ProfileStateManager.update();
   } catch (error) {
     bidApiError.value = true;
     isConfirmBidOpen.value = false;
