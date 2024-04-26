@@ -431,7 +431,7 @@ watch(
       @close="isConfirmOpen = false"
       @confirm="deleteAuction"
       ctaText="Delete"
-      title="Delete Profile Picture"
+      title="Delete Auction"
     >
       Are you sure you want to delete this auction? This action cannot be undone, and the auction
       will be permanently deleted</ConfirmationDialog
