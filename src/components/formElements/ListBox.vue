@@ -69,7 +69,7 @@ const selectedLabel = computed(() => {
           v-slot="{ open }"
           :id="id"
           :class="{
-            'relative w-full border border-grey-400 bg-white p-3 ': type === 'select'
+            select: type === 'select'
           }"
           class="flex items-center rounded pr-7 text-left outline-none transition-colors hover:text-grey-500 ui-focus-visible:border-black ui-focus-visible:ring-1 ui-focus-visible:ring-black"
         >
