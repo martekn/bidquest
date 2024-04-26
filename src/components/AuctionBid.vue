@@ -251,7 +251,7 @@ updateCountdown();
       title="Confirm your bid"
     >
       Please confirm that you want to submit a bid of {{ bidInput }} credits. This action is
-      irreversible. Are you sure you want to proceed??</ConfirmationDialog
+      irreversible. Are you sure you want to proceed?</ConfirmationDialog
     >
   </div>
 </template>

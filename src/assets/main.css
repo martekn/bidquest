@@ -44,9 +44,18 @@
     @apply font-medium;
   }
 
+  /* The hard coded height value is to make sure that all input fields have the same height,
+      it prevents the issue of safari datepicker collapsing when its empty */
   input,
-  textarea {
-    @apply w-full rounded border border-grey-400 bg-white p-3 shadow-inner shadow-black/5 transition-colors focus-visible:border-black focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-black;
+  textarea,
+  .select {
+    @apply h-[2.75rem] w-full rounded border border-grey-400 bg-white p-3 font-base text-base shadow-inner shadow-black/5 transition-colors focus-visible:border-black focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-black;
+  }
+
+  /* This is to make sure that browsers are displaying the datepicker the same */
+  input[type="datetime-local"] {
+    appearance: none;
+    @apply box-border min-w-full font-base font-normal leading-normal placeholder:text-grey-500;
   }
 
   input:disabled,

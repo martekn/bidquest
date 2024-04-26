@@ -1,14 +1,32 @@
 <script setup>
 // #region -IMPORTS-
 // Vue-related imports
+import { computed } from "vue";
 import { RouterLink } from "vue-router";
+
+// Custom module/helper imports
+import { AuthStateManager } from "@/helper/AuthStateManager";
 // #endregion
 
-const footerLinks = [
+const baseFooterLinks = [
   { name: "Auctions", route: { name: "auctions" }, id: 1 },
-  { name: "Create auction", route: { name: "create" }, id: 2 },
-  { name: "Register", route: { name: "register" }, id: 3 }
+  { name: "Create auction", route: { name: "create" }, id: 2 }
 ];
+
+const footerLinks = computed(() => {
+  if (AuthStateManager.isAuthenticated()) {
+    return [
+      ...baseFooterLinks,
+      {
+        name: "Profile",
+        route: { name: "profile", params: { username: AuthStateManager.getUsername() } },
+        id: 3
+      }
+    ];
+  } else {
+    return [...baseFooterLinks, { name: "Register", route: { name: "register" }, id: 3 }];
+  }
+});
 </script>
 
 <template>

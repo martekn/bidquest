@@ -94,7 +94,7 @@ watch(
 </script>
 
 <template>
-  <main class="grid place-items-start bg-straws-pattern py-8 sm:place-items-center">
+  <main class="flex items-start bg-straws-pattern py-10 sm:items-center sm:justify-items-center">
     <form
       @submit.prevent
       class="mx-auto grid w-full gap-6 p-5 sm:max-w-lg sm:rounded sm:border sm:border-grey-300 sm:bg-white sm:p-9 sm:shadow-md sm:shadow-black/10"
