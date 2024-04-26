@@ -301,7 +301,7 @@ watch(
           leave-to="translate-x-0"
         >
           <DialogPanel
-            class="fixed inset-y-0 left-0 z-10 max-h-[100svh] w-full max-w-sm overflow-y-auto bg-white py-5 shadow-md shadow-black/10"
+            class="fixed inset-y-0 left-0 z-50 max-h-[100svh] w-full max-w-sm overflow-y-auto bg-white py-5 shadow-md shadow-black/10"
           >
             <TransitionChild
               as="nav"
