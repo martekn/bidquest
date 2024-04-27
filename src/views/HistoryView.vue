@@ -238,7 +238,7 @@ watch(
                         }
                       }"
                     >
-                      {{ auction.title }} hello
+                      {{ auction.title }}
                     </RouterLink>
                   </td>
                   <td>{{ auction.amount }}</td>
