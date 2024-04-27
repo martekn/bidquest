@@ -121,7 +121,7 @@ watch(
         :is-error="nameField.isError"
         id="name"
         label="Username"
-        type="test"
+        type="text"
       />
       <TextInput
         v-model="form.email"
