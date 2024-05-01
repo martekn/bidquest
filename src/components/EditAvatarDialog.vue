@@ -159,7 +159,7 @@ watch(
               <TextareaInput
                 class="min-h-[9rem]"
                 v-model="altField"
-                label="Alternative Text"
+                label="Image description"
                 id="alt"
                 :maxCount="120"
                 counter-location="bottom"

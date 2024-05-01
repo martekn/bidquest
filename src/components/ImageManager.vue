@@ -35,7 +35,7 @@ defineProps({
         <div class="grid w-full grid-rows-[1fr_auto] gap-3">
           <TextareaInput
             :resize="false"
-            label="Alternative text"
+            label="Image description"
             v-model="image.alt"
             class="col-span-2 w-full"
             :maxCount="120"
