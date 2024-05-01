@@ -44,6 +44,13 @@ const allAuctionsMeta = ref();
 const activeAuctionsMeta = ref();
 
 const isRegisteredUser = computed(() => route.params.username === AuthStateManager.getUsername());
+const isDefaultImage = computed(() => {
+  const { url, alt } = ProfileStateManager.profile.avatar;
+  if (url === baseAvatar.url && alt === baseAvatar.alt) {
+    return true;
+  }
+  return false;
+});
 
 const userResponse = reactive({
   name: "",
@@ -335,7 +342,12 @@ watch(
                   <PopoverItem as="button" @click="isEditOpen = true" id="edit-avatar-button">
                     Change image
                   </PopoverItem>
-                  <PopoverItem as="button" @click="isRemoveOpen = true" id="delete-avatar-button">
+                  <PopoverItem
+                    v-if="!isDefaultImage"
+                    as="button"
+                    @click="isRemoveOpen = true"
+                    id="delete-avatar-button"
+                  >
                     Remove image
                   </PopoverItem>
                 </PopoverGroup>
