@@ -219,7 +219,7 @@ watch(
                         {{ dayjs(auction.date).format("DD/MM/YYYY HH:mm") }}</span
                       >
                       <RouterLink
-                        class="rounded outline-none hover:text-grey-500 focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2"
+                        class="overflow-wrap-anywhere rounded outline-none hover:text-grey-500 focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2"
                         :to="{
                           name: 'auction',
                           params: {
@@ -230,7 +230,7 @@ watch(
                       >
                     </div>
                     <RouterLink
-                      class="hidden rounded outline-none hover:text-grey-500 focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 sm:block"
+                      class="overflow-wrap-anywhere hidden rounded outline-none hover:text-grey-500 focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 sm:block"
                       :to="{
                         name: 'auction',
                         params: {

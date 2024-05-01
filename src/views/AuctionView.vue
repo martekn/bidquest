@@ -123,8 +123,8 @@ onMounted(() => {
           class="md:col-span-7 md:col-start-1 md:row-start-1"
         ></MediaGallery>
         <div class="md:col-span-7">
-          <h1>{{ auctionDetail.title }}</h1>
-          <p class="mt-5">{{ auctionDetail.description }}</p>
+          <h1 class="overflow-wrap-anywhere">{{ auctionDetail.title }}</h1>
+          <p class="overflow-wrap-anywhere mt-5">{{ auctionDetail.description }}</p>
           <div class="mt-6 flex items-center gap-3 text-sm">
             <span class="text-grey-500">Auction brought to you by</span>
             <RouterLink

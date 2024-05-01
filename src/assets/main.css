@@ -134,6 +134,10 @@
     @apply overflow-hidden text-ellipsis break-all;
   }
 
+  .overflow-wrap-anywhere {
+    overflow-wrap: anywhere;
+  }
+
   .input-group {
     @apply flex flex-col;
   }
