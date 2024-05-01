@@ -54,10 +54,12 @@ const sortedBids = computed(() => [...props.bids].sort((a, b) => a.amount < b.am
 const bidsPreview = computed(() => sortedBids.value.slice(0, 3));
 const bidsDropdown = computed(() => sortedBids.value.slice(3));
 
-const isUsersAuction = ref(false);
-if (AuthStateManager.isAuthenticated() && AuthStateManager.getUsername() === props.seller) {
-  isUsersAuction.value = true;
-}
+const isUsersAuction = computed(() => {
+  if (AuthStateManager.isAuthenticated() && AuthStateManager.getUsername() === props.seller) {
+    return true;
+  }
+  return false;
+});
 
 for (const bid of props.bids) {
   bid.id = nanoid();
