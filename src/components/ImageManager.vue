@@ -43,16 +43,16 @@ defineProps({
           ></TextareaInput>
           <div class="flex gap-3">
             <button
-              v-show="index !== images.length - 1"
-              class="grid min-h-[30px] min-w-[30px] place-items-center rounded bg-grey-300 outline-none transition-all duration-150 hover:bg-grey-300/70 hover:shadow-sm focus-visible:ring-2 focus-visible:ring-black active:bg-grey-400/60"
+              :disabled="index === images.length - 1"
+              class="grid min-h-[30px] min-w-[30px] place-items-center rounded border border-black/10 bg-grey-300 text-black/80 outline-none hover:bg-grey-300/80 hover:text-black hover:shadow-sm focus-visible:ring-2 focus-visible:ring-black active:bg-grey-400/50 disabled:pointer-events-none disabled:border-transparent disabled:bg-grey-300/50 disabled:text-grey-500/50 disabled:shadow-none disabled:transition-none"
               @click="$emit('moveDown', index)"
             >
               <span class="sr-only">Move image up</span>
               <ChevronDownIcon class="h-6 w-6" />
             </button>
             <button
-              v-show="index !== 0"
-              class="grid min-h-[30px] min-w-[30px] place-items-center rounded bg-grey-300 outline-none transition-all duration-150 hover:bg-grey-300/70 hover:shadow-sm focus-visible:ring-2 focus-visible:ring-black active:bg-grey-400/60"
+              :disabled="index === 0"
+              class="grid min-h-[30px] min-w-[30px] place-items-center rounded border border-black/10 bg-grey-300 text-black/80 outline-none hover:bg-grey-300/80 hover:text-black hover:shadow-sm focus-visible:ring-2 focus-visible:ring-black active:bg-grey-400/50 disabled:pointer-events-none disabled:border-transparent disabled:bg-grey-300/50 disabled:text-grey-500/50 disabled:shadow-none disabled:transition-none"
               @click="$emit('moveUp', index)"
             >
               <span class="sr-only">Move image down</span>
