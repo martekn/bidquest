@@ -14,7 +14,7 @@ defineProps({
 <template>
   <button
     :type="type"
-    :disabled="disabled"
+    :disabled="disabled || buttonLoading"
     class="button button-primary"
     @click="$emit('buttonClicked')"
   >
