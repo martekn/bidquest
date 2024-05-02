@@ -14,7 +14,7 @@ import { AuthStateManager } from "@/helper/AuthStateManager";
 export const getWins = async (limit = 40, page = 1) => {
   const res = await request(
     `/auction/profiles/${AuthStateManager.getUsername()}/wins`,
-    { _bids: true, sortBy: "endsAt", sortOrder: "asc", limit: limit, page: page },
+    { _bids: true, sortBy: "endsAt", sortOrder: "desc", limit: limit, page: page },
     true
   );
 

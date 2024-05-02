@@ -16,6 +16,7 @@ import {
 // Custom module/helper imports
 import { profile } from "@/api";
 import { ProfileStateManager } from "@/helper/ProfileStateManager";
+import { Validate } from "@/helper/Validate";
 
 // Constants imports
 import { baseAvatar } from "@/consts/baseAvatar";
@@ -72,10 +73,7 @@ const resetField = (field, baseValue, newValue) => {
 
 const loadNewPreview = debounce(async () => {
   try {
-    const response = await fetch(urlField.value, { method: "HEAD" });
-    if (!response.headers.get("Content-Type").startsWith("image")) {
-      throw Error("Url is not an image");
-    }
+    await Validate.image(urlField.value);
     previewImage.value = urlField.value;
   } catch (error) {
     previewImage.value = "/image-placeholder.jpg";
@@ -159,7 +157,7 @@ watch(
               <TextareaInput
                 class="min-h-[9rem]"
                 v-model="altField"
-                label="Alternative Text"
+                label="Image description"
                 id="alt"
                 :maxCount="120"
                 counter-location="bottom"
@@ -179,7 +177,7 @@ watch(
                       v-else
                       :src="previewImage"
                       :alt="altField"
-                      class="max-h-full w-full overflow-hidden rounded object-cover"
+                      class="h-full max-h-full w-full overflow-hidden rounded object-cover"
                     />
                   </FadeTransition>
                 </div>

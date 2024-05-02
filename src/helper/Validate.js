@@ -69,5 +69,24 @@ export const Validate = Object.freeze({
     } else {
       return null;
     }
+  },
+
+  /**
+   * Validates whether an image can be loaded from the provided URL.
+   * @param {string} url - The URL of the image to validate.
+   * @returns {Promise<void>} A promise that resolves if the image can be loaded successfully,
+   * and rejects if there's an error loading the image.
+   */
+  image(url) {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.onload = () => {
+        resolve();
+      };
+      img.onerror = () => {
+        reject();
+      };
+      img.src = url;
+    });
   }
 });

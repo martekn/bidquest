@@ -15,6 +15,7 @@ import { XCircleIcon } from "@heroicons/vue/20/solid";
 import { nanoid } from "@/helper/nanoid.js";
 import { auction } from "@/api";
 import { AuthStateManager } from "@/helper/AuthStateManager";
+import { Validate } from "@/helper/Validate";
 
 // Constants imports
 import { categories } from "@/consts/navItems";
@@ -41,11 +42,13 @@ const editHasLoaded = ref(false);
 const editHasError = ref(false);
 const dateValue = ref();
 
-const imageField = ref();
+const imageField = ref("");
 const imageFieldError = ref(false);
 const imageFieldMessage = computed(() => {
   if (imageFieldError.value) {
     return "Image URL must be valid URL";
+  } else if (imageField.value.length > 300) {
+    return `The url cannot be longer than 300 characters. ${imageField.value.length}/300`;
   } else if (images.length > maxImageCount) {
     return `Too many images (${images.length}/${maxImageCount})`;
   } else if (images.length === maxImageCount) {
@@ -104,10 +107,7 @@ const requiredFilled = computed(() => {
 const addImage = async () => {
   imageFieldError.value = false;
   try {
-    const response = await fetch(imageField.value, { method: "HEAD" });
-    if (!response.headers.get("Content-Type").startsWith("image")) {
-      throw Error("Url is not an image");
-    }
+    await Validate.image(imageField.value);
     images.push({ url: imageField.value, alt: "", id: nanoid() });
     imageField.value = "";
   } catch (error) {
@@ -376,14 +376,16 @@ watch(
               class="flex-grow"
             />
             <button
-              :disabled="images.length >= maxImageCount"
+              :disabled="
+                images.length >= maxImageCount || imageField.length === 0 || imageField.length > 300
+              "
               class="button button-secondary self-end py-[calc(0.5rem+1px)] leading-normal"
               @click="addImage"
             >
               Add
             </button>
             <span
-              v-if="images.length >= maxImageCount || imageFieldError"
+              v-if="images.length >= maxImageCount || imageFieldError || imageField.length > 300"
               :class="{ 'text-grey-500': !imageFieldError, 'text-red-400': imageFieldError }"
               class="col-span-full mt-2 flex gap-2 text-sm leading-tight"
               id="image-input-error"
