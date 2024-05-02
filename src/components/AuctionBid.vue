@@ -50,7 +50,7 @@ const endDate = dayjs(props.endsAt);
 const countdown = ref();
 
 const highestBid = computed(() => getCurrentBid(props.bids));
-const sortedBids = computed(() => [...props.bids].sort((a, b) => a.amount < b.amount));
+const sortedBids = computed(() => [...props.bids].sort((a, b) => b.amount - a.amount));
 const bidsPreview = computed(() => sortedBids.value.slice(0, 3));
 const bidsDropdown = computed(() => sortedBids.value.slice(3));
 
