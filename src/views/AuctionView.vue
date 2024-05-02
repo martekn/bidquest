@@ -11,7 +11,7 @@ import { nanoid } from "@/helper/nanoid";
 // Custom components
 import NotFoundView from "./NotFoundView.vue";
 import AuctionBid from "@/components/AuctionBid.vue";
-import MediaGallery from "@/components/MediaGallery.vue";
+import MediaGallery from "@/components/mediaGallery/MediaGallery.vue";
 import LoadingIndicator from "@/components/LoadingIndicator.vue";
 import ErrorDialog from "@/components/ErrorDialog.vue";
 import UserAvatar from "@/components/UserAvatar.vue";

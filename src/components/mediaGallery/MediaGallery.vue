@@ -4,7 +4,10 @@
 import { onMounted, ref } from "vue";
 
 // Third-party library imports
-import { ChevronRightIcon, ChevronLeftIcon } from "@heroicons/vue/20/solid";
+import { ChevronRightIcon, ChevronLeftIcon, XMarkIcon } from "@heroicons/vue/20/solid";
+import { Dialog, DialogPanel, TransitionChild, TransitionRoot } from "@headlessui/vue";
+import MediaGalleryCounter from "@/components/mediaGallery/MediaGalleryCounter.vue";
+import MediaGalleryButton from "@/components/mediaGallery/MediaGalleryButton.vue";
 
 // Custom module/helper imports
 import { debounce } from "@/helper/debounce";
@@ -23,6 +26,8 @@ const currentImageIndex = ref();
 const slider = ref();
 const scrolledMaxLeft = ref(true);
 const scrolledMaxRight = ref(true);
+const isGalleryOpen = ref(false);
+const panel = ref();
 
 const moveSlider = (index) => {
   if (slider.value) {
@@ -89,38 +94,53 @@ onMounted(() => {
   <div class="space-y-2">
     <div class="aspect-h-2 aspect-w-3 relative">
       <div
-        class="rounded bg-cover bg-center"
+        class="overflow-hidden rounded bg-cover bg-center"
         :style="{ backgroundImage: 'url(' + currentImage.url + ')' }"
       >
         <div class="absolute inset-0 rounded bg-grey-200/80 backdrop-blur-lg"></div>
-        <button
-          v-if="images.length > 1"
-          class="absolute inset-y-0 left-5 z-20 my-auto grid h-9 w-7 place-items-center rounded bg-black/75 text-white shadow-sm outline-none transition-all duration-150 hover:bg-black/90 focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 active:bg-black"
+        <MediaGalleryButton
           @click="previousImage"
+          class="inset-y-0 left-5 h-9 w-7"
+          sr-text="Previous"
+          :show="images.length > 1"
         >
-          <span class="sr-only">Previous</span>
           <ChevronLeftIcon class="h-6 w-6" />
-        </button>
-        <button
-          v-if="images.length > 1"
-          class="absolute inset-y-0 right-5 z-20 my-auto grid h-9 w-7 place-items-center rounded bg-black/75 text-white shadow-sm outline-none transition-all duration-150 hover:bg-black/90 focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 active:bg-black"
+        </MediaGalleryButton>
+        <MediaGalleryButton
           @click="nextImage"
+          class="inset-y-0 right-5 h-9 w-7"
+          sr-text="Next"
+          :show="images.length > 1"
         >
-          <span class="sr-only">Next</span>
           <ChevronRightIcon class="h-6 w-6" />
-        </button>
-        <div
-          v-if="!noImage"
-          class="absolute inset-x-0 bottom-5 z-20 mx-auto grid h-7 w-9 place-items-center rounded bg-black/75 text-white shadow-sm transition-all"
-        >
-          {{ currentImageIndex + 1 }}/{{ images.length }}
-        </div>
+        </MediaGalleryButton>
+
+        <MediaGalleryCounter
+          :currentImage="currentImageIndex + 1"
+          :imagesCount="images.length"
+          :show="!noImage"
+        />
+
         <img
+          v-if="noImage"
           class="relative z-10 mx-auto h-full object-contain shadow-sm shadow-black/10"
           :src="currentImage.url"
           :alt="currentImage.alt"
           onerror="this.onerror=null;this.src='/image-placeholder.jpg';"
         />
+
+        <button
+          v-else
+          @click="() => (isGalleryOpen = true)"
+          class="relative z-10 h-full focus-visible:inner-border-2 focus-visible:inner-border-black"
+        >
+          <img
+            class="mx-auto h-full object-contain shadow-sm shadow-black/10"
+            :src="currentImage.url"
+            :alt="currentImage.alt"
+            onerror="this.onerror=null;this.src='/image-placeholder.jpg';"
+          />
+        </button>
       </div>
     </div>
 
@@ -161,5 +181,75 @@ onMounted(() => {
         </li>
       </ul>
     </div>
+
+    <TransitionRoot as="template" :show="isGalleryOpen">
+      <Dialog
+        :open="isGalleryOpen"
+        @close="() => (isGalleryOpen = false)"
+        :initialFocus="panel"
+        class="relative z-50"
+      >
+        <div class="fixed inset-0 flex w-screen items-center justify-center">
+          <TransitionChild
+            as="template"
+            enter="ease-out duration-200"
+            enter-from="opacity-0 "
+            enter-to="opacity-100 "
+            leave="ease-in duration-100"
+            leave-from="opacity-100 "
+            leave-to="opacity-0 "
+          >
+            <DialogPanel
+              ref="panel"
+              class="z-10 flex h-full w-full flex-col items-center justify-center overflow-hidden bg-black p-5 shadow-md shadow-black/10 md:p-6"
+            >
+              <div class="flex h-full w-full flex-col">
+                <button
+                  @click="() => (isGalleryOpen = false)"
+                  class="mb-6 ml-auto grid h-6 w-6 place-items-center rounded text-white shadow-sm outline-none transition-all duration-150 hover:text-grey-300 active:text-grey-400 ui-focus-visible:ring-1 ui-focus-visible:ring-white ui-focus-visible:ring-offset-2"
+                >
+                  <span class="sr-only">close</span>
+                  <XMarkIcon class="h-6 w-6" />
+                </button>
+                <div class="relative flex h-full overflow-hidden">
+                  <MediaGalleryButton
+                    @click="previousImage"
+                    class="inset-y-0 left-1 h-10 w-8"
+                    sr-text="Previous"
+                    :show="images.length > 1"
+                  >
+                    <ChevronLeftIcon class="h-8 w-8" />
+                  </MediaGalleryButton>
+                  <MediaGalleryButton
+                    @click="nextImage"
+                    class="inset-y-0 right-1 h-10 w-8"
+                    sr-text="Next"
+                    :show="images.length > 1"
+                  >
+                    <ChevronRightIcon class="h-8 w-8" />
+                  </MediaGalleryButton>
+                  <MediaGalleryCounter
+                    :currentImage="currentImageIndex + 1"
+                    :imagesCount="images.length"
+                    :show="!noImage"
+                  />
+                  <div
+                    class="flex h-full w-full items-center justify-center overflow-hidden rounded"
+                  >
+                    <img
+                      @click="() => (isGalleryOpen = true)"
+                      class="h-full rounded object-contain"
+                      :src="currentImage.url"
+                      :alt="currentImage.alt"
+                      onerror="this.onerror=null;this.src='/image-placeholder.jpg';"
+                    />
+                  </div>
+                </div>
+              </div>
+            </DialogPanel>
+          </TransitionChild>
+        </div>
+      </Dialog>
+    </TransitionRoot>
   </div>
 </template>
