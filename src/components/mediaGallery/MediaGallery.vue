@@ -132,7 +132,7 @@ onMounted(() => {
         <button
           v-else
           @click="() => (isGalleryOpen = true)"
-          class="relative z-10 h-full focus-visible:inner-border-2 focus-visible:inner-border-black"
+          class="relative z-10 h-full w-full focus-visible:inner-border-2 focus-visible:inner-border-black"
         >
           <img
             class="mx-auto h-full object-contain shadow-sm shadow-black/10"
