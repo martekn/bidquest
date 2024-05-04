@@ -4,6 +4,9 @@
 import { reactive, ref, watch } from "vue";
 import { useRoute } from "vue-router";
 
+// Third-party library imports
+import { notify } from "notiwind";
+
 // Custom module/helper imports
 import { auth } from "@/api";
 import { Validate } from "@/helper/Validate";
@@ -50,6 +53,14 @@ const submit = async () => {
     isLoading.value = true;
     if (route.name === "register") {
       await auth.register(form);
+      notify(
+        {
+          group: "general",
+          title: "Account created",
+          type: "success"
+        },
+        2000
+      );
     } else {
       await auth.login(form);
     }
