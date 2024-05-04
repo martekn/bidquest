@@ -1,5 +1,5 @@
 const url =
-  "/auction/listings/search?_bids=true&limit=40&_seller=true&sort=endsAt&sortOrder=asc&page=1&q=test+";
+  "/auction/listings/search?_bids=true&limit=40&_seller=true&sort=endsAt&sortOrder=asc&page=1&q=test";
 
 describe("Search", () => {
   it("displays auctions when fetch is successful", () => {
