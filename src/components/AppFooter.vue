@@ -40,11 +40,11 @@ const footerLinks = computed(() => {
         >BidQuest</RouterLink
       >
       <ul class="flex gap-5">
-        <li v-for="link of footerLinks" :key="link.id">
+        <li v-for="{ id, route, name } of footerLinks" :key="id">
           <RouterLink
             class="rounded p-3 outline-none transition-all duration-150 hover:text-grey-300 focus-visible:ring-2 focus-visible:ring-white"
-            :to="link.route"
-            >{{ link.name }}</RouterLink
+            :to="route"
+            >{{ name }}</RouterLink
           >
         </li>
       </ul>

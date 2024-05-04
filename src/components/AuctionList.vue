@@ -38,16 +38,15 @@ defineProps({
           class="grid gap-5 xs:grid-cols-2 md:grid-cols-4 md:gap-6"
           key="card-container"
         >
-          <li v-for="auction in auctions" :key="auction.id">
+          <li v-for="{ title, id, endsAt, media, bids } in auctions" :key="id">
             <AuctionCard
-              :title="auction.title"
-              :id="auction.id"
-              :endDate="auction.endsAt"
-              :imageSrc="auction.media?.[0]?.url"
-              :imageAlt="auction.media?.[0]?.alt"
-              :key="auction.id"
-              :bids="auction.bids"
-              :auction="auction"
+              :title="title"
+              :id="id"
+              :endDate="endsAt"
+              :imageSrc="media?.[0]?.url"
+              :imageAlt="media?.[0]?.alt"
+              :key="id"
+              :bids="bids"
             />
           </li>
         </ul>

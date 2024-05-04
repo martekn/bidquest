@@ -144,13 +144,13 @@ const setupHistory = async () => {
 
   if (bidsWonResponse.status === "fulfilled") {
     const response = { meta: bidsWonResponse.value.meta };
-    response.data = bidsWonResponse.value.data.map((auction) => {
+    response.data = bidsWonResponse.value.data.map(({ endsAt, title, id, bids }) => {
       return {
-        date: auction.endsAt,
-        title: auction.title,
-        id: auction.id,
+        date: endsAt,
+        title: title,
+        id: id,
         amount: getCurrentBid(
-          auction.bids.filter((bid) => bid.bidder.name === AuthStateManager.getUsername())
+          bids.filter((bid) => bid.bidder.name === AuthStateManager.getUsername())
         )
       };
     });
@@ -206,27 +206,27 @@ watch(
               </thead>
               <tbody class="divide-y divide-grey-300">
                 <tr
-                  v-for="auction in history"
-                  :key="auction.id"
+                  v-for="{ id, date, title, amount } in history"
+                  :key="id"
                   class="grid w-full grid-cols-[1fr_5rem] gap-5 p-5 *:font-medium odd:bg-grey-200 sm:grid-cols-[10rem_1fr_5rem] md:gap-7"
                 >
                   <td class="hidden sm:block">
-                    {{ dayjs(auction.date).format("DD/MM/YYYY HH:mm") }}
+                    {{ dayjs(date).format("DD/MM/YYYY HH:mm") }}
                   </td>
                   <td>
                     <div class="flex flex-col sm:hidden">
                       <span class="font-normal text-grey-500">
-                        {{ dayjs(auction.date).format("DD/MM/YYYY HH:mm") }}</span
+                        {{ dayjs(date).format("DD/MM/YYYY HH:mm") }}</span
                       >
                       <RouterLink
                         class="overflow-wrap-anywhere rounded outline-none hover:text-grey-500 focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2"
                         :to="{
                           name: 'auction',
                           params: {
-                            id: auction.id
+                            id: id
                           }
                         }"
-                        >{{ auction.title }}</RouterLink
+                        >{{ title }}</RouterLink
                       >
                     </div>
                     <RouterLink
@@ -234,14 +234,14 @@ watch(
                       :to="{
                         name: 'auction',
                         params: {
-                          id: auction.id
+                          id: id
                         }
                       }"
                     >
-                      {{ auction.title }}
+                      {{ title }}
                     </RouterLink>
                   </td>
-                  <td>{{ auction.amount }}</td>
+                  <td>{{ amount }}</td>
                 </tr>
               </tbody>
             </table>
