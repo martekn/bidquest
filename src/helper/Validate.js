@@ -65,7 +65,7 @@ export const Validate = Object.freeze({
     }
 
     if (password.length < 8) {
-      return "The password should be 8 chars long";
+      return "The password should be at least 8 characters long";
     } else {
       return null;
     }

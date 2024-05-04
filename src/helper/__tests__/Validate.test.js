@@ -63,7 +63,7 @@ describe("Validate.password", () => {
   });
 
   it("should return error message is password is shorter than 8 characters", () => {
-    expect(Validate.password("pass")).toBe("The password should be 8 chars long");
+    expect(Validate.password("pass")).toBe("The password should be at least 8 characters long");
   });
 
   it("should throw when argument passed is not a string", () => {

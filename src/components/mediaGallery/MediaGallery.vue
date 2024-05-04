@@ -23,7 +23,7 @@ const props = defineProps({
 const noImage = props.images.length === 1 && props.images[0].id === "placeholder";
 const currentImage = ref();
 const currentImageIndex = ref();
-const slider = ref();
+const slider = ref("");
 const scrolledMaxLeft = ref(true);
 const scrolledMaxRight = ref(true);
 const isGalleryOpen = ref(false);
@@ -35,20 +35,15 @@ const moveSlider = (index) => {
     const imageWidth = slider.value.children[0].clientWidth;
     const scrollMaxWidth = slider.value.scrollWidth;
     const sliderWidth = slider.value.clientWidth;
-    const scrollLeftMax = scrollMaxWidth - sliderWidth;
     const spacing = (scrollMaxWidth - imageCount * imageWidth) / imageCount;
     const imageWithSpacing = imageWidth + spacing;
 
     slider.value.scrollLeft = Math.round(
       index * imageWithSpacing - sliderWidth / 2 + imageWithSpacing / 2
     );
-
-    if (sliderWidth < scrollMaxWidth) {
-      scrolledMaxLeft.value = slider.value.scrollLeft === 0;
-      scrolledMaxRight.value = scrollLeftMax === slider.value.scrollLeft;
-    }
   }
 };
+
 const selectImage = (index) => {
   currentImage.value = props.images[index];
   currentImageIndex.value = index;
@@ -83,10 +78,18 @@ const previousImage = debounce(() => {
   selectImage(newIndex);
 }, 100);
 
+const setSliderFade = () => {
+  scrolledMaxLeft.value = slider.value.scrollLeft === 0;
+  scrolledMaxRight.value =
+    slider.value.scrollWidth - slider.value.clientWidth === slider.value.scrollLeft;
+};
+
 selectImage(0);
 
 onMounted(() => {
   moveSlider(currentImageIndex);
+  setSliderFade();
+  slider.value.addEventListener("scroll", setSliderFade);
 });
 </script>
 
@@ -144,14 +147,14 @@ onMounted(() => {
       </div>
     </div>
 
-    <div class="relative" v-if="!noImage">
+    <div class="relative grid" v-if="!noImage">
       <ul
         ref="slider"
-        class="no-scrollbar mx-auto flex w-full gap-5 overflow-x-auto rounded px-3 outline-none focus-visible:ring-1 focus-visible:ring-black"
+        class="no-scrollbar mx-auto flex w-full max-w-full gap-5 overflow-x-auto rounded px-3 outline-none focus-visible:ring-1 focus-visible:ring-black"
         :class="{
-          'before:pointer-events-none before:absolute before:inset-y-0 before:left-0 before:z-30 before:h-full  before:w-10 before:bg-gradient-to-r before:from-white/95':
+          'before:pointer-events-none before:absolute before:inset-y-0 before:left-0 before:z-30 before:h-full before:w-7 before:bg-gradient-to-r before:from-white/95 md:before:w-10':
             !scrolledMaxLeft,
-          'after:pointer-events-none after:absolute after:inset-y-0 after:right-0 after:z-30 after:h-full  after:w-10 after:bg-gradient-to-l after:from-white/95':
+          'after:pointer-events-none after:absolute after:inset-y-0 after:right-0 after:z-30 after:h-full after:w-7 after:bg-gradient-to-l after:from-white/95 md:after:w-10':
             !scrolledMaxRight
         }"
       >

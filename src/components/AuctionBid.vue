@@ -236,7 +236,7 @@ updateCountdown();
 
     <section
       v-if="!AuthStateManager.isAuthenticated()"
-      class="grid place-items-center rounded border border-grey-300 bg-grey-300/50 p-6 md:p-7"
+      class="grid place-items-center rounded border border-grey-300 bg-grey-300/50 p-6 text-center md:p-7"
     >
       <h2 class="text-lg">Ready to bid?</h2>
       <p class="mt-2">Login or Register to start bidding</p>
