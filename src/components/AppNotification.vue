@@ -34,34 +34,33 @@ const isSuccess = (type) => {
           move-delay="delay-150"
         >
           <div
-            v-for="notification in notifications"
-            :key="notification.id"
-            @mouseover="hovering(notification.id, true)"
-            @mouseleave="hovering(notification.id, false)"
+            v-for="{ id, type, title, text } in notifications"
+            :key="id"
+            @mouseover="hovering(id, true)"
+            @mouseleave="hovering(id, false)"
             :class="{
-              'border-b-red-400 bg-red-300': isError(notification.type),
-              'border-b-green-400 bg-green-300': isSuccess(notification.type),
-              'border-b-black bg-grey-200':
-                !isError(notification.type) && !isSuccess(notification.type)
+              'border-b-red-400 bg-red-300': isError(type),
+              'border-b-green-400 bg-green-300': isSuccess(type),
+              'border-b-black bg-grey-200': !isError(type) && !isSuccess(type)
             }"
             role="alert"
             class="pointer-events-auto mt-4 flex w-full max-w-sm items-start gap-3 overflow-hidden rounded border-b-4 p-5 shadow-md shadow-black/15"
           >
             <div>
-              <XCircleIcon class="h-6 w-6 text-red-400" v-if="isError(notification.type)" />
-              <CheckCircleIcon class="h-6 w-6 text-green-400" v-if="isSuccess(notification.type)" />
+              <XCircleIcon class="h-6 w-6 text-red-400" v-if="isError(type)" />
+              <CheckCircleIcon class="h-6 w-6 text-green-400" v-if="isSuccess(type)" />
               <InformationCircleIcon
                 class="h-6 w-6 text-black"
-                v-if="!isError(notification.type) && !isSuccess(notification.type)"
+                v-if="!isError(type) && !isSuccess(type)"
               />
             </div>
 
             <div class="flex-1 self-center">
-              <span class="font-semibold">{{ notification.title }}</span>
-              <p class="text-sm">{{ notification.text }}</p>
+              <span class="font-semibold">{{ title }}</span>
+              <p class="text-sm">{{ text }}</p>
             </div>
             <button
-              @click="close(notification.id)"
+              @click="close(id)"
               class="grid h-6 w-6 place-items-center rounded outline-none transition-all duration-150 hover:text-grey-500 focus-visible:ring-2 focus-visible:ring-black"
             >
               <span class="sr-only">close</span>

@@ -75,13 +75,13 @@ const user = computed(() => {
       }
     };
   }
-
+  const { name, wins, avatar } = userResponse;
   return {
-    name: userResponse.name,
-    wins: userResponse.wins,
+    name: name,
+    wins: wins,
     avatar: {
-      url: userResponse.avatar.url,
-      alt: userResponse.avatar.alt
+      url: avatar.url,
+      alt: avatar.alt
     }
   };
 });

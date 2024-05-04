@@ -233,17 +233,17 @@ watch(
         ref="navbar"
         class="mx-auto flex w-full max-w-8xl items-center justify-between px-5 after:order-first after:block after:h-6 after:w-[1px] after:bg-grey-300 sm:flex-wrap sm:gap-7"
       >
-        <li v-for="item in visibleItems" :key="item.id" class="item first:order-first">
+        <li v-for="{ id, route, name } in visibleItems" :key="id" class="item first:order-first">
           <RouterLink
             :class="{
               'font-semibold after:absolute after:inset-x-0 after:bottom-0 after:block after:h-2 after:rounded after:bg-primary-400':
-                isActive(item.route)
+                isActive(route)
             }"
             class="relative block py-4 text-center outline-none transition-all duration-150 hover:text-grey-500 focus-visible:rounded focus-visible:ring-1 focus-visible:ring-black"
-            :to="item.route"
-            ><span aria-hidden="true" class="invisible font-semibold">{{ item.name }}</span
+            :to="route"
+            ><span aria-hidden="true" class="invisible font-semibold">{{ name }}</span
             ><span class="absolute inset-0 inline-flex h-full w-full items-center justify-center">{{
-              item.name
+              name
             }}</span></RouterLink
           >
         </li>
@@ -261,12 +261,12 @@ watch(
             <template #items>
               <PopoverGroup>
                 <PopoverItem
-                  v-for="item in dropdownItems"
+                  v-for="{ route, id, name } in dropdownItems"
                   routerLink
-                  :route="item.route"
-                  :key="item.id"
+                  :route="route"
+                  :key="id"
                 >
-                  {{ item.name }}
+                  {{ name }}
                 </PopoverItem>
               </PopoverGroup>
             </template>
@@ -331,16 +331,16 @@ watch(
               </div>
 
               <ul class="mt-5">
-                <li v-for="item in navItems" :key="item.id">
+                <li v-for="{ id, route, name } in navItems" :key="id">
                   <RouterLink
                     :class="{
                       'px-1 font-semibold after:absolute after:inset-y-0 after:left-0 after:block after:w-2 after:rounded after:bg-primary-400':
-                        isActive(item.route)
+                        isActive(route)
                     }"
                     class="relative block w-full px-5 py-4 outline-none transition-all duration-150 hover:bg-grey-200 focus-visible:rounded focus-visible:inner-border focus-visible:inner-border-black"
-                    :to="item.route"
+                    :to="route"
                     @click="mobileNavOpen = false"
-                    >{{ item.name }}</RouterLink
+                    >{{ name }}</RouterLink
                   >
                 </li>
               </ul>

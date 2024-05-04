@@ -94,21 +94,25 @@ setupPagination();
     </RouterLink>
     <div class="font-semibold sm:hidden">Page {{ currentPage }} of {{ pageCount }}</div>
     <ul class="hidden gap-1 sm:flex">
-      <li v-for="page of pages" :key="page.pageNumber" v-show="page.showElement">
+      <li
+        v-for="{ pageNumber, showElement, displayNumber } of pages"
+        :key="pageNumber"
+        v-show="showElement"
+      >
         <RouterLink
-          v-if="page.displayNumber"
+          v-if="displayNumber"
           :class="{
             'bg-primary-400 font-semibold text-white  hover:bg-primary-300 active:bg-primary-500':
-              page.pageNumber === currentPage,
+              pageNumber === currentPage,
             ' text-grey-500 hover:font-semibold hover:text-black hover:underline hover:underline-offset-2 focus-visible:font-semibold focus-visible:text-black ':
-              page.pageNumber !== currentPage
+              pageNumber !== currentPage
           }"
           class="grid h-7 w-7 place-items-center rounded outline-none transition-all duration-150 focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2"
           :to="{
             name: route.name,
-            params: { category: route.params?.category, page: `page-${page.pageNumber}` }
+            params: { category: route.params?.category, page: `page-${pageNumber}` }
           }"
-          >{{ page.pageNumber }}
+          >{{ pageNumber }}
         </RouterLink>
         <span v-else class="grid h-7 w-7 place-items-center">...</span>
       </li>

@@ -213,28 +213,31 @@ const validate = () => {
 
 const getAuction = async () => {
   try {
-    const response = await auction.getSingle(route.params.id);
+    const {
+      data: { seller, title, description, endsAt, tags, media }
+    } = await auction.getSingle(route.params.id);
 
-    if (response.data.seller.name !== AuthStateManager.getUsername()) {
+    if (seller.name !== AuthStateManager.getUsername()) {
       router.push({ name: "create" });
     }
 
-    auctionBody.title = response.data.title;
-    auctionBody.description = response.data.description;
+    auctionBody.title = title;
+    auctionBody.description = description;
 
-    dateValue.value = dayjs(response.data.endsAt).format("YYYY-MM-DDTHH:mm");
+    dateValue.value = dayjs(endsAt).format("YYYY-MM-DDTHH:mm");
 
-    if (response.data.tags.length > 0) {
-      const tags = response.data.tags.filter((tag) => categories.includes(tag));
-      selectedCategory.value = tags[0];
+    if (tags.length > 0) {
+      const categoryTags = tags.filter((tag) => categories.includes(tag));
+      selectedCategory.value = categoryTags[0];
     }
 
-    for (const image of response.data.media) {
+    for (const image of media) {
       image.id = nanoid();
       images.push(image);
     }
     editHasLoaded.value = true;
   } catch (error) {
+    console.log(error);
     if (error.statusCode === 404 || error?.errors?.[0].code === "invalid_string") {
       isInvalidId.value = true;
     }

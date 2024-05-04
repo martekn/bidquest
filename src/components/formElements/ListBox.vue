@@ -97,10 +97,10 @@ const selectedLabel = computed(() => {
             class="max-h-60 absolute z-10 mt-1 w-full overflow-auto rounded border border-grey-300 bg-white py-1 text-base shadow-md shadow-black/5 outline-none sm:text-sm"
           >
             <ListboxOption
-              v-for="option in props.options"
-              :key="option.value"
+              v-for="{ value, label } in props.options"
+              :key="value"
               v-slot="{ active, selected }"
-              :value="option.value"
+              :value="value"
               as="template"
             >
               <li
@@ -115,7 +115,7 @@ const selectedLabel = computed(() => {
                 class="cursor-pointer border-y border-dotted px-3 py-2"
               >
                 <span :class="[selected ? 'font-medium' : 'font-normal', 'block truncate']">{{
-                  option.label
+                  label
                 }}</span>
               </li>
             </ListboxOption>
