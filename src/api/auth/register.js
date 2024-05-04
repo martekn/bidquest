@@ -1,6 +1,11 @@
+// #region -IMPORTS-
+// Custom module/helper imports
 import { request } from "@/helper/request";
 import { login } from "./login";
+
+// Constants imports
 import { baseAvatar } from "@/consts/baseAvatar";
+// #endregion
 
 /**
  * Registers a new user by sending a registration request.

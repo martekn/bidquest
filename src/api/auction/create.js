@@ -1,4 +1,8 @@
-import { request } from "../../helper/request";
+// #region -IMPORTS-
+// Custom module/helper imports
+import { request } from "@/helper/request";
+
+// #endregion
 
 /**
  * Sends a POST request to create a new auction listing.

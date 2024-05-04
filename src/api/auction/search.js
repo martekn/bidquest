@@ -1,4 +1,7 @@
-import { request } from "../../helper/request";
+// #region -IMPORTS-
+// Custom module/helper imports
+import { request } from "@/helper/request";
+// #endregion
 
 /**
  * Performs a search on auction listings.
