@@ -1,5 +1,8 @@
+// #region -IMPORTS-
+// Custom module/helper imports
 import { request } from "@/helper/request";
 import { AuthStateManager } from "@/helper/AuthStateManager";
+// #endregion
 
 /**
  * Retrieves auction wins for a specific user.

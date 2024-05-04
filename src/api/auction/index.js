@@ -1,3 +1,5 @@
+// #region -IMPORTS-
+// Custom module/helper imports
 import { getAll } from "./getAll";
 import { getSingle } from "./getSingle";
 import { bid } from "./bid";
@@ -6,6 +8,7 @@ import { search } from "./search";
 import { create } from "./create";
 import { update } from "./update";
 import { remove } from "./remove";
+// #endregion
 
 /**
  * A collection of functions for handling auctions api calls.

@@ -1,7 +1,15 @@
+// #region -IMPORTS-
+// Vue-related imports
+import router from "@/router";
+
+// Third-party library imports
+import { notify } from "notiwind";
+
+// Custom module/helper imports
 import { AuthStateManager } from "@/helper/AuthStateManager";
 import { ProfileStateManager } from "@/helper/ProfileStateManager";
-import { notify } from "notiwind";
-import router from "@/router";
+
+// #endregion
 
 /**
  * Performs a logout operation by removing authentication and profile state.

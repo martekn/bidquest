@@ -1,5 +1,8 @@
+// #region -IMPORTS-
+// Custom module/helper imports
 import { ProfileStateManager } from "@/helper/ProfileStateManager";
-import { request } from "../../helper/request";
+import { request } from "@/helper/request";
+// #endregion
 
 /**
  * Updates the avatar of a profile.

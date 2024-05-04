@@ -1,7 +1,13 @@
+// #region -IMPORTS-
+// Vue-related imports
 import router from "@/router";
+
+// Custom module/helper imports
 import { request } from "@/helper/request";
 import { HistoryStack } from "@/helper/HistoryStack";
 import { AuthStateManager } from "@/helper/AuthStateManager";
+
+// #endregion
 
 /**
  * Clears the history stack and redirects to the last visited path or redirected from path.
