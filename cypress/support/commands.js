@@ -66,8 +66,9 @@ Cypress.Commands.add("login", (email, password) => {
 
   cy.isLoggedIn();
 });
+
 Cypress.Commands.add("logout", () => {
-  cy.get("#user-dropdown button").should("be.visible").click();
+  cy.get("header #user-dropdown button").should("be.visible").click();
   cy.get("#logout-button").should("be.visible").click();
 
   cy.window().then((win) => {
