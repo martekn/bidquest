@@ -25,7 +25,7 @@ Users can engage with features like creating, editing, and viewing auction listi
 #### 1. Clone the repo:
 
 ```bash
-git clone git@github.com:martekn/bidquest.git
+git clone https://github.com/martekn/bidquest.git
 ```
 
 #### 2. Install the dependencies:
